@@ -1,0 +1,207 @@
+
+.feedback-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.feedback-top{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+.feedback-head-button{
+    width: 250px;
+    height: 40px;
+    color: rgba(156, 92, 8, 0.651);
+    font-weight: 500;
+    background-color: antiquewhite;
+    border: none;
+    border-radius: 50px;
+}
+.feedback-heading{
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+.feedback-button{
+    border: 1px white;
+    width: 650px;
+    height: 50px;
+    border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0 10px;
+}
+.feedback-question{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.feedback-description{
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.425);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+    align-items: center;
+    padding: 15px 10px;
+    color: rgb(87, 84, 84);
+    font-size: 14px;
+}
+.feedback-button-active {
+    color: blue;
+    font-weight: bold;
+ 
+  }
+  .add-expand-icon{
+    font-size: 25px;
+    font-weight: 800;
+  }
+
+.feedback-card{ 
+    display: flex;
+    flex-direction: row;
+    padding: 0px 10px;
+}
+.feedback-row{
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    margin-top: 6rem;
+    justify-content: center;
+}
+
+  .slider-all{
+    color: white;
+    width: 600px;
+    height: 350px;
+    background:linear-gradient(to right, rgba(0, 0, 255, 0.719), rgba(134, 53, 134, 0.705));
+    padding: 0px 40px;
+    border: none;
+    border-radius: 10px;
+}
+
+.feedback-card-top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 30px 0px;
+    gap: 3em;
+}
+.image-div{
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    background-color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.feedback-image{
+    border-radius: 50px;
+    object-fit: cover;
+    
+}
+.feedback-head{
+    font-size: 24px;
+    font-weight: 600;
+}
+.feedback-para{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+    list-style: none;
+    font-size: 16px;
+    font-weight: lighter;
+}
+.feedback-star{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    list-style: none;
+    color: rgb(255, 208, 0);
+    font-weight: bolder;
+    margin-top: 2rem;
+}
+.feedbackcard-description{
+    margin-top: 1rem;
+}
+
+
+@media(max-width:1359px){
+    .feedback-row{
+        flex-direction: column;
+        align-items: center;
+        
+    }
+
+}
+@media(max-width:736px){
+    .feedback-button{
+        width: 500px;
+    }
+    .feedback-description{
+        width: 500px;
+    }
+    .slider-all{
+        width: 500px;
+        height: 400px;
+    }
+
+}
+@media(max-width:522px){
+    .feedback-button{
+        width: 400px;
+    
+    }
+    .feedback-description{
+        width: 400px;
+        height: 130px;
+    }
+    .slider-all{
+    
+        width: 400px;
+        padding: 0px 10px;
+    }
+    
+    .feedback-heading{
+        font-size: 45px;
+        font-weight: bolder;
+    }
+    
+
+}
+@media(max-width:417px){
+    .feedback-button{
+        width: 350px;
+    
+    }
+    .feedback-description{
+        width: 350px;
+    }
+    .slider-all{
+       
+        width: 350px;
+        height: 450px;
+        padding: 0px 10px;
+    }
+    .feedback-para{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+    .feedback-heading{
+        font-size: 40px;
+        font-weight: bolder;
+    }
+
+}
