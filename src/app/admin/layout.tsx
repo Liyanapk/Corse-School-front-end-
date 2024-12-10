@@ -56,11 +56,23 @@ const [open, setOpen] = React.useState(true);
   );
 
   return (
-    <div className='flex flex-row gap-5'>
+    <div className='flex flex-row gap-5 '>
      
-      <Drawer open={open} ModalProps={{ hideBackdrop: true }}>
+   
+     <Drawer
+                open={open}
+                ModalProps={{ hideBackdrop: true }}
+                sx={{
+                    '& .MuiDrawer-paper': {
+                        marginTop: '90px', 
+                        height: 'calc(100% - 64px)', 
+                        boxSizing: 'border-box',
+                    },
+                }}
+            >
         {DrawerList}
       </Drawer>
+   
       {children}
     </div>
   );
