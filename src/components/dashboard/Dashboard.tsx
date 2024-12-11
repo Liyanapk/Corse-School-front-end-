@@ -32,19 +32,19 @@ const Dashboard = () => {
   };
 
   const Cards=[
-    { icon:<AutoStoriesIcon/>, count:'78', title:'ACTIVE COURSES', color:'#e4e9fd'},
-    { icon:<PersonalVideoIcon/>, count:'10', title:'ACTIVE COURSES', color:'#f6ebfc'},
-    { icon:<WorkspacePremiumIcon/>, count:'7', title:'Completed Courses', color:'#efdeef'},
-    { icon:<PeopleAltIcon/> , count:'160', title:'Total Students', color:'#faecf1'},
-    { icon:<CardGiftcardIcon/>, count:'20', title:'Total Courses', color:'#fcf1ee'},
-    { icon:<AttachMoneyIcon/>, count:'25000', title:'Total Earnings', color:'#fff8f3'}
+    { icon:<AutoStoriesIcon/>, count:'78', title:'ACTIVE COURSES', color:'#e4e9fd', bgcolor:'#c3c7e3', iconColor:'blue'},
+    { icon:<PersonalVideoIcon/>, count:'10', title:'ACTIVE COURSES', color:'#f6ebfc', bgcolor:'black'},
+    { icon:<WorkspacePremiumIcon/>, count:'7', title:'COMPLETED COURSES', color:'#efdeef', bgcolor:'black'},
+    { icon:<PeopleAltIcon/> , count:'160', title:'TOTAL STUDENTS', color:'#faecf1', bgcolor:'black'},
+    { icon:<CardGiftcardIcon/>, count:'20', title:'TOTAL COURSES', color:'#fcf1ee', bgcolor:'black'},
+    { icon:<AttachMoneyIcon/>, count:'25000', title:'TOTAL EARNINGS', color:'#fff8f3', bgcolor:'black'}
   ]
   return (
     <>
  <div className="flex flex-col w-full box-border items-center">
 {/* header */}
-  <div className="w-full shadow-md">
-    <div className="flex h-20 px-10 md:px-28 items-center justify-between max-w-7xl mx-auto">
+  <div className="w-full shadow-md bg-white">
+    <div className="flex h-20 px-0 md:px-2 items-center justify-between max-w-7xl mx-auto">
      
       <div>
         <Image
@@ -144,18 +144,26 @@ const Dashboard = () => {
 
 
 {/* Dashboard */}
-  <div className="p-20 w-full max-w-7xl mx-auto">
-    <h1 className="text-2xl font-bold mb-5 px-12">Dashboard</h1>
-    <div className="grid grid-cols-3 gap-5 p-10">
+  <div className="px-2 py-10  w-full max-w-7xl mx-auto bg-white mt-6 ">
+    <h1 className="text-2xl font-bold mb-5 px-48 mt-6">Dashboard</h1>
+    <div className="grid grid-cols-3 gap-5 px-48 py-4">
       {Cards.map((card, index) => (
         <div
-          className="flex flex-col items-center justify-center p-5 rounded-lg shadow-md"
+          className="flex flex-col items-center justify-center px-0 py-12 rounded-lg shadow-md gap-3"
           style={{ backgroundColor: card.color }}
           key={index}
         >
-          <div className="text-4xl mb-2">{card.icon}</div>
-          <h2 className="text-3xl font-bold">{card.count}</h2>
-          <h1 className="text-lg text-gray-600">{card.title}</h1>
+          <div className="text-4xl mb-2 px-10 py-8 rounded-full"
+          style={{ backgroundColor: card.bgcolor, color: card.iconColor }}
+          >{card.icon}</div>
+          <h2 className="text-3xl font-bold"
+          style={{color: card.iconColor }}
+          >{card.count}</h2>
+          <h1 className="text-xs text-gray-600"
+          style={{color: card.iconColor }}
+          >{card.title}</h1>
+          
+
         </div>
       ))}
     </div>
