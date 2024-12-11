@@ -56,17 +56,14 @@ const [open, setOpen] = React.useState(true);
   );
 
   return (
-    <div>
-     
-   
+    <div className='flex flex-wrap'>
      <Drawer
                 open={open}
                 ModalProps={{ hideBackdrop: true }}
                 sx={{
                     '& .MuiDrawer-paper': {
                         marginTop: '100px', 
-                        height: 'calc(100% - 64px)', 
-                        boxSizing: 'border-box',
+                        
                     },
                 }}
             >
