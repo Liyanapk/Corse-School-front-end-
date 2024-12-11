@@ -33,11 +33,11 @@ const Dashboard = () => {
 
   const Cards = [
     { icon: <AutoStoriesIcon />, end: '78', title: 'ACTIVE COURSES', color: '#e4e9fd', bgcolor: '#c3c7e3', iconColor: 'blue' },
-    { icon: <PersonalVideoIcon />, end: '10', title: 'ACTIVE COURSES', color: '#f6ebfc', bgcolor: 'black' },
-    { icon: <WorkspacePremiumIcon />, end: '7', title: 'COMPLETED COURSES', color: '#efdeef', bgcolor: 'black' },
-    { icon: <PeopleAltIcon />, end: '160', title: 'TOTAL STUDENTS', color: '#faecf1', bgcolor: 'black' },
-    { icon: <CardGiftcardIcon />, end: '20', title: 'TOTAL COURSES', color: '#fcf1ee', bgcolor: 'black' },
-    { icon: <AttachMoneyIcon />, end: '25000', title: 'TOTAL EARNINGS', color: '#fff8f3', bgcolor: 'black' }
+    { icon: <PersonalVideoIcon />, end: '10', title: 'ACTIVE COURSES', color: '#f6ebfc', bgcolor: '#c3c7e3', iconColor: 'violet' },
+    { icon: <WorkspacePremiumIcon />, end: '7', title: 'COMPLETED COURSES', color: '#efdeef', bgcolor: '#c3c7e3', iconColor: 'purple' },
+    { icon: <PeopleAltIcon />, end: '160', title: 'TOTAL STUDENTS', color: '#faecf1', bgcolor: '#c3c7e3', iconColor: 'blue' },
+    { icon: <CardGiftcardIcon />, end: '20', title: 'TOTAL COURSES', color: '#fcf1ee', bgcolor: '#c3c7e3', iconColor: 'gray' },
+    { icon: <AttachMoneyIcon />, end: '25000', title: 'TOTAL EARNINGS', color: '#fff8f3', bgcolor: '#c3c7e3', iconColor: 'brown' }
   ];
 
   return (
@@ -157,7 +157,7 @@ const Dashboard = () => {
                 >
                   {card.icon}
                 </div>
-                <h2 className="text-3xl font-bold" style={{ color: card.iconColor }}>
+                <h2 className="text-5xl font-bold" style={{ color: card.iconColor }}>
                   <CountUp start={0} end={parseInt(card.end)} duration={2.75}></CountUp>
                 </h2>
                 <h1 className="text-xs text-gray-600" style={{ color: card.iconColor }}>
