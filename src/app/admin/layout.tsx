@@ -7,12 +7,12 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   return(
-    <>  
+    <div className="bg-slate-100 min-h-screen w-screen flex flex-col overflow-x-hidden overflow-y-hidden">  
         <DashboardHeader/>
         <SideBarPage/>
-        <div className="bg-slate-100 h-screen w-screen">{children}</div>
+        <>{children}</>
         
-    </>
+    </div>
   )
   
 };

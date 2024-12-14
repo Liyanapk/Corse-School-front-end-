@@ -1,34 +1,42 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+
 const AdminPage =()=>{
+
+  const Data = [
+    { name:'Ramanan', role:'admin'},
+    { name:'poopi', role:'admin'},
+    { name:'maya', role:'Super admin'},
+  ]
+
     return(
-        <div className="flex flex-col w-full min-h-screen px-10 items-center pt-20">
+      <div className="flex flex-col w-full h-full box-border items-center ml-24 ">
       
         
         {/* Table Section */}
-        <div className="overflow-x-auto mt-6 px-10 py-4">
+        <div className="mt-6 px-2 py-4 bg-white rounded-lg">
           <table className="min-w-full table-auto border-separate border-spacing-2 ">
             <thead>
               <tr>
-                <th className="px-4 py-2 border">Name</th>
-                <th className="px-4 py-2 border">Role</th>
-                <th className="px-4 py-2 border">View</th>
-                <th className="px-4 py-2 border">Add</th>
-                <th className="px-4 py-2 border">Delete</th>
+                <th className="px-24 py-2 border-4 border-double border-slate-300 rounded-lg">Name</th>
+                <th className="px-24 py-2 border-4 border-double border-slate-300 rounded-lg">Role</th>
+                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">View</th>
+                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Add</th>
+                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Update</th>
+                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Delete</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="px-4 py-2 border">Ramanan</td>
-                <td className="px-4 py-2 border">Admin</td>
-                <td className="px-4 py-2 border"><button> VIEW</button></td>
-                <td className="px-4 py-2 border">Data 4</td>
-              </tr>
-              <tr>
-                
-                <td className="px-4 py-2 border">Data 5</td>
-                <td className="px-4 py-2 border">Data 6</td>
-                <td className="px-4 py-2 border">Data 7</td>
-                <td className="px-4 py-2 border">Data 8</td>
-              </tr>
+                { Data.map((table)=>(
+                  <tr>
+                    <td className="px-6 py-2 border rounded-md">{table.name}</td>
+                    <td className="px-6 py-2 border rounded-md">{table.role}</td>
+                    <td className="px-16 py-2 border rounded-md"><button className="bg-indigo-600 text-white rounded text-sm px-4 py-2"> VIEW</button></td>
+                    <td className="px-16 py-2 border rounded-md"><button className="bg-fuchsia-600 text-white rounded text-sm px-4 py-2"> ADD</button></td>
+                    <td className="px-16 py-2 border rounded-md"><button className="bg-cyan-600 text-white rounded text-sm px-4 py-2"> Update</button></td>
+                    <td className="px-16 py-2 border rounded-md"> <DeleteIcon /></td>
+                    
+                  </tr>
+                )) }
             </tbody>
           </table>
         </div>
