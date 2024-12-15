@@ -1,48 +1,71 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 
-const TeacherPage =()=>{
+const TeacherPage = () => {
+    const Data = [
+        { name: 'Ramanan', subject: 'Maths' },
+        { name: 'Poopi', subject: 'Physics' },
+        { name: 'Maya', subject: 'Biology' },
+    ];
 
-  const Data = [
-    { name:'Ramanan', subject:'maths'},
-    { name:'poopi', subject:'physics'},
-    { name:'maya', subject:'biology'},
-  ]
+    return (
+        <div className="flex flex-col w-full h-full box-border items-center px-20 sm:px-20 md:px-8">
+          
+            <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-5xl mt-6 mb-4 pl-[50px] md:pl-[70px]">
+                <h1 className="text-2xl sm:text-2xl md:text-2xl font-bold text-gray-800 text-center sm:text-left mb-4 sm:mb-0">
+                    Teacher Management
+                </h1>
+                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300">
+                    + Add Teacher
+                </button>
+            </div>
 
-    return(
-      <div className="flex flex-col w-full h-full box-border items-center ml-24 ">
-      
-        
-        {/* Table Section */}
-        <div className="mt-6 px-2 py-4 bg-white rounded-lg">
-          <table className="min-w-full table-auto border-separate border-spacing-2 ">
-            <thead>
-              <tr>
-                <th className="px-24 py-2 border-4 border-double border-slate-300 rounded-lg">Name</th>
-                <th className="px-24 py-2 border-4 border-double border-slate-300 rounded-lg">Subject</th>
-                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">View</th>
-                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Add</th>
-                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Update</th>
-                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-                { Data.map((table)=>(
-                  <tr>
-                    <td className="px-6 py-2 border rounded-md">{table.name}</td>
-                    <td className="px-6 py-2 border rounded-md">{table.subject}</td>
-                    <td className="px-16 py-2 border rounded-md"><button className="bg-indigo-600 text-white rounded text-sm px-4 py-2"> VIEW</button></td>
-                    <td className="px-16 py-2 border rounded-md"><button className="bg-fuchsia-600 text-white rounded text-sm px-4 py-2"> ADD</button></td>
-                    <td className="px-16 py-2 border rounded-md"><button className="bg-cyan-600 text-white rounded text-sm px-4 py-2"> Update</button></td>
-                    <td className="px-16 py-2 border rounded-md"> <DeleteIcon /></td>
+            
+            <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg box-border ml-[50px] md:ml-[50px]  ">
+                <div className="overflow-x-auto">
                     
-                  </tr>
-                )) }
-            </tbody>
-          </table>
-        </div>
-      </div>
-  
-    )
-}
+                    <table className="w-full border-collapse table-auto">
+                        
+                        <thead className="bg-blue-600 text-xs sm:text-sm md:text-base font-medium text-white uppercase">
+                            <tr>
+                                <th className="px-4 sm:px-6 py-3 text-left pl-[50px] md:pl-[70px]">Name</th>
+                                <th className="px-4 sm:px-6 py-3 text-left">Subject</th>
+                                <th className="px-4 sm:px-6 py-3 text-center">View</th>
+                                <th className="px-4 sm:px-6 py-3 text-center">Edit</th>
+                                <th className="px-4 sm:px-6 py-3 text-center">Delete</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {Data.map((student, index) => (
+                                <tr
+                                    key={index}
+                                    className="text-xs sm:text-sm md:text-base text-gray-800 hover:bg-gray-50 transition-colors duration-200"
+                                >
+                                    <td className="px-4 sm:px-6 py-3 border-b pl-[50px] md:pl-[70px]">
+                                        {student.name}
+                                    </td>
+                                    <td className="px-4 sm:px-6 py-3 border-b">{student.subject}</td>
+                                    <td className="px-4 sm:px-6 py-3 border-b text-center">
+                                        <VisibilityIcon className="text-gray-600 hover:text-indigo-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                                    </td>
+                                    <td className="px-4 sm:px-6 py-3 border-b text-center">
+                                        <ModeEditOutlineIcon className="text-gray-600 hover:text-cyan-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                                    </td>
+                                    <td className="px-4 sm:px-6 py-3 border-b text-center">
+                                        <DeleteIcon className="text-gray-600 hover:text-red-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
 
-export default TeacherPage
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default TeacherPage;

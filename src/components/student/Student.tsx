@@ -1,48 +1,114 @@
+'use client'
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import Link from 'next/link'
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
-const StudentPage =()=>{
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
-  const Data = [
-    { name:'Ramanan', class:'10'},
-    { name:'poopi', class:'+2'},
-    { name:'maya', class:'10'},
-  ]
+const StudentPage = () => {
+    const Data = [
+        { name: 'Ramanan', class: '10' },
+        { name: 'Poopi', class: '+2' },
+        { name: 'Maya', class: '10' },
+    ];
 
-    return(
-      <div className="flex flex-col w-full h-full box-border items-center ml-24 ">
-      
-        
-        {/* Table Section */}
-        <div className="mt-6 px-2 py-4 bg-white rounded-lg">
-          <table className="min-w-full table-auto border-separate border-spacing-2 ">
-            <thead>
-              <tr>
-                <th className="px-24 py-2 border-4 border-double border-slate-300 rounded-lg">Name</th>
-                <th className="px-24 py-2 border-4 border-double border-slate-300 rounded-lg">Class</th>
-                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">View</th>
-                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Add</th>
-                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Update</th>
-                <th className="px-14 py-2 border-4 border-double border-slate-300 rounded-lg">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-                { Data.map((table)=>(
-                  <tr>
-                    <td className="px-6 py-2 border rounded-md">{table.name}</td>
-                    <td className="px-6 py-2 border rounded-md">{table.class}</td>
-                    <td className="px-16 py-2 border rounded-md"><button className="bg-indigo-600 text-white rounded text-sm px-4 py-2"> VIEW</button></td>
-                    <td className="px-16 py-2 border rounded-md"><button className="bg-fuchsia-600 text-white rounded text-sm px-4 py-2"> ADD</button></td>
-                    <td className="px-16 py-2 border rounded-md"><button className="bg-cyan-600 text-white rounded text-sm px-4 py-2"> Update</button></td>
-                    <td className="px-16 py-2 border rounded-md"> <DeleteIcon /></td>
-                    
-                  </tr>
-                )) }
-            </tbody>
-          </table>
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    return (
+        <div className="flex flex-col w-full h-full box-border items-center px-20 sm:px-20 md:px-8">
+            <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-5xl mt-6 mb-4 pl-[50px] md:pl-[70px]">
+                
+                <h1 className="text-2xl sm:text-2xl md:text-2xl font-bold text-gray-800 text-center sm:text-left mb-4 sm:mb-0">
+                    Student Management
+                </h1>
+                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300">
+                    + Add Student
+                </button>
+            </div>
+
+            <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg box-border ml-[50px] md:ml-[50px]  ">
+                <div className="overflow-x-auto">
+
+                    <table className="w-full border-collapse table-auto">
+                        
+                        <thead className="bg-blue-600 text-xs sm:text-sm md:text-base font-medium text-white uppercase">
+                            <tr>
+                                <th className="px-4 sm:px-6 py-3 text-left pl-[50px] md:pl-[70px]">Name</th>
+                                <th className="px-4 sm:px-6 py-3 text-left">Class</th>
+                                <th className="px-4 sm:px-6 py-3 text-center">View</th>
+                                <th className="px-4 sm:px-6 py-3 text-center">Edit</th>
+                                <th className="px-4 sm:px-6 py-3 text-center">Delete</th>
+                            </tr>
+                        </thead>
+                       
+                        <tbody>
+                            {Data.map((student, index) => (
+                                <tr
+                                    key={index}
+                                    className="text-xs sm:text-sm md:text-base text-gray-800 hover:bg-gray-50 transition-colors duration-200"
+                                >
+                                    <td className="px-4 sm:px-6 py-3 border-b pl-[50px] md:pl-[70px]">
+                                        {student.name}
+                                    </td>
+                                    <td className="px-4 sm:px-6 py-3 border-b">{student.class}</td>
+                                    <td className="px-4 sm:px-6 py-3 border-b text-center">
+                                    <Link href="/admin/studentView">
+                                        <VisibilityIcon className="text-gray-600 hover:text-indigo-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                                    </Link>
+                                    </td>
+                                    <td className="px-4 sm:px-6 py-3 border-b text-center">
+                                        <ModeEditOutlineIcon className="text-gray-600 hover:text-cyan-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                                    </td>
+                                    <td className="px-4 sm:px-6 py-3 border-b text-center">
+                                        <DeleteIcon className="text-gray-600 hover:text-red-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" onClick={handleOpen} />
+                                        <Modal
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={style}>
+                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                            Do you want to delete this Student !
+                                            </Typography>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                               
+                                                <div className='flex flex-row justify-around items-center mt-20 '>
+                                                    <button className='px-8 py-2 bg-fuchsia-900 rounded-lg text-white'>YES</button>
+                                                    <button className='px-8 py-2 bg-sky-800 rounded-lg text-white'>NO</button>
+                                                </div>
+                                            </Typography>
+                                            </Box>
+                                        </Modal>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
         </div>
-      </div>
-  
-    )
-}
+    );
+};
 
-export default StudentPage
+export default StudentPage;
