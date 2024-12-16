@@ -13,7 +13,8 @@ import SideBar from '@/constrains/Constrains';
 import Link from 'next/link';
 
 const SideBarPage = () => {
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [isCollapsed, setIsCollapsed] = React.useState(true);
+
 
   const handleToggle = () => {
     setIsCollapsed(!isCollapsed);
@@ -21,6 +22,7 @@ const SideBarPage = () => {
 
   const DrawerList = (
     <Box
+
       sx={{
         width: isCollapsed ? 50 : 273,
         display: 'flex',

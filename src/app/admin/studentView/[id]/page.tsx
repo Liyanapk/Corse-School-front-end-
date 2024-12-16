@@ -1,5 +1,5 @@
 import ViewStudent from "@/components/viewStudent/ViewStudent"
-const StudentView =()=>{
+const StudentView =({ params }: { params: { id: string } })=>{
     return(
         <>
         <ViewStudent/>

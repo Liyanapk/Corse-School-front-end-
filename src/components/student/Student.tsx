@@ -22,9 +22,9 @@ const style = {
 
 const StudentPage = () => {
     const Data = [
-        { name: 'Ramanan', class: '10' },
-        { name: 'Poopi', class: '+2' },
-        { name: 'Maya', class: '10' },
+        { id:'1', name: 'Ramanan', class: '10' },
+        { id:'2', name: 'Poopi', class: '+2' },
+        { id:'3', name: 'Maya', class: '10' },
     ];
 
 
@@ -70,7 +70,7 @@ const StudentPage = () => {
                                     </td>
                                     <td className="px-4 sm:px-6 py-3 border-b">{student.class}</td>
                                     <td className="px-4 sm:px-6 py-3 border-b text-center">
-                                    <Link href="/admin/studentView">
+                                    <Link href={`/admin/studentView/${student.id}`}>
                                         <VisibilityIcon className="text-gray-600 hover:text-indigo-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
                                     </Link>
                                     </td>

@@ -10,7 +10,7 @@ const Layout = ({ children }: Props) => {
     <div className="bg-slate-100 min-h-screen w-screen flex flex-col overflow-x-hidden overflow-y-hidden">  
         <DashboardHeader/>
         <SideBarPage/>
-        <>{children}</>
+        <main>{children}</main>
         
     </div>
   )

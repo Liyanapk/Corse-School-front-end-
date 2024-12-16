@@ -19,9 +19,9 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex flex-col w-full h-full box-border items-center px-4 sm:px-6 md:px-8">
+    <div className="w-screen h-full box-border items-center px-20 sm:px-20 md:px-8 ">
       {/* Dashboard */}
-      <div className="py-8 max-w-7xl mx-auto bg-white rounded-md shadow-lg mt-8">
+      <div className="py-8 max-w-7xl w-[950px] mx-auto bg-white rounded-md shadow-lg mt-8">
         <h1 className="text-xl md:text-2xl font-bold mb-8 px-4 md:px-6">Dashboard</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-8">
           {Cards.map((card, index) => (
