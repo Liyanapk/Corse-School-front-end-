@@ -7,6 +7,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { useRouter } from 'next/navigation'
 
 const style = {
     position: 'absolute',
@@ -32,14 +33,18 @@ const StudentPage = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const router = useRouter()
+
     return (
-        <div className="flex flex-col w-full h-full box-border items-center px-20 sm:px-20 md:px-8">
+        <div className="flex flex-col w-full h-full box-border items-center px-20 sm:px-20 md:px-8 mt-10">
             <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-5xl mt-6 mb-4 pl-[50px] md:pl-[70px]">
                 
-                <h1 className="text-2xl sm:text-2xl md:text-2xl font-bold text-gray-800 text-center sm:text-left mb-4 sm:mb-0">
+                <h1 className="text-2xl sm:text-2xl md:text-4xl font-bold text-gray-800 text-center sm:text-left mb-4 sm:mb-0">
                     Student Management
                 </h1>
-                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300">
+                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300"
+                type="button" onClick={() => router.push('/admin/studentAdd')}
+                >
                     + Add Student
                 </button>
             </div>
@@ -75,7 +80,9 @@ const StudentPage = () => {
                                     </Link>
                                     </td>
                                     <td className="px-4 sm:px-6 py-3 border-b text-center">
+                                    <Link href={`/admin/studentView/${student.id}`}>
                                         <ModeEditOutlineIcon className="text-gray-600 hover:text-cyan-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                                    </Link>
                                     </td>
                                     <td className="px-4 sm:px-6 py-3 border-b text-center">
                                         <DeleteIcon className="text-gray-600 hover:text-red-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" onClick={handleOpen} />

@@ -11,10 +11,10 @@ const AdminPage = () => {
   ]
 
   return (
-    <div className="flex flex-col w-full h-full box-border items-center px-20 sm:px-20 md:px-8">
+    <div className="flex flex-col w-full h-full box-border items-center px-20 sm:px-20 md:px-8 mt-10">
     
       <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-5xl mt-6 mb-4 pl-[50px] md:pl-[70px]">
-        <h1 className="text-2xl sm:text-2xl md:text-2xl font-bold text-gray-800 text-center sm:text-left mb-4 sm:mb-0">
+        <h1 className="text-2xl sm:text-2xl md:text-4xl font-bold text-gray-800 text-center sm:text-left mb-4 sm:mb-0">
           Admin Management
         </h1>
         <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300">
