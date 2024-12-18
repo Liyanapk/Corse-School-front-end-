@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SideBar from '@/constrains/Constrains';
 import Link from 'next/link';
+import Tooltip from '@mui/material/Tooltip';
 
 const SideBarPage = () => {
   const [isCollapsed, setIsCollapsed] = React.useState(true);
@@ -61,7 +62,9 @@ const SideBarPage = () => {
                     transition: 'min-width 0.3s ease-in-out',
                   }}
                 >
+                   
                   {item.icon}
+                  
                 </ListItemIcon>
                 {!isCollapsed && <ListItemText primary={item.title} />}
               </ListItemButton>
