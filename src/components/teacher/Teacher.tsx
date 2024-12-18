@@ -1,6 +1,8 @@
+'use client'
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import { useRouter } from 'next/navigation'
 
 const TeacherPage = () => {
     const Data = [
@@ -9,6 +11,9 @@ const TeacherPage = () => {
         { name: 'Maya', subject: 'Biology' },
     ];
 
+const router = useRouter()
+
+
     return (
         <div className="flex flex-col w-full h-full box-border items-center px-20 sm:px-20 md:px-8 mt-10">
           
@@ -16,7 +21,9 @@ const TeacherPage = () => {
                 <h1 className="text-2xl sm:text-2xl md:text-4xl font-bold text-gray-800 text-center sm:text-left mb-4 sm:mb-0">
                     Teacher Management
                 </h1>
-                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300">
+                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300"
+                type="button" onClick={() => router.push('/admin/teacherAdd')}
+                >
                     + Add Teacher
                 </button>
             </div>

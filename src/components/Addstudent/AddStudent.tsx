@@ -4,9 +4,16 @@ import { TextField, Button, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/navigation'
 import { useState } from "react";
-import Box from '@mui/material/Box';
+
 
 import MenuItem from '@mui/material/MenuItem';
+
+import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 
@@ -59,34 +66,38 @@ const AddStudent = () => {
   return (
     <div className="flex flex-col w-full h-full items-center px-20 sm:px-20 md:px-8 mt-2 overflow-x-hidden">
       <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
-        
-        <div className="flex items-center mb-4 cursor-pointer" onClick={handleBackClick}>
+        <div
+          className="flex items-center mb-4 cursor-pointer"
+          onClick={handleBackClick}
+        >
           <ArrowBackIcon className="text-gray-800" />
         </div>
 
-        <Typography variant="h4" component="h1" className="text-center font-bold mb-4 text-gray-600 " >
+        <Typography
+          variant="h4"
+          component="h1"
+          className="text-center font-bold mb-4 text-gray-600 "
+        >
           Add New Student
         </Typography>
 
+        <div className="flex flex-col items-center">
+          <label className="relative cursor-pointer">
+            <img
+              src={image}
+              alt="Student Profile"
+              className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-blue-200 shadow-lg"
+            />
 
-    <div className="flex flex-col items-center">
-      <label className="relative cursor-pointer">
-        <img
-          src={image}
-          alt="Student Profile"
-          className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-blue-200 shadow-lg"
-        />
-       
-        <input
-          type="file"
-          accept="image"
-          className="absolute inset-0 opacity-0 cursor-pointer"
-          onChange={handleImageChange}
-        />
-      </label>
-      <p className="text-sm text-gray-500 mt-2">Click to upload image</p>
-    </div>
-
+            <input
+              type="file"
+              accept="image"
+              className="absolute inset-0 opacity-0 cursor-pointer"
+              onChange={handleImageChange}
+            />
+          </label>
+          <p className="text-sm text-gray-500 mt-2">Click to upload image</p>
+        </div>
 
         <form className="space-y-2">
           <div>
@@ -105,8 +116,6 @@ const AddStudent = () => {
               type="text"
             />
           </div>
-          
-
 
           <div>
             <TextField
@@ -117,21 +126,19 @@ const AddStudent = () => {
             />
           </div>
           <div>
-            <TextField
-              fullWidth
-              label="DOB"
-              variant="outlined"
-              type="number"
-            />
-          </div>
-
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoContainer components={['DatePicker']}>
+          <DatePicker
+            label="Date of Birth"
+            format="YYYY/MM/DD"
+            defaultValue={dayjs('2022-04-17')}
+            sx={{ width: '100%' }} 
+          />
+        </DemoContainer>
+      </LocalizationProvider>
+    </div>
           <div>
-            <TextField
-              fullWidth
-              label="Age"
-              variant="outlined"
-              type="number"
-            />
+            <TextField fullWidth label="Age" variant="outlined" type="number" />
           </div>
 
           <div>
@@ -173,45 +180,42 @@ const AddStudent = () => {
               fullWidth
               label="Student Phone"
               variant="outlined"
-              type="password"
+              type="number"
             />
-          </div>
-   
-          <div>
-          <TextField
-          fullWidth
-          id="outlined-select-currency"
-          select
-          label="Select"
-          defaultValue="EUR"
-          helperText="Please select class"
-        >
-          {classes.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
-              {option.class}
-            </MenuItem>
-          ))}
-        </TextField>
           </div>
 
           <div>
-          <TextField
+            <TextField
+              fullWidth
+              id="outlined-select-currency"
+              select
+              label="Select"
+              helperText="Please select class"
+            >
+              {classes.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.class}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
+
+          <div>
+            <TextField
               fullWidth
               label="Student ID"
               variant="outlined"
-              type="password"
+              type="text"
             />
           </div>
           <div>
-          <TextField
+            <TextField
               fullWidth
               label="Batch ID"
               variant="outlined"
-              type="password"
+              type="text"
             />
           </div>
-          
-          
 
           <div>
             <TextField
