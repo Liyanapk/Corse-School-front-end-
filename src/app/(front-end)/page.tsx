@@ -1,7 +1,7 @@
 
 // import Banner from "@/components/banner/Banner";
-import ContentSection from "@/components/content/Content";
-import Catagory from "@/components/catagory/Catagory";
+const ContentSection = dynamic( ()=> import ("@/components/content/Content"))         
+const Catagory = dynamic( ()=> import ("@/components/catagory/Catagory"));
 import InstructorPage from "@/components/instructor/Instructor";
 import FeedBack from "@/components/feedback/FeedBack"
 import SendEmail from "@/components/email/Email"
@@ -13,7 +13,7 @@ const Banner = dynamic(()=> import("@/components/banner/Banner"))
 
 export default function HomePage () { 
 
-    return(
+    return(   
 
         <>
             <Banner/>

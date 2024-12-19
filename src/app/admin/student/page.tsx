@@ -1,4 +1,5 @@
-import StudentPage from "@/components/student/Student"
+import dynamic from "next/dynamic";
+const StudentPage = dynamic( ()=>import("@/components/student/Student"))
 
 const Student = ()=>{
     return(

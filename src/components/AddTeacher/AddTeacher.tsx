@@ -1,15 +1,16 @@
 'use client';
 import * as React from 'react';
-import { TextField, Button, Typography, Grid } from '@mui/material';
+import { TextField, Button, Typography, MenuItem } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/navigation';
 import { useState, useRef } from "react";
-import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+import Select, { MultiValue, StylesConfig } from 'react-select';
 
 const AddTeacher = () => {
   const router = useRouter();
@@ -19,40 +20,92 @@ const AddTeacher = () => {
   };
 
   const defaultImage = '/images/avatarImage/avatar_image.webp';
-  const [image, setImage] = useState<string>(defaultImage); // Default profile image
-  const fileInput = useRef<HTMLInputElement>(null); // Create a reference for the file input
+  const [image, setImage] = useState<string>(defaultImage);
+  const fileInput = useRef<HTMLInputElement>(null);
 
-  // Handle file change
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; // Ensure file exists
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         if (typeof reader.result === 'string') {
-          setImage(reader.result); // Set the image preview
+          setImage(reader.result);
         }
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Reset the image and file input
   const resetImage = () => {
-    setImage(defaultImage); // Reset to default image
+    setImage(defaultImage);
     if (fileInput.current) {
-      fileInput.current.value = ''; // Reset the input field
+      fileInput.current.value = '';
     }
   };
 
-  const classes = [
-    { id: '1', class: 'Class A' },
-    { id: '2', class: 'Class B' },
-    { id: '3', class: 'Class C' },
-    { id: '4', class: 'Class D' },
+  interface SubjectOption {
+    value: string;
+    label: string;
+  }
+  
+  const subjects: SubjectOption[] = [
+    { value: '1', label: 'Maths' },
+    { value: '2', label: 'AI' },
+    { value: '3', label: 'Machine Learning' },
+    { value: '4', label: 'Physics' },
   ];
 
+
+//style of dropdown
+
+const customStyles: StylesConfig<SubjectOption, true> = {
+  control: (base) => ({
+    ...base,
+    height: '56px', // Match TextField height
+    borderRadius: '4px',
+    borderColor: '#c4c4c4',
+    '&:hover': {
+      borderColor: '#3f51b5', // Border color on hover
+    },
+    boxShadow: 'none',
+  }),
+  menu: (base) => ({
+    ...base,
+    zIndex: 10,
+    borderRadius: '4px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isSelected ? '#3f51b5' : state.isFocused ? '#e3f2fd' : '#fff',
+    color: state.isSelected ? '#fff' : '#000',
+    padding: '10px',
+    '&:hover': {
+      backgroundColor: '#e3f2fd',
+    },
+  }),
+  multiValue: (base) => ({
+    ...base,
+    backgroundColor: '#e3f2fd',
+    color: '#3f51b5',
+  }),
+  multiValueLabel: (base) => ({
+    ...base,
+    color: '#3f51b5',
+  }),
+  multiValueRemove: (base) => ({
+    ...base,
+    color: '#3f51b5',
+    '&:hover': {
+      backgroundColor: '#f1f1f1',
+      color: '#3f51b5',
+    },
+  }),
+};
+
+
   return (
-    <div className="flex flex-col w-full h-full items-center px-20 sm:px-20 md:px-8 mt-2 overflow-x-hidden">
+    <div className="flex flex-col w-full h-full items-center px-8 sm:px-10 md:px-10 mt-2 overflow-x-hidden">
       <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
         <div
           className="flex items-center mb-4 cursor-pointer"
@@ -64,7 +117,7 @@ const AddTeacher = () => {
         <Typography
           variant="h4"
           component="h1"
-          className="text-center font-bold mb-4 text-gray-600 "
+          className="text-center font-bold mb-6 text-gray-600"
         >
           Add New Teacher
         </Typography>
@@ -81,142 +134,60 @@ const AddTeacher = () => {
               accept="image/*"
               className="absolute inset-0 opacity-0 cursor-pointer"
               onChange={handleImageChange}
-              ref={fileInput} // Attach the reference to the input
+              ref={fileInput}
             />
           </label>
           <button
-            className="mt-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm py-2 px-2 hover:opacity-90 shadow-md transition-all duration-300"
+            className="mt-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm py-2 px-4 hover:opacity-90 shadow-md transition-all duration-300"
             onClick={resetImage}
           >
-            Change Image
+            Remove Image
           </button>
         </div>
 
-        <form className="space-y-2 mt-8">
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Teacher First Name"
-                variant="outlined"
-                type="text"
+        <form className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+          <TextField label="First Name" variant="outlined" fullWidth />
+          <TextField label="Last Name" variant="outlined" fullWidth />
+          <TextField label="Email" variant="outlined" fullWidth type="email" />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker']}>
+              <DatePicker
+                label="Date of Birth"
+                format="YYYY/MM/DD"
+                defaultValue={dayjs('2022-04-17')}
+                sx={{ width: '100%' }}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Teacher Last Name"
-                variant="outlined"
-                type="text"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Teacher Email"
-                variant="outlined"
-                type="email"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']}>
-                  <DatePicker
-                    label="Date of Birth"
-                    format="YYYY/MM/DD"
-                    defaultValue={dayjs('2022-04-17')}
-                    sx={{ width: '100%' }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Age" variant="outlined" type="number" />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Teacher Address"
-                variant="outlined"
-                type="text"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Teacher Phone"
-                variant="outlined"
-                type="text"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                id="outlined-select-currency"
-                select
-                label="Select"
-                helperText="Please select class"
-              >
-                {classes.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.class}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Teacher ID"
-                variant="outlined"
-                type="text"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Batch ID"
-                variant="outlined"
-                type="text"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Teacher Password"
-                variant="outlined"
-                type="password"
-              />
-            </Grid>
-          </Grid>
-
-          <div className="flex justify-center gap-4 mt-8">
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              className="w-full sm:w-auto"
-            >
-              Add Teacher
-            </Button>
-
-            <Button
-              variant="outlined"
-              color="secondary"
-              className="w-full sm:w-auto"
-            >
-              Reset
-            </Button>
-          </div>
+            </DemoContainer>
+          </LocalizationProvider>
+          <TextField label="Address" variant="outlined" fullWidth />
+          <TextField label="Phone Number" variant="outlined" fullWidth />
+          <TextField label="Subject" variant="outlined" fullWidth />
+         
+          <Select
+          defaultValue={[]}
+          isMulti
+          name="subjects"
+          options={subjects}
+          styles={customStyles}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={(selectedOptions: MultiValue<SubjectOption>) => {
+            console.log(selectedOptions); 
+          }}
+        />
+          
+          <TextField label="Batch ID" variant="outlined" fullWidth />
+          <TextField label="Password" variant="outlined" fullWidth type="password" />
         </form>
+
+        <div className="flex justify-center gap-4 mt-20">
+          <Button variant="contained" color="primary" type="submit">
+            Add Teacher
+          </Button>
+          <Button variant="outlined" color="secondary">
+            Reset
+          </Button>
+        </div>
       </div>
     </div>
   );

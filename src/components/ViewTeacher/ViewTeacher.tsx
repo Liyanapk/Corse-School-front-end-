@@ -5,85 +5,73 @@ import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditIcon from "@mui/icons-material/Edit";
 
-interface StudentData {
+interface TeacherData {
   id: string;
   name: string;
-  class: string;
+  subject: String;
   age: number;
   email: string;
   address: string;
-  parent: string;
   image: string;
   PhoneNumber: string;
   className: string;
-  studentID: String;
   batchName: string;
-  ParentNumber: string;
 }
 
-const ViewStudent = ({ params }: { params: { id: string } }) => {
+const ViewTeacher = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const { id } = params;
 
-  const [student, setStudent] = useState<StudentData | null>(null);
+  const [teacher, setTeacher] = useState<TeacherData | null>(null);
 
   useEffect(() => {
-    const fetchStudent = async () => {
-      const students = [
+    const fetchTeacher = async () => {
+      const teachers = [
         {
           id: "1",
-          name: "Ramanan",
-          class: "10",
+          name: "duckyy",
+          subject: "Machine Learning, english",
           age: 15,
-          email: "ramanan@example.com",
+          email: "duckyy@example.com",
           address: "123 Main Street, Cityville",
-          parent: "Mr. Suresh Ramanan",
-          image: "/images/Dashbord/profie.webp",
+          image: "/images/avatarImage/duck.jpg",
           PhoneNumber: "53201230125",
           className: "calass A",
-          studentID: "123FGS",
           batchName: "Al -2020",
-          ParentNumber: "565625985562",
         },
         {
           id: "2",
           name: "Poopi",
-          class: "+2",
+          subject: "maths, AI",
           age: 17,
           email: "poopi@example.com",
           address: "456 Second Street",
-          parent: "Mr. Vijay Poopi",
           image: "/images/Dashbord/profie.webp",
           PhoneNumber: "53201230125",
           className: "calass A",
-          studentID: "123FGS",
           batchName: "Al -2021",
-          ParentNumber: "956232646",
         },
         {
           id: "3",
           name: "Maya",
-          class: "10",
+          subject: "maths, english",
           age: 16,
           email: "maya@example.com",
           address: "789 Third Street",
-          parent: "Mr. Arun Maya",
           image: "/images/Dashbord/profie.webp",
           PhoneNumber: "53201230125",
           className: "calass A",
-          studentID: "123FGS",
           batchName: "Al -2022",
-          ParentNumber: "5231542352",
         },
       ];
-      const foundStudent = students.find((student) => student.id === id);
-      setStudent(foundStudent || null);
+      const foundTeacher = teachers.find((teacher) => teacher.id === id);
+      setTeacher(foundTeacher || null);
     };
 
-    if (id) fetchStudent();
+    if (id) fetchTeacher();
   }, [id]);
 
-  if (!student) {
+  if (!teacher) {
     return <div>Loading...</div>;
   }
 
@@ -91,7 +79,7 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
     <div className="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 mt-20">
       <div className="w-full max-w-2xl flex items-center mb-4">
         <button
-          onClick={() => router.push("/admin/student")}
+          onClick={() => router.push("/admin/teacher")}
           className="flex items-center text-blue-600 hover:text-blue-800"
         >
           <ArrowBackIcon />
@@ -103,13 +91,12 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <img
-              src={student.image}
+              src={teacher.image}
               alt={`student Profile`}
               className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white shadow-lg"
             />
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold">{student.name}</h1>
-              <p className="text-sm md:text-base font-medium">{`Class: ${student.class}`}</p>
+              <h1 className="text-2xl md:text-3xl font-bold">{teacher.name}</h1>
             </div>
           </div>
 
@@ -121,47 +108,36 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
         {/* Student Details */}
         <div className="p-6 space-y-4">
           <div className="flex justify-between items-center">
-            <span className="text-gray-700 font-medium">Student ID:</span>
+            <span className="text-gray-700 font-medium">Subjet:</span>
             <span className="text-gray-800 font-semibold">
-              {student.studentID}
+              {teacher.subject}
             </span>
           </div>
+
           <div className="flex justify-between items-center border-b pb-2">
             <span className="text-gray-700 font-medium">Age:</span>
-            <span className="text-gray-800 font-semibold">{student.age}</span>
+            <span className="text-gray-800 font-semibold">{teacher.age}</span>
           </div>
           <div className="flex justify-between items-center border-b pb-2">
             <span className="text-gray-700 font-medium">Email:</span>
-            <span className="text-blue-600 font-semibold">{student.email}</span>
+            <span className="text-blue-600 font-semibold">{teacher.email}</span>
           </div>
           <div className="flex justify-between items-center border-b pb-2">
             <span className="text-gray-700 font-medium">Address:</span>
             <span className="text-gray-800 font-semibold">
-              {student.address}
+              {teacher.address}
             </span>
           </div>
           <div className="flex justify-between items-center border-b pb-2">
             <span className="text-gray-700 font-medium">Phone Number:</span>
             <span className="text-gray-800 font-semibold">
-              {student.PhoneNumber}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700 font-medium">Parent Name:</span>
-            <span className="text-gray-800 font-semibold">
-              {student.parent}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700 font-medium">Parent Number:</span>
-            <span className="text-gray-800 font-semibold">
-              {student.ParentNumber}
+              {teacher.PhoneNumber}
             </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-700 font-medium">Batch Name:</span>
             <span className="text-gray-800 font-semibold">
-              {student.batchName}
+              {teacher.batchName}
             </span>
           </div>
         </div>
@@ -170,4 +146,4 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default ViewStudent;
+export default ViewTeacher;

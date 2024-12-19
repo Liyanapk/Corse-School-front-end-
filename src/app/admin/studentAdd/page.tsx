@@ -1,4 +1,5 @@
-import AddStudent from "@/components/Addstudent/AddStudent"
+import dynamic from "next/dynamic";
+const AddStudent = dynamic ( ()=>import("@/components/Addstudent/AddStudent") ) 
 
 const StudentAdd = ()=>{
     return(
