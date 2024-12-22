@@ -88,7 +88,7 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 mt-20">
+    <div className="max-w-4xl mx-auto px-6 py-12 space-y-8">
       <div className="w-full max-w-2xl flex items-center mb-4">
         <button
           onClick={() => router.push("/admin/student")}
@@ -120,7 +120,7 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
 
         {/* Student Details */}
         <div className="p-6 space-y-4">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center border-b pb-2">
             <span className="text-gray-700 font-medium">Student ID:</span>
             <span className="text-gray-800 font-semibold">
               {student.studentID}

@@ -23,8 +23,8 @@ const Layout: React.FC<Props> = ({ children }) => {
       <main
         className="overflow-x-hidden"
         style={{
-          marginLeft: isSidebarCollapsed ? "50px" : "273px", // Adjust margin based on sidebar state
-          transition: "margin-left 0.3s ease-in-out", // Smooth transition
+          marginLeft: isSidebarCollapsed ? "50px" : "273px", 
+          transition: "margin-left 0.3s ease-in-out",
         }}
       >
         {children}
