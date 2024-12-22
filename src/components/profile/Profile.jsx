@@ -1,46 +1,99 @@
-import Image from "next/image";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+"use client";
+
+import { useRouter } from "next/navigation";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import EditIcon from "@mui/icons-material/Edit";
+
+const Data = [
+  {
+    id: "1",
+    name: "Ramana2",
+    class: "10",
+    age: 15,
+    email: "ramanan@example.com",
+    address: "123 Main Street, Cityville",
+    parent: "Mr. Suresh Ramanan",
+    image: "/images/avatarImage/avatar_image.webp",
+    PhoneNumber: "53201230125",
+    className: "class A",
+    studentID: "123FGS",
+    batchName: "Al -2020",
+    ParentNumber: "565625985562",
+  },
+];
 
 const Profile = () => {
-  return (
-    <div className="flex flex-col w-full h-full box-border items-center ml-28">
-      <div className="flex flex-col items-center  px-6 py-28 w-full max-w-2xl mx-auto rounded-xl shadow-2xl mt-20 bg-white">
-        <div className="flex flex-col items-center mb-8">
-          <Image
-            src="/images/Dashbord/profie.webp"
-            width={120}
-            height={120}
-            className="rounded-full border-4 border-blue-500 shadow-md"
-            alt="Profile"
-          />
-          <h1 className="text-4xl font-semibold mt-3 text-gray-800">Ramanan</h1>
-          <p className="text-xl text-blue-500 font-medium">Admin</p>
-        </div>
+  const router = useRouter();
 
-        {/* Profile Details Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-14 px-4 py-4">
-          {/* Email */}
-          <div
-            className="flex flex-col p-4 rounded-lg shadow-md"
-            style={{ backgroundColor: "#dec4eb" }}
-          >
-            <h2 className="text-base font-semibold text-gray-500">Email</h2>
-            <p className="text-base font-medium text-gray-800 flex flex-row items-center gap-2">
-              <MailOutlineIcon className="text-large font-bold" />{" "}
-              Ramanan@gmail.com
-            </p>
+  // Assume we are displaying the first student's profile
+  const student = Data[0];
+
+  return (
+    <div className="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 mt-20">
+      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <img
+              src={student.image}
+              alt="Student Profile"
+              className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white shadow-lg"
+            />
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">{student.name}</h1>
+              <p className="text-sm md:text-base font-medium">{`Class: ${student.class}`}</p>
+            </div>
           </div>
 
-          {/* Phone */}
-          <div
-            className="flex flex-col p-4 rounded-lg shadow-md"
-            style={{ backgroundColor: "#fce7c7" }}
-          >
-            <h2 className="text-base font-semibold text-gray-500">Phone</h2>
-            <p className="text-base font-medium text-gray-800 flex flex-row items-center gap-2">
-              <LocalPhoneIcon className="text-large font-bold" /> +123 456 7890
-            </p>
+          <button className="hover:opacity-80">
+            <EditIcon fontSize="large" />
+          </button>
+        </div>
+
+        {/* Student Details */}
+        <div className="p-6 space-y-4">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-700 font-medium">Student ID:</span>
+            <span className="text-gray-800 font-semibold">
+              {student.studentID}
+            </span>
+          </div>
+          <div className="flex justify-between items-center border-b pb-2">
+            <span className="text-gray-700 font-medium">Age:</span>
+            <span className="text-gray-800 font-semibold">{student.age}</span>
+          </div>
+          <div className="flex justify-between items-center border-b pb-2">
+            <span className="text-gray-700 font-medium">Email:</span>
+            <span className="text-blue-600 font-semibold">{student.email}</span>
+          </div>
+          <div className="flex justify-between items-center border-b pb-2">
+            <span className="text-gray-700 font-medium">Address:</span>
+            <span className="text-gray-800 font-semibold">
+              {student.address}
+            </span>
+          </div>
+          <div className="flex justify-between items-center border-b pb-2">
+            <span className="text-gray-700 font-medium">Phone Number:</span>
+            <span className="text-gray-800 font-semibold">
+              {student.PhoneNumber}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-700 font-medium">Parent Name:</span>
+            <span className="text-gray-800 font-semibold">
+              {student.parent}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-700 font-medium">Parent Number:</span>
+            <span className="text-gray-800 font-semibold">
+              {student.ParentNumber}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-700 font-medium">Batch Name:</span>
+            <span className="text-gray-800 font-semibold">
+              {student.batchName}
+            </span>
           </div>
         </div>
       </div>

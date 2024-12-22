@@ -1,14 +1,41 @@
+'use client'
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 
 const AdminPage = () => {
 
   const Data = [
-    { name: 'Ramanan', role: 'admin' },
-    { name: 'poopi', role: 'admin' },
-    { name: 'maya', role: 'Super admin' },
+    { id:'1', name: 'Ramanan', role: 'admin' },
+    { id:'2', name: 'poopi', role: 'admin' },
+    { id:'3', name: 'maya', role: 'Super admin' },
   ]
+
+  const router = useRouter();
+
+  const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+  
+    const style = {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      border: "2px solid #000",
+      boxShadow: 24,
+      p: 4,
+    };
+
 
   return (
     <div className="flex flex-col w-full h-full box-border items-center px-20 sm:px-20 md:px-8 mt-10">
@@ -17,7 +44,10 @@ const AdminPage = () => {
         <h1 className="text-2xl sm:text-2xl md:text-4xl font-bold text-gray-800 text-center sm:text-left mb-4 sm:mb-0">
           Admin Management
         </h1>
-        <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300">
+        <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-2 py-2 sm:py-3 sm:px-3 hover:opacity-90 shadow-md transition-all duration-300"
+         type="button"
+         onClick={() => router.push("/admin/adminAdd")}
+        >
           + Add Admin
         </button>
       </div>
@@ -38,23 +68,56 @@ const AdminPage = () => {
             </thead>
            
             <tbody>
-              {Data.map((student, index) => (
+              {Data.map((admin, index) => (
                 <tr
                   key={index}
                   className="text-xs sm:text-sm md:text-base text-gray-800 hover:bg-gray-50 transition-colors duration-200"
                 >
                   <td className="px-4 sm:px-6 py-3 border-b pl-[50px] md:pl-[70px]">
-                    {student.name}
+                    {admin.name}
                   </td>
-                  <td className="px-4 sm:px-6 py-3 border-b">{student.role}</td>
+                  <td className="px-4 sm:px-6 py-3 border-b">{admin.role}</td>
                   <td className="px-4 sm:px-6 py-3 border-b text-center">
-                    <VisibilityIcon className="text-gray-600 hover:text-indigo-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                    <Link href={`/admin/adminView/${admin.id}`}>
+                      <VisibilityIcon className="text-gray-600 hover:text-indigo-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                    </Link>
                   </td>
                   <td className="px-4 sm:px-6 py-3 border-b text-center">
+                    <Link href={`/admin/adminView/${admin.id}`}>
                     <ModeEditOutlineIcon className="text-gray-600 hover:text-cyan-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                    </Link>
                   </td>
                   <td className="px-4 sm:px-6 py-3 border-b text-center">
-                    <DeleteIcon className="text-gray-600 hover:text-red-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                    <DeleteIcon
+                      className="text-gray-600 hover:text-red-600 cursor-pointer transition-transform duration-200 transform hover:scale-110"
+                      onClick={handleOpen}
+                    />
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <Typography
+                          id="modal-modal-title"
+                          variant="h6"
+                          component="h2"
+                        >
+                          Do you want to delete this Admin !
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                          <div className="flex flex-row justify-around items-center mt-20 ">
+                            <button className="px-8 py-2 bg-fuchsia-900 rounded-lg text-white">
+                              YES
+                            </button>
+                            <button className="px-8 py-2 bg-sky-800 rounded-lg text-white">
+                              NO
+                            </button>
+                          </div>
+                        </Typography>
+                      </Box>
+                    </Modal>
                   </td>
                 </tr>
               ))}

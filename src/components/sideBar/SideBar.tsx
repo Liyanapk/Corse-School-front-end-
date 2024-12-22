@@ -11,13 +11,17 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SideBar from "@/constrains/Constrains";
 import Link from "next/link";
-import Tooltip from "@mui/material/Tooltip";
 
-const SideBarPage = () => {
+interface SideBarProps {
+  onToggle: (collapsed: boolean) => void;
+}
+
+const SideBarPage: React.FC<SideBarProps> = ({ onToggle }) => {
   const [isCollapsed, setIsCollapsed] = React.useState(true);
 
   const handleToggle = () => {
     setIsCollapsed(!isCollapsed);
+    onToggle(!isCollapsed); // Notify parent about the toggle
   };
 
   const DrawerList = (
@@ -32,7 +36,6 @@ const SideBarPage = () => {
       }}
       role="presentation"
     >
-      {/* Toggle Button Inside Drawer */}
       <Box
         sx={{
           display: "flex",
@@ -45,7 +48,6 @@ const SideBarPage = () => {
         </IconButton>
       </Box>
 
-      {/* List Items */}
       <List>
         {SideBar.map((item) => (
           <Link href={item.path} key={item.id}>
@@ -55,15 +57,15 @@ const SideBarPage = () => {
                   "&:hover": {
                     backgroundColor: isCollapsed
                       ? "primary.light"
-                      : "primary.main", // Example hover colors
-                    color: "white", // Change text/icon color on hover
+                      : "primary.main",
+                    color: "white",
                     width: isCollapsed ? "40px" : "250px",
                   },
                 }}
               >
                 <ListItemIcon
                   sx={{
-                    minWidth: isCollapsed ? 24 : 40, // Adjust icon spacing when collapsed
+                    minWidth: isCollapsed ? 24 : 40,
                     transition: "min-width 0.3s ease-in-out",
                   }}
                 >
@@ -79,26 +81,23 @@ const SideBarPage = () => {
   );
 
   return (
-    <div className="flex flex-wrap ">
-      {/* Drawer */}
-      <Drawer
-        open
-        variant="persistent"
-        ModalProps={{ hideBackdrop: true }}
-        sx={{
-          "& .MuiDrawer-paper": {
-            position: "fixed",
-            top: "80px",
-            width: isCollapsed ? "50px" : "273px",
-            transition: "width 0.3s ease-in-out",
-            overflowX: "hidden",
-            height: "calc(100% - 80px)",
-          },
-        }}
-      >
-        {DrawerList}
-      </Drawer>
-    </div>
+    <Drawer
+      open
+      variant="persistent"
+      ModalProps={{ hideBackdrop: true }}
+      sx={{
+        "& .MuiDrawer-paper": {
+          position: "fixed",
+          top: "80px",
+          width: isCollapsed ? "50px" : "273px",
+          transition: "width 0.3s ease-in-out",
+          overflowX: "hidden",
+          height: "calc(100% - 80px)",
+        },
+      }}
+    >
+      {DrawerList}
+    </Drawer>
   );
 };
 
