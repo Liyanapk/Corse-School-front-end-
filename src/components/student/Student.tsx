@@ -1,119 +1,308 @@
-"use client";
-import DeleteIcon from "@mui/icons-material/Delete";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import Link from "next/link";
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { useRouter } from "next/navigation";
+'use client'
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
-const StudentPage = () => {
-  const Data = [
-    { id: "1", name: "Ramanan", class: "10" },
-    { id: "2", name: "Poopi", class: "+2" },
-    { id: "3", name: "Maya", class: "10" },
-  ];
+interface Data {
+  id: number;
+  calories: number;
+  carbs: number;
+  fat: number;
+  name: string;
+  protein: number;
+}
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+function createData(
+  id: number,
+  name: string,
+  calories: number,
+  fat: number,
+  carbs: number,
+  protein: number,
+): Data {
+  return {
+    id,
+    name,
+    calories,
+    fat,
+    carbs,
+    protein,
+  };
+}
 
-  const router = useRouter();
+const rows = [
+  createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
+  createData(2, 'Donut', 452, 25.0, 51, 4.9),
+  createData(3, 'Eclair', 262, 16.0, 24, 6.0),
+  createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
+  createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
+  createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
+  createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
+  createData(9, 'KitKat', 518, 26.0, 65, 7.0),
+  createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
+  createData(11, 'Marshmallow', 318, 0, 81, 2.0),
+  createData(12, 'Nougat', 360, 19.0, 9, 37.0),
+  createData(13, 'Oreo', 437, 18.0, 63, 4.0),
+];
+
+const headCells = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: true,
+    label: 'Dessert (100g serving)',
+  },
+  {
+    id: 'calories',
+    numeric: true,
+    disablePadding: false,
+    label: 'Calories',
+  },
+  {
+    id: 'fat',
+    numeric: true,
+    disablePadding: false,
+    label: 'Fat (g)',
+  },
+  {
+    id: 'carbs',
+    numeric: true,
+    disablePadding: false,
+    label: 'Carbs (g)',
+  },
+  {
+    id: 'protein',
+    numeric: true,
+    disablePadding: false,
+    label: 'Protein (g)',
+  },
+];
+
+interface EnhancedTableProps {
+  numSelected: number;
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  rowCount: number;
+}
+
+function EnhancedTableHead(props: EnhancedTableProps) {
+  const { onSelectAllClick, numSelected, rowCount } = props;
 
   return (
-    <div className="flex flex-col w-full h-full box-border p-6 sm:p-10">
-      <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-6">
-        <h1 className="text-2xl sm:text-2xl md:text-4xl font-bold text-gray-800 text-center sm:text-left">
-          Student Management
-        </h1>
-        <button
-          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-4 py-3 hover:opacity-90 shadow-md transition-all duration-300"
-          type="button"
-          onClick={() => router.push("/admin/studentAdd")}
-        >
-          + Add Student
-        </button>
-      </div>
+    <TableHead>
+      <TableRow>
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{
+              'aria-label': 'select all desserts',
+            }}
+          />
+        </TableCell>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
+          >
+            {headCell.label}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
 
-      <div className="w-full bg-white rounded-lg shadow-lg box-border p-6 sm:p-10">
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse table-auto">
-            <thead className="bg-blue-600 text-xs sm:text-sm md:text-base font-medium text-white uppercase">
-              <tr>
-                <th className="px-6 py-3 text-left">Name</th>
-                <th className="px-6 py-3 text-left">Class</th>
-                <th className="px-6 py-3 text-center">View</th>
-                <th className="px-6 py-3 text-center">Edit</th>
-                <th className="px-6 py-3 text-center">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Data.map((student, index) => (
-                <tr
-                  key={index}
-                  className="text-xs sm:text-sm md:text-base text-gray-800 hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <td className="px-6 py-3 border-b">{student.name}</td>
-                  <td className="px-6 py-3 border-b">{student.class}</td>
-                  <td className="px-6 py-3 border-b text-center">
-                    <Link href={`/admin/studentView/${student.id}`}>
-                      <VisibilityIcon className="text-gray-600 hover:text-indigo-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
-                    </Link>
-                  </td>
-                  <td className="px-6 py-3 border-b text-center">
-                    <Link href={`/admin/adminView/${student.id}`}>
-                      <ModeEditOutlineIcon className="text-gray-600 hover:text-cyan-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
-                    </Link>
-                  </td>
-                  <td className="px-6 py-3 border-b text-center">
-                    <DeleteIcon
-                      className="text-gray-600 hover:text-red-600 cursor-pointer transition-transform duration-200 transform hover:scale-110"
-                      onClick={handleOpen}
-                    />
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                          Do you want to delete this Student!
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          <div className="flex flex-row justify-around items-center mt-10">
-                            <button className="px-8 py-2 bg-fuchsia-900 rounded-lg text-white">
-                              YES
-                            </button>
-                            <button className="px-8 py-2 bg-sky-800 rounded-lg text-white">
-                              NO
-                            </button>
-                          </div>
-                        </Typography>
-                      </Box>
-                    </Modal>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+interface EnhancedTableToolbarProps {
+  numSelected: number;
+}
+
+function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
+  const { numSelected } = props;
+
+  return (
+    <Toolbar
+      sx={[
+        {
+          pl: { sm: 2 },
+          pr: { xs: 1, sm: 1 },
+        },
+        numSelected > 0 && {
+          bgcolor: '#9b4dca', // Purple color
+        },
+      ]}
+    >
+      {numSelected > 0 ? (
+        <Typography
+          sx={{ flex: '1 1 100%' }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          sx={{ flex: '1 1 100%' }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          Nutrition
+        </Typography>
+      )}
+      {numSelected > 0 ? (
+        <Tooltip title="Delete">
+          <IconButton>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton>
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Toolbar>
+  );
+}
+
+const StudentPage = () => {
+  const [selected, setSelected] = React.useState<readonly number[]>([]);
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      const newSelected = rows.map((n) => n.id);
+      setSelected(newSelected);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: readonly number[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+    setSelected(newSelected);
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const visibleRows = React.useMemo(
+    () =>
+      [...rows].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [page, rowsPerPage],
+  );
+
+  return (
+    <Box sx={{ width: '100%' }} className="p-5">
+      <Paper sx={{ width: '100%', mb: 2 }} className="p-5">
+        <EnhancedTableToolbar numSelected={selected.length} />
+        <TableContainer>
+          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
+            <EnhancedTableHead
+              numSelected={selected.length}
+              onSelectAllClick={handleSelectAllClick}
+              rowCount={rows.length}
+            />
+            <TableBody>
+              {visibleRows.map((row, index) => {
+                const isItemSelected = selected.includes(row.id);
+                const labelId = `enhanced-table-checkbox-${index}`;
+
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.id)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          'aria-labelledby': labelId,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell component="th" id={labelId} scope="row" padding="none">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.calories}</TableCell>
+                    <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell align="right">{row.carbs}</TableCell>
+                    <TableCell align="right">{row.protein}</TableCell>
+                  </TableRow>
+                );
+              })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </Box>
   );
 };
 
