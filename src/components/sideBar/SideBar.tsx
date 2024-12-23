@@ -17,7 +17,7 @@ interface SideBarProps {
 }
 
 const SideBarPage: React.FC<SideBarProps> = ({ onToggle }) => {
-  const [isCollapsed, setIsCollapsed] = React.useState(true);
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
 
   const handleToggle = () => {
     setIsCollapsed(!isCollapsed);

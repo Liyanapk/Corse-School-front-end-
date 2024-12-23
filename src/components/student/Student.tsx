@@ -1,6 +1,5 @@
 'use client'
-
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,81 +15,75 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 
 interface Data {
   id: number;
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
+  Image: string;
+  Firstname: string;
+  Lastname: string;
+  Email: string;
 }
 
 function createData(
   id: number,
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
+  Image: string,
+  Firstname: string,
+  Lastname: string,
+  Email: string,
 ): Data {
   return {
     id,
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    Image: Image,
+    Firstname: Firstname,
+    Lastname: Lastname,
+    Email: Email,
   };
 }
 
 const rows = [
-  createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-  createData(2, 'Donut', 452, 25.0, 51, 4.9),
-  createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-  createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-  createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-  createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-  createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-  createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-  createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-  createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-  createData(13, 'Oreo', 437, 18.0, 63, 4.0),
+  createData(1, 'Cupcake', 'uj', 'liya', 'k'),
+  createData(2, 'Donut', 'uj', 'liya', 'k'),
+  createData(3, 'Eclair', 'uj', 'liya', 'k'),
+  createData(4, 'Frozen yoghurt', 'uj', 'liya', 'k'),
+  createData(5, 'Gingerbread', 'uj', 'liya', 'k'),
+  createData(6, 'Honeycomb', 'uj', 'liya', 'k'),
+  createData(7, 'Ice cream sandwich', 'uj', 'liya', 'k'),
 ];
 
 const headCells = [
   {
-    id: 'name',
+    id: 'id',
     numeric: false,
     disablePadding: true,
-    label: 'Dessert (100g serving)',
+    label: 'ID',
   },
   {
-    id: 'calories',
+    id: 'Image',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: 'Image',
   },
   {
-    id: 'fat',
+    id: 'Firstname',
     numeric: true,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'First Name',
   },
   {
-    id: 'carbs',
+    id: 'Lastname',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'Last Name',
   },
   {
-    id: 'protein',
+    id: 'Email',
     numeric: true,
     disablePadding: false,
-    label: 'Protein (g)',
+    label: 'Email',
   },
 ];
 
@@ -137,6 +130,7 @@ interface EnhancedTableToolbarProps {
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
+  const router = useRouter();
 
   return (
     <Toolbar
@@ -146,42 +140,57 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           pr: { xs: 1, sm: 1 },
         },
         numSelected > 0 && {
-          bgcolor: '#9b4dca', // Purple color
+          bgcolor: 'inherit', // Purple color
         },
       ]}
     >
       {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Nutrition
-        </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+     <Typography
+     sx={{
+       flex: '1 1 100%',
+       fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' }, // Adjust font size based on screen size
+     }}
+     color="inherit"
+     variant="subtitle1"
+     component="div"
+   >
+     {numSelected} selected
+   </Typography>
+   ) : (
+     <Typography
+       sx={{
+         flex: '1 1 100%',
+         fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' }, // Adjust font size based on screen size
+         color: '#1976d2',
+         fontWeight: 'bold',
+       }}
+       variant="h6"
+       id="tableTitle"
+       component="div"
+     >
+       Student Management
+     </Typography>
+   )}
+   
+   {numSelected > 0 ? (
+     <Tooltip title="Delete">
+       <IconButton>
+         <DeleteIcon />
+       </IconButton>
+     </Tooltip>
+   ) : (
+     <button
+       className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base md:text-lg px-4 py-0 hover:opacity-90 shadow-md transition-all duration-300"
+       type="button"
+       onClick={() => router.push("/admin/studentAdd")}
+       style={{
+         marginLeft: '8px',
+       }}
+     >
+       + Add Student
+     </button>
+   )}
+   
     </Toolbar>
   );
 }
@@ -191,6 +200,7 @@ const StudentPage = () => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -239,7 +249,7 @@ const StudentPage = () => {
   );
 
   return (
-    <Box sx={{ width: '100%' }} className="p-5">
+    <Box sx={{ width: '100%' }} className="p-10">
       <Paper sx={{ width: '100%', mb: 2 }} className="p-5">
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -249,47 +259,54 @@ const StudentPage = () => {
               onSelectAllClick={handleSelectAllClick}
               rowCount={rows.length}
             />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = selected.includes(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+           <TableBody>
+            {visibleRows.map((row, index) => {
+              const isItemSelected = selected.includes(row.id);
+              const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                  </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
+              return (
+                <TableRow
+                  hover
+                  onClick={(event) => handleClick(event, row.id)}
+                  role="checkbox"
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={row.id}
+                  selected={isItemSelected}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      checked={isItemSelected}
+                      inputProps={{
+                        'aria-labelledby': labelId,
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell  component="th" id={labelId} scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell  align="right">{row.Image}</TableCell>
+                  <TableCell  align="right">{row.Firstname}</TableCell>
+                  <TableCell  align="right">{row.Lastname}</TableCell>
+                  <TableCell  align="right">{row.Email}</TableCell>
+                  {/* Add Visibility Icon */}
+                  <TableCell  align="center">
+                    <Link href={`/admin/studentView/${row.id}`}>
+                      <VisibilityIcon className="text-gray-600 hover:text-cyan-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
+                    </Link>
+                  </TableCell>
                 </TableRow>
-              )}
-            </TableBody>
+              );
+            })}
+  {emptyRows > 0 && (
+    <TableRow style={{ height: 53 * emptyRows }}>
+      <TableCell colSpan={6} />
+    </TableRow>
+  )}
+</TableBody>
+
           </Table>
         </TableContainer>
         <TablePagination
@@ -306,4 +323,4 @@ const StudentPage = () => {
   );
 };
 
-export default StudentPage;
+export default StudentPage

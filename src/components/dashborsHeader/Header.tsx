@@ -28,6 +28,12 @@ const DashboardHeader = ()=>{
     handleClose(); // Close the menu before navigating
     router.push('/admin/Profile');
   };
+
+  const handlelogin = () => {
+    handleClose(); // Close the menu before navigating
+    router.push('/AdminLogin');
+
+  }
     return(
         <>
             {/* Header */}
@@ -100,7 +106,7 @@ const DashboardHeader = ()=>{
           <Avatar /> Profile
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handlelogin}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

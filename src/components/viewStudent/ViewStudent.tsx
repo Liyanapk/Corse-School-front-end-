@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import EditIcon from "@mui/icons-material/Edit";
+
 
 interface StudentData {
   id: string;
@@ -16,7 +16,7 @@ interface StudentData {
   image: string;
   PhoneNumber: string;
   className: string;
-  studentID: String;
+  studentID: string;
   batchName: string;
   ParentNumber: string;
 }
@@ -40,7 +40,7 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
           parent: "Mr. Suresh Ramanan",
           image: "/images/Dashbord/profie.webp",
           PhoneNumber: "53201230125",
-          className: "calass A",
+          className: "Class A",
           studentID: "123FGS",
           batchName: "Al -2020",
           ParentNumber: "565625985562",
@@ -55,7 +55,7 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
           parent: "Mr. Vijay Poopi",
           image: "/images/Dashbord/profie.webp",
           PhoneNumber: "53201230125",
-          className: "calass A",
+          className: "Class A",
           studentID: "123FGS",
           batchName: "Al -2021",
           ParentNumber: "956232646",
@@ -70,7 +70,7 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
           parent: "Mr. Arun Maya",
           image: "/images/Dashbord/profie.webp",
           PhoneNumber: "53201230125",
-          className: "calass A",
+          className: "Class A",
           studentID: "123FGS",
           batchName: "Al -2022",
           ParentNumber: "5231542352",
@@ -88,82 +88,125 @@ const ViewStudent = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 space-y-8">
-      <div className="w-full max-w-2xl flex items-center mb-4">
+    <div className="max-w-7xl mx-auto px-6 py-12">
+      {/* Header */}
+      <div className="flex items-center mb-8">
         <button
           onClick={() => router.push("/admin/student")}
-          className="flex items-center text-blue-600 hover:text-blue-800"
+          className="flex items-center text-blue-600 hover:text-blue-800 transition duration-300"
         >
           <ArrowBackIcon />
-          <span className="ml-2 font-semibold"></span>
+          <span className="ml-2 font-semibold text-lg">Back</span>
         </button>
       </div>
 
-      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+      {/* Profile and Update Section */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Profile Card */}
+        <div className="bg-white shadow-lg rounded-lg flex-shrink-0 w-full lg:w-1/3">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 text-center rounded-t-lg">
             <img
               src={student.image}
-              alt={`student Profile`}
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white shadow-lg"
+              alt="Profile"
+              className="w-32 h-32 mx-auto rounded-full border-4 border-white"
             />
+            <h1 className="text-2xl font-bold mt-4">{student.name}</h1>
+            <p className="text-lg">{student.class}</p>
+            <p className="text-sm mt-2">{`Student ID: ${student.studentID}`}</p>
+          </div>
+          <div className="p-6 space-y-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold">{student.name}</h1>
-              <p className="text-sm md:text-base font-medium">{`Class: ${student.class}`}</p>
+              <label className="block text-gray-700 font-medium text-sm">Email</label>
+              <p className="text-gray-900">{student.email}</p>
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Phone</label>
+              <p className="text-gray-900">{student.PhoneNumber}</p>
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Parent</label>
+              <p className="text-gray-900">{student.parent}</p>
             </div>
           </div>
-
-          <button className="hover:opacity-80">
-            <EditIcon fontSize="large" />
-          </button>
         </div>
 
-        {/* Student Details */}
-        <div className="p-6 space-y-4">
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-gray-700 font-medium">Student ID:</span>
-            <span className="text-gray-800 font-semibold">
-              {student.studentID}
-            </span>
-          </div>
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-gray-700 font-medium">Age:</span>
-            <span className="text-gray-800 font-semibold">{student.age}</span>
-          </div>
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-gray-700 font-medium">Email:</span>
-            <span className="text-blue-600 font-semibold">{student.email}</span>
-          </div>
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-gray-700 font-medium">Address:</span>
-            <span className="text-gray-800 font-semibold">
-              {student.address}
-            </span>
-          </div>
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-gray-700 font-medium">Phone Number:</span>
-            <span className="text-gray-800 font-semibold">
-              {student.PhoneNumber}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700 font-medium">Parent Name:</span>
-            <span className="text-gray-800 font-semibold">
-              {student.parent}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700 font-medium">Parent Number:</span>
-            <span className="text-gray-800 font-semibold">
-              {student.ParentNumber}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700 font-medium">Batch Name:</span>
-            <span className="text-gray-800 font-semibold">
-              {student.batchName}
-            </span>
-          </div>
+        {/* Update Form */}
+        <div className="bg-white shadow-lg rounded-lg w-full lg:w-2/3 p-8">
+          <h2 className="text-2xl font-semibold mb-6">Update Information</h2>
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Name</label>
+              <input
+                type="text"
+                defaultValue={student.name}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Email</label>
+              <input
+                type="email"
+                defaultValue={student.email}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Phone Number</label>
+              <input
+                type="text"
+                defaultValue={student.PhoneNumber}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Parent Name</label>
+              <input
+                type="text"
+                defaultValue={student.parent}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Parent Number</label>
+              <input
+                type="text"
+                defaultValue={student.ParentNumber}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Batch Name</label>
+              <input
+                type="text"
+                defaultValue={student.batchName}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Address</label>
+              <input
+                type="text"
+                defaultValue={student.address}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium text-sm">Age</label>
+              <input
+                type="number"
+                defaultValue={student.age}
+                className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              />
+            </div>
+            <div className="col-span-1 md:col-span-2">
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300"
+              >
+                Update
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
