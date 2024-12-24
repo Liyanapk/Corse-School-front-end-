@@ -6,8 +6,16 @@ import AxiosInstance from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation'; // For navigation after login
 
+interface InputFieldProps {
+  id: string;
+  label: string;
+  type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url'; // Add more types as necessary
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  required: boolean;
+}
 
-const InputField = ({ id, label, type, value, onChange, required }) => {
+const InputField: React.FC<InputFieldProps> = ({ id, label, type, value, onChange, required }) => {
   return (
     <div>
       <label htmlFor={id} className="block text-lg font-medium text-gray-700 mb-2">
@@ -25,39 +33,47 @@ const InputField = ({ id, label, type, value, onChange, required }) => {
   );
 };
 
-
 const Login = () => {
+
+  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [data, setData] = useState(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter(); // For redirecting after login
- 
+
+  
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
       const response = await AxiosInstance.post('/api/v1/admin/login', {
         email: email,
         password: password,
       });
-
+  
       setData(response.data); // Save the response data
-
+  
       if (response.data.token) {
-        // Set token in cookie
-        document.cookie = `authToken=${response.data.token}; path=/; secure; HttpOnly`;
-        
-        // Redirect to dashboard after successful login
+        sessionStorage.setItem('authToken', response.data.token); // Save token to sessionStorage
+  
+        // Check if the token is set correctly
+        console.log('Token saved:', sessionStorage.getItem('authToken'));
+  
+        // Attempt to use Next.js router for redirection
         router.push('/admin/dashboard');
+  
+        // In case Next.js router fails for any reason, you can use window.location
+        // window.location.href = '/admin/dashboard';  // Uncomment this if router.push() doesn't work
       }
       
     } catch (err) {
       // Handle the error, assert it as AxiosError
       const errorResponse = err as AxiosError<{ message: string }>;
       const errorMessage = errorResponse.response?.data.message || 'An error occurred';
-
+  
       if (errorMessage === 'Invalid credentials') {
         setError('Wrong details, please try again');
       } else {
@@ -65,8 +81,7 @@ const Login = () => {
       }
     }
   };
-
-
+  
   return (
     <div className="bg-slate-100 min-h-screen flex items-center justify-center px-6">
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-xl flex">
@@ -81,7 +96,6 @@ const Login = () => {
           />
         </div>
 
- 
         <div className="w-full lg:w-1/2 p-8">
           <div className="flex justify-center mb-6">
             <Image
@@ -101,33 +115,28 @@ const Login = () => {
           )}
 
           <form onSubmit={handleLogin} className="space-y-6 flex flex-col justify-center">
-          <input
-              type="email"
+            <InputField
               id="email"
-              name="email"
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"
-              placeholder="Enter your email"
+              label="Email"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-
-              <input
-              type="password"
+            <InputField
               id="password"
-              name="password"
-              className="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"
-              placeholder="Enter your password"
+              label="Password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
 
             <button
-            type="submit"
-            className="px-6 py-2  text-center text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Login
+              type="submit"
+              className="px-6 py-2 text-center text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Login
             </button>
           </form>
 
@@ -143,9 +152,5 @@ const Login = () => {
     </div>
   );
 };
-
-
-
-
 
 export default Login;

@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   // Get the token from cookies
-  const token = request.cookies.get('authToken');
+  const token = localStorage.getItem('authToken');
 
   // If token is missing or invalid, redirect to login
   if (!token) {
@@ -15,5 +15,5 @@ export function middleware(request: NextRequest) {
 
 // Apply this middleware to specific routes
 export const config = {
-  matcher: ['/admin/dashboar'], // Routes that require authentication
+  matcher: ['/admin/dashboard'], // Routes that require authentication
 };
