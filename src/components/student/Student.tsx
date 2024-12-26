@@ -21,6 +21,7 @@ import Modal from "@mui/material/Modal";
 import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
+import Cookies from 'js-cookie';
 
 
 const style = {
@@ -152,7 +153,7 @@ const StudentPage = () => {
  
  useEffect(() => {
   const fetchStudents = async () => {
-    const token = sessionStorage.getItem('authToken');
+    const token = Cookies.get('authToken'); // Correct way to retrieve the token
     if (!token) {
       setError('No authentication token found');
       setLoading(false);

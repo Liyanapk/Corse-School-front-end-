@@ -5,6 +5,7 @@ import Image from 'next/image';
 import AxiosInstance from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation'; // For navigation after login
+import Cookies from 'js-cookie';
 
 interface InputFieldProps {
   id: string;
@@ -57,17 +58,16 @@ const Login = () => {
       setData(response.data); // Save the response data
   
       if (response.data.token) {
-        sessionStorage.setItem('authToken', response.data.token); // Save token to sessionStorage
-  
-        // Check if the token is set correctly
-        console.log('Token saved:', sessionStorage.getItem('authToken'));
-  
-        // Attempt to use Next.js router for redirection
+        Cookies.set('authToken', response.data.token, {
+          expires: 1, // 1 day
+          secure: process.env.NODE_ENV === 'production', // Only set secure flag in production
+          sameSite: 'Strict', // Prevent CSRF
+        });
+      
+        console.log('Token saved:', Cookies.get('authToken'));
         router.push('/admin/dashboard');
-  
-        // In case Next.js router fails for any reason, you can use window.location
-        // window.location.href = '/admin/dashboard';  // Uncomment this if router.push() doesn't work
       }
+
       
     } catch (err) {
       // Handle the error, assert it as AxiosError
