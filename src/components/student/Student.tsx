@@ -37,11 +37,13 @@ const style = {
 };
 
 interface Data {
-  student_id: string;
+  id: string; // MongoDB ObjectId (used internally)
+  student_id: string; // Custom Student ID (displayed)
   first_name: string;
   last_name: string;
   email: string;
 }
+
 
 const headCells = [
   { id: "student_id", numeric: true, disablePadding: false, label: "StudentID" },
@@ -151,38 +153,40 @@ const StudentPage = () => {
   const [error, setError] = useState<string | null>(null); // Track error state
 
  
- useEffect(() => {
-  const fetchStudents = async () => {
-    const token = Cookies.get('authToken'); // Correct way to retrieve the token
-    if (!token) {
-      setError('No authentication token found');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await AxiosInstance.get("/api/v1/student", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // Extract the students array from the response
-      const studentsArray = Array.isArray(response.data.data) ? response.data.data : [];
-      setStudents(studentsArray); // Ensure we're setting the array correctly
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        setError(err.message || 'Failed to fetch student data');
-      } else {
-        setError('An unknown error occurred');
+  useEffect(() => {
+    const fetchStudents = async () => {
+      const token = Cookies.get('authToken');
+      if (!token) {
+        setError('No authentication token found');
+        setLoading(false);
+        return;
       }
-      setStudents([]); // Ensure students is an empty array on error
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchStudents();
-}, []);
+  
+      try {
+        const response = await AxiosInstance.get("/api/v1/student", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+  
+        const studentsArray = Array.isArray(response.data.data)
+          ? response.data.data.map((student: any) => ({
+              id: student._id, // MongoDB ObjectId (used internally)
+              student_id: student.student_id, // Custom Student ID (displayed)
+              first_name: student.first_name,
+              last_name: student.last_name,
+              email: student.email,
+            }))
+          : [];
+        setStudents(studentsArray);
+      } catch (err) {
+        setError(err instanceof AxiosError ? err.message : 'An unknown error occurred');
+        setStudents([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStudents();
+  }, []);
+  
 
 
   
@@ -250,53 +254,44 @@ const StudentPage = () => {
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
             <EnhancedTableHead numSelected={selected.length} onSelectAllClick={handleSelectAllClick} rowCount={students.length} />
             <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = selected.includes(row.student_id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+            {visibleRows.map((row, index) => {
+              const isItemSelected = selected.includes(row.id); // Use MongoDB ObjectId internally
+              const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.student_id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.student_id}
-                    selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-
-                    <TableCell align="right">{row.student_id}</TableCell>
-                    <TableCell align="right">{row.first_name}</TableCell>
-                    <TableCell align="right">{row.last_name}</TableCell>
-                    <TableCell align="right">{row.email}</TableCell>
-                    <TableCell align="center">
-                      <Link href={`/admin/studentView/${row.student_id}`} passHref>
-                        <Tooltip title="View">
-                          <IconButton aria-label="view" size="large">
-                            <VisibilityIcon fontSize="inherit" />
-                          </IconButton>
-                        </Tooltip>
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            {emptyRows > 0 && (
-  <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-    <TableCell colSpan={6} />
-  </TableRow>
-
-              )}
+              return (
+                <TableRow
+                  hover
+                  onClick={(event) => handleClick(event, row.id)} // Use MongoDB ObjectId internally
+                  role="checkbox"
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={row.id} // MongoDB ObjectId internally
+                  selected={isItemSelected}
+                  sx={{ cursor: "pointer" }}
+                >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      checked={isItemSelected}
+                      inputProps={{ "aria-labelledby": labelId }}
+                    />
+                  </TableCell>
+                  <TableCell align="right">{row.student_id}</TableCell> {/* Custom Student ID */}
+                  <TableCell align="right">{row.first_name}</TableCell>
+                  <TableCell align="right">{row.last_name}</TableCell>
+                  <TableCell align="right">{row.email}</TableCell>
+                  <TableCell align="center">
+                    <Link href={`/admin/studentView/${row.id}`} passHref> {/* Use MongoDB ObjectId internally */}
+                      <Tooltip title="View">
+                        <IconButton aria-label="view" size="large">
+                          <VisibilityIcon fontSize="inherit" />
+                        </IconButton>
+                      </Tooltip>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
             </TableBody>
           </Table>
         </TableContainer>
