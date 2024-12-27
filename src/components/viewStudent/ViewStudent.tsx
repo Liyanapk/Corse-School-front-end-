@@ -92,7 +92,7 @@ const ViewStudent = ({ params }: { params: { _id: string } }) => {
   if (!student) {
     return <div>Loading...</div>;
   }
-
+  const imageURL = `http://localhost:5000/${student.profile_pic}`;
 
  return (
   <div className="max-w-7xl mx-auto px-6 py-12">
@@ -113,7 +113,7 @@ const ViewStudent = ({ params }: { params: { _id: string } }) => {
         <div className="bg-white shadow-lg rounded-lg w-full lg:w-1/2 xl:w-1/2 h-auto">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 text-center rounded-t-lg">
             <img
-              src={image}
+              src={imageURL}
               alt="Profile"
               className="w-32 h-32 mx-auto rounded-full border-4 border-white"
             />
@@ -185,7 +185,7 @@ const ViewStudent = ({ params }: { params: { _id: string } }) => {
   <div className="col-span-1 md:col-span-2 flex flex-col items-center">
     <label className="relative cursor-pointer">
       <img
-        src={image}
+        src={imageURL}
         width={24}
         height={24}
         alt="Student Profile"
