@@ -1,12 +1,13 @@
-import dynamic from "next/dynamic";
-const AddStudent = dynamic ( ()=>import("@/components/Addstudent/AddStudent") ) 
 
-const StudentAdd = ()=>{
+
+import dynamic from "next/dynamic";
+import AddStudent from "@/components/Addstudent/AddStudent";
+
+const StudentAdd =()=>{
     return(
-        <div>
-            <AddStudent/>
-        </div>
+        <>
+        <AddStudent/>
+        </>
     )
 }
-
 export default StudentAdd

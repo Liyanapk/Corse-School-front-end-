@@ -1,16 +1,26 @@
-'use client';
-import * as React from 'react';
-import { TextField, Button, Typography, MenuItem } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useRouter } from 'next/navigation';
-import { useState, useRef } from "react";
-import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+"use client";
+import * as React from "react";
+import { TextField, Button, Typography, MenuItem } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useRouter } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import AxiosInstance from "../../utils/axiosInstance";
+import Cookies from "js-cookie";
 
-
+interface ClassData {
+  batch: {
+    name: string;
+  };
+}
 
 const AddStudent = () => {
   const router = useRouter();
@@ -19,7 +29,7 @@ const AddStudent = () => {
     router.back();
   };
 
-  const defaultImage = '/images/avatarImage/avatar_image.webp';
+  const defaultImage = "/images/avatarImage/avatar_image.webp";
   const [image, setImage] = useState<string>(defaultImage);
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -28,7 +38,7 @@ const AddStudent = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        if (typeof reader.result === 'string') {
+        if (typeof reader.result === "string") {
           setImage(reader.result);
         }
       };
@@ -39,31 +49,57 @@ const AddStudent = () => {
   const resetImage = () => {
     setImage(defaultImage);
     if (fileInput.current) {
-      fileInput.current.value = '';
+      fileInput.current.value = "";
     }
   };
 
+  const [classess, setClassess] = useState<ClassData | null>(null);
 
-  const classes = [
-    {
-      id:'1',
-      class:'Class A'
-    },
-    {
-      id:'2',
-     class:'Class B'
-    },
-    {
-      id:'3',
-      class:'Class C'
-    },
-    {
-      id:'4',
-      class:'Class D'
-    },
-  ];
-  
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [error, setError] = useState<string | null>(null); // Track error state
 
+  useEffect(() => {
+    const fetchClass = async () => {
+      const token = Cookies.get("authToken");
+      if (!token) {
+        setError("No authentication token found");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await AxiosInstance.get("/api/v1/batch", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.status === 200) {
+          setClassess(response.data.data);
+        } else {
+          console.error("Failed to fetch class data");
+        }
+      } catch (error) {
+        console.error("Error fetching class data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClass();
+  }, []); // Empty dependency array means this effect runs only once when the component mounts
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!classess) {
+    return <div>Student not found</div>;
+  }
+
+  console.log(classess);
 
   return (
     <div className="flex flex-col w-full h-full items-center px-8 sm:px-10 md:px-10 mt-2 overflow-x-hidden">
@@ -111,41 +147,56 @@ const AddStudent = () => {
           <TextField label="Last Name" variant="outlined" fullWidth />
           <TextField label="Email" variant="outlined" fullWidth type="email" />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
+            <DemoContainer components={["DatePicker"]}>
               <DatePicker
                 label="Date of Birth"
                 format="YYYY/MM/DD"
-                defaultValue={dayjs('2022-04-17')}
-                sx={{ width: '100%' }}
+                slotProps={{
+                  textField: {
+                    placeholder: "YYYY/MM/DD",
+                  },
+                }}
+                sx={{ width: "100%" }}
               />
             </DemoContainer>
           </LocalizationProvider>
-          <TextField label="Address" variant="outlined" fullWidth />
           <TextField label="Phone Number" variant="outlined" fullWidth />
           <TextField label="Parent Name" variant="outlined" fullWidth />
           <TextField label="Parent Number" variant="outlined" fullWidth />
-        <TextField
+          <TextField
             fullWidth
             id="outlined-select-currency"
             select
-            label="Select"
+            label="DOB"
             helperText="Please select class"
-            >
-            {classes.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
-              {option.class}
-            </MenuItem>
+          >
+            {classess.map((option) => (
+              <MenuItem key={option.name} value={option.name}>
+                {option.name}
+              </MenuItem>
             ))}
-            </TextField>
-          
-          <TextField label="Batch ID" variant="outlined" fullWidth />
-          <TextField label="Batch Name" variant="outlined" fullWidth />
-          <TextField label="Password" variant="outlined" fullWidth type="password" />
+          </TextField>
+
+          {/* Gender Radio Group with consistent styling */}
+
+          <TextField
+            fullWidth
+            id="outlined-select-currency"
+            select
+            label="Gender"
+            helperText="Please select Gender"
+          >
+            <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="other">Other</MenuItem>
+          </TextField>
+
+          <TextField label="Address" variant="outlined" fullWidth />
         </form>
 
         <div className="flex justify-center gap-4 mt-20">
           <Button variant="contained" color="primary" type="submit">
-            Add Teacher
+            Add Student
           </Button>
           <Button variant="outlined" color="secondary">
             Reset
@@ -157,16 +208,3 @@ const AddStudent = () => {
 };
 
 export default AddStudent;
-
-
-
-
-
-
-
-
-
-
-
-
-

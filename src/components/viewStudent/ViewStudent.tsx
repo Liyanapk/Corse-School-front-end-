@@ -23,6 +23,7 @@ interface StudentData {
   };
   type: string;
   address: string;
+  profile_pic:string;
 }
 
 const ViewStudent = ({ params }: { params: { _id: string } }) => {
@@ -31,6 +32,43 @@ const ViewStudent = ({ params }: { params: { _id: string } }) => {
   const defaultImage = "/images/avatarImage/avatar_image.webp";
   const [image, setImage] = useState<string>(defaultImage);
   const fileInput = useRef<HTMLInputElement>(null);
+
+  const [student, setStudent] = useState<StudentData | null>(null);
+ 
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [error, setError] = useState<string | null>(null); // Track error state
+
+  const { _id } = params;
+
+  useEffect(() => {
+    const fetchStudent = async () => {
+      const token = Cookies.get('authToken');
+      if (!token) {
+        setError('No authentication token found');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        console.log("_id:", _id);
+        const response = await AxiosInstance.get(`/api/v1/student/${_id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.status === 200) {
+          setStudent(response.data.data);
+        } else {
+          console.error("Failed to fetch student data");
+        }
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (_id) fetchStudent();
+  }, [_id]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -52,46 +90,20 @@ const ViewStudent = ({ params }: { params: { _id: string } }) => {
     }
   };
 
-  const { _id } = params;
-  const [student, setStudent] = useState<StudentData | null>(null);
-  const [loading, setLoading] = useState(true); // Track loading state
-  const [error, setError] = useState<string | null>(null); // Track error state
 
-  useEffect(() => {
-    const fetchStudent = async () => {
 
-      const token = Cookies.get('authToken');
-      if (!token) {
-        setError('No authentication token found');
-        setLoading(false);
-        return;
-      }
-
-      try {
-        console.log("_id:", _id);
-        // Fetch student data using the _id
-       
-        const response = await AxiosInstance.get(`/api/v1/student/${_id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        
-        if (response.status === 200) {
-          // Directly access the response data
-          setStudent(response.data.data); 
-        } else {
-          console.error("Failed to fetch student data");
-        }
-      } catch (error) {
-        console.error("Error fetching student data:", error);
-      }
-    };
-
-    if (_id) fetchStudent();
-0  }, [_id]);
-
-  if (!student) {
+  if (loading) {
     return <div>Loading...</div>;
   }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!student) {
+    return <div>Student not found</div>;
+  }
+
   const imageURL = `http://localhost:5000/${student.profile_pic}`;
 
  return (
@@ -180,7 +192,7 @@ const ViewStudent = ({ params }: { params: { _id: string } }) => {
      {/* Update Form */}
 <div className="bg-white shadow-lg rounded-lg w-full lg:w-2/3 p-8">
 <h2 className="text-2xl font-semibold mb-6">Update Information</h2>
-<form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<form  className="grid grid-cols-1 md:grid-cols-2 gap-6">
   {/* Image Upload Section */}
   <div className="col-span-1 md:col-span-2 flex flex-col items-center">
     <label className="relative cursor-pointer">
