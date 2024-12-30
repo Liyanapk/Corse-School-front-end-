@@ -66,6 +66,7 @@ const AddStudent = () => {
     address: "",
     dob: null as Dayjs | null,
     batch: "",
+    profile_pic:"",
   });
 
   useEffect(() => {
@@ -122,8 +123,9 @@ const AddStudent = () => {
     return; // Exit if no token is found
   }
 
+  const imageURL = image !== defaultImage ? image : null;
   // Convert Dayjs object to string before sending to the server
-  const payload = { ...formData, dob: formData.dob?.format("YYYY-MM-DD") };
+  const payload = { ...formData, dob: formData.dob?.format("YYYY-MM-DD"), profile_pic: imageURL };
 
   try {
     // Add token to the request headers
@@ -147,7 +149,9 @@ const AddStudent = () => {
         dob: null,
         status: "",
         batch: "",
+        profile_pic:"",
       });
+      
 
     }else{
       console.log("Something went wrong")
@@ -189,6 +193,31 @@ const AddStudent = () => {
         >
           Add New Student
         </Typography>
+          {/* Image Upload Section */}
+  <div className="col-span-1 md:col-span-2 flex flex-col items-center">
+    <label className="relative cursor-pointer">
+      <img
+        src={image || defaultImage} alt="User Image"
+        width={24}
+        height={24}
+        className=" md:w-32 md:h-32 rounded-full border-2 border-blue-200 shadow-lg"
+      />
+      <input
+        type="file"
+        accept="image/*"
+        className="absolute inset-0 opacity-0 cursor-pointer"
+        onChange={handleImageChange}
+        ref={fileInput}
+      />
+    </label>
+    <button
+      type="button"
+      className="mt-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm py-2 px-4 hover:opacity-90 shadow-md transition-all duration-300"
+      onClick={resetImage}
+    >
+      Remove Image
+    </button>
+  </div>
 
         <form className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6" onSubmit={handleSubmit}>
           <TextField
