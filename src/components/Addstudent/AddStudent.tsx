@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { TextField, Button, Typography, MenuItem } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -8,18 +9,15 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import AxiosInstance from "../../utils/axiosInstance";
 import Cookies from "js-cookie";
+import dayjs, { Dayjs } from "dayjs";
+import { MdBatchPrediction } from "react-icons/md";
+
 
 interface ClassData {
-  batch: {
     name: string;
-  };
+    _id:number;
 }
 
 const AddStudent = () => {
@@ -53,10 +51,22 @@ const AddStudent = () => {
     }
   };
 
-  const [classess, setClassess] = useState<ClassData | null>(null);
-
-  const [loading, setLoading] = useState(true); // Track loading state
-  const [error, setError] = useState<string | null>(null); // Track error state
+  const [classess, setClassess] = useState<ClassData[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    parent_name: "",
+    parent_number: "",
+    gender: "",
+    status:"",
+    address: "",
+    dob: null as Dayjs | null,
+    batch: "",
+  });
 
   useEffect(() => {
     const fetchClass = async () => {
@@ -74,6 +84,7 @@ const AddStudent = () => {
 
         if (response.status === 200) {
           setClassess(response.data.data);
+      
         } else {
           console.error("Failed to fetch class data");
         }
@@ -85,7 +96,67 @@ const AddStudent = () => {
     };
 
     fetchClass();
-  }, []); // Empty dependency array means this effect runs only once when the component mounts
+  }, []);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }>) => {
+    const { name, value } = event.target;
+    if (name) {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value, // Dynamically update the field based on the `name` attribute
+      }));
+    }
+  };
+  
+  
+
+
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  // Check for the token in cookies
+  const token = Cookies.get("authToken"); // Adjust "token" to the actual key used in your cookies
+
+  if (!token) {
+    console.error("No token found. Cannot add student.");
+    return; // Exit if no token is found
+  }
+
+  // Convert Dayjs object to string before sending to the server
+  const payload = { ...formData, dob: formData.dob?.format("YYYY-MM-DD") };
+
+  try {
+    // Add token to the request headers
+    const response = await AxiosInstance.post("/api/v1/student", payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log("Student added successfully:", response.data);
+   
+    if (response.data.message === "student created successfully") {
+      // Display success alert
+      window.alert("Student added successfully!");
+      setFormData({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        parent_name: "",
+        parent_number: "",
+        gender: "",
+        address: "",
+        dob: null,
+        status: "",
+        batch: "",
+      });
+
+    }else{
+      console.log("Something went wrong")
+    }
+  } catch (error) {
+    console.error("Error adding student:", error);
+  }
+};
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -99,7 +170,7 @@ const AddStudent = () => {
     return <div>Student not found</div>;
   }
 
-  console.log(classess);
+  
 
   return (
     <div className="flex flex-col w-full h-full items-center px-8 sm:px-10 md:px-10 mt-2 overflow-x-hidden">
@@ -119,86 +190,146 @@ const AddStudent = () => {
           Add New Student
         </Typography>
 
-        <div className="flex flex-col items-center">
-          <label className="relative cursor-pointer">
-            <img
-              src={image}
-              alt="Teacher Profile"
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-blue-200 shadow-lg"
-            />
-            <input
-              type="file"
-              accept="image/*"
-              className="absolute inset-0 opacity-0 cursor-pointer"
-              onChange={handleImageChange}
-              ref={fileInput}
-            />
-          </label>
-          <button
-            className="mt-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm py-2 px-4 hover:opacity-90 shadow-md transition-all duration-300"
-            onClick={resetImage}
-          >
-            Remove Image
-          </button>
-        </div>
-
-        <form className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-          <TextField label="First Name" variant="outlined" fullWidth />
-          <TextField label="Last Name" variant="outlined" fullWidth />
-          <TextField label="Email" variant="outlined" fullWidth type="email" />
+        <form className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6" onSubmit={handleSubmit}>
+          <TextField
+            label="First Name"
+            name="first_name"
+            value={formData.first_name}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            label="Last Name"
+            name="last_name"
+            value={formData.last_name}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            label="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+            type="email"
+          />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DatePicker"]}>
-              <DatePicker
-                label="Date of Birth"
-                format="YYYY/MM/DD"
-                slotProps={{
-                  textField: {
-                    placeholder: "YYYY/MM/DD",
-                  },
-                }}
-                sx={{ width: "100%" }}
-              />
-            </DemoContainer>
-          </LocalizationProvider>
-          <TextField label="Phone Number" variant="outlined" fullWidth />
-          <TextField label="Parent Name" variant="outlined" fullWidth />
-          <TextField label="Parent Number" variant="outlined" fullWidth />
+  <DemoContainer components={["DatePicker"]}>
+    <DatePicker
+      label="Date of Birth"
+      value={formData.dob} // Ensure this is a Dayjs object
+      onChange={(date) =>
+        setFormData((prevData) => ({
+          ...prevData,
+          dob: date, // Store as Dayjs
+        }))
+      }
+      format="YYYY/MM/DD"
+      slotProps={{
+        textField: {
+          placeholder: "YYYY/MM/DD",
+        },
+      }}
+      sx={{ width: "100%" }}
+    />
+  </DemoContainer>
+</LocalizationProvider>
+          <TextField
+            label="Phone Number"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            label="Parent Name"
+            name="parent_name"
+            value={formData.parent_name}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            label="Parent Number"
+            name="parent_number"
+            value={formData.parent_number}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
           <TextField
             fullWidth
-            id="outlined-select-currency"
+            name="batch"
             select
-            label="DOB"
-            helperText="Please select class"
+            label="Batch"
+            value={formData.batch}
+            onChange={handleChange}
+            helperText="Please select batch"
           >
-            {classess.map((option) => (
-              <MenuItem key={option.name} value={option.name}>
-                {option.name}
-              </MenuItem>
-            ))}
+       {classess.map((option) => (
+  <MenuItem key={option._id} value={option._id}>
+    {option.name}
+  </MenuItem>
+))}
+
+
           </TextField>
-
-          {/* Gender Radio Group with consistent styling */}
-
           <TextField
             fullWidth
-            id="outlined-select-currency"
+            name="gender"
             select
             label="Gender"
+            value={formData.gender}
+            onChange={handleChange}
             helperText="Please select Gender"
           >
             <MenuItem value="female">Female</MenuItem>
             <MenuItem value="male">Male</MenuItem>
             <MenuItem value="other">Other</MenuItem>
           </TextField>
-
-          <TextField label="Address" variant="outlined" fullWidth />
+          <TextField
+            label="Address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+             <TextField
+            label="Status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
         </form>
 
         <div className="flex justify-center gap-4 mt-20">
-          <Button variant="contained" color="primary" type="submit">
+          <Button variant="contained" color="primary" type="submit" onClick={handleSubmit}>
             Add Student
           </Button>
-          <Button variant="outlined" color="secondary">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => setFormData({
+              first_name: "",
+              last_name: "",
+              email: "",
+              phone: "",
+              parent_name: "",
+              parent_number: "",
+              gender: "",
+              address: "",
+              dob: null as Dayjs | null,
+              status:"",
+              batch: "",
+            })}
+          >
             Reset
           </Button>
         </div>

@@ -72,7 +72,7 @@ const Login = () => {
     } catch (err) {
       // Handle the error, assert it as AxiosError
       const errorResponse = err as AxiosError<{ message: string }>;
-      const errorMessage = errorResponse.response?.data.message || 'An error occurred';
+      const errorMessage = errorResponse.response?.data.message || 'Something went wrong,  Please try Again!';
   
       if (errorMessage === 'Invalid credentials') {
         setError('Wrong details, please try again');
