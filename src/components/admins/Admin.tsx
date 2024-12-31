@@ -39,15 +39,13 @@ const style = {
 interface Data {
   id: string; 
   status: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
 }
 
 
 const headCells = [
-  { id: "first_name", numeric: true, disablePadding: false, label: "First Name" },
-  { id: "last_name", numeric: true, disablePadding: false, label: "Last Name" },
+  { id: "name", numeric: true, disablePadding: false, label: "Name" },
   { id: "email", numeric: true, disablePadding: false, label: "Email" },
   { id: "status", numeric: true, disablePadding: false, label: "Status" },
 ];
@@ -170,8 +168,7 @@ const AdminPage = () => {
         const adminsArray = Array.isArray(response.data.data)
           ? response.data.data.map((admin: any) => ({
               id: admin._id, 
-              first_name: admin.first_name,
-              last_name: admin.last_name,
+              name: `${admin.first_name} ${admin.last_name}`,
               email: admin.email,
               status: admin.status, 
             }))
@@ -276,8 +273,7 @@ const AdminPage = () => {
                       inputProps={{ "aria-labelledby": labelId }}
                     />
                   </TableCell>
-                  <TableCell align="right">{row.first_name}</TableCell>
-                  <TableCell align="right">{row.last_name}</TableCell>
+                  <TableCell align="right">{row.name}</TableCell>
                   <TableCell align="right">{row.email}</TableCell>
                   <TableCell align="right">{row.status}</TableCell> 
                   <TableCell align="center">

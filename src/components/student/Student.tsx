@@ -37,19 +37,20 @@ const style = {
 };
 
 interface Data {
-  id: string; // MongoDB ObjectId (used internally)
-  student_id: string; // Custom Student ID (displayed)
-  first_name: string;
-  last_name: string;
+  id: string; 
+  student_id: string; 
+
+  name: string;
   email: string;
+  status:string;
 }
 
 
 const headCells = [
   { id: "student_id", numeric: true, disablePadding: false, label: "StudentID" },
-  { id: "first_name", numeric: true, disablePadding: false, label: "First Name" },
-  { id: "last_name", numeric: true, disablePadding: false, label: "Last Name" },
+  { id: "name", numeric: true, disablePadding: false, label: "Name" },
   { id: "email", numeric: true, disablePadding: false, label: "Email" },
+  { id: "status", numeric: true, disablePadding: false, label: "Status" }
 ];
 
 interface EnhancedTableProps {
@@ -171,9 +172,9 @@ const StudentPage = () => {
           ? response.data.data.map((student: any) => ({
               id: student._id,
               student_id: student.student_id, 
-              first_name: student.first_name,
-              last_name: student.last_name,
+              name: `${student.first_name} ${student.last_name}`,
               email: student.email,
+              status: student.status
             }))
           : [];
         setStudents(studentsArray);
@@ -277,9 +278,9 @@ const StudentPage = () => {
                     />
                   </TableCell>
                   <TableCell align="right">{row.student_id}</TableCell> {/* Custom Student ID */}
-                  <TableCell align="right">{row.first_name}</TableCell>
-                  <TableCell align="right">{row.last_name}</TableCell>
+                  <TableCell align="right">{row.name}</TableCell>
                   <TableCell align="right">{row.email}</TableCell>
+                  <TableCell align="right">{row.status}</TableCell>
                   <TableCell align="center">
                     <Link href={`/admin/studentView/${row.id}`} passHref> {/* Use MongoDB ObjectId internally */}
                       <Tooltip title="View">

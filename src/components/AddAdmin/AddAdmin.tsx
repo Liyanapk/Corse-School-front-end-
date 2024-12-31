@@ -1,16 +1,17 @@
-'use client';
-import * as React from 'react';
-import { TextField, Button, Typography, MenuItem } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useRouter } from 'next/navigation';
+"use client";
+
+import * as React from "react";
+import { TextField, Button, Typography, MenuItem } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
-import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import AxiosInstance from "../../utils/axiosInstance";
+import Cookies from "js-cookie";
+import dayjs, { Dayjs } from "dayjs";
 
 const AddAdmin = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const AddAdmin = () => {
     router.back();
   };
 
-  const defaultImage = '/images/avatarImage/avatar_image.webp';
+  const defaultImage = "/images/avatarImage/avatar_image.webp";
   const [image, setImage] = useState<string>(defaultImage);
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -28,7 +29,7 @@ const AddAdmin = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        if (typeof reader.result === 'string') {
+        if (typeof reader.result === "string") {
           setImage(reader.result);
         }
       };
@@ -39,31 +40,97 @@ const AddAdmin = () => {
   const resetImage = () => {
     setImage(defaultImage);
     if (fileInput.current) {
-      fileInput.current.value = '';
+      fileInput.current.value = "";
     }
   };
 
+  const [formData, setFormData] = useState({
+    first_name: "",
+                last_name: "",
+                email: "",
+                phone: "",
+                role:"",
+                dob: null as Dayjs | null,
+                status: "",
+                password:"",
+                image: null,
+   
+    
+  });
 
-  const classes = [
-    {
-      id:'1',
-      class:'Class A'
-    },
-    {
-      id:'2',
-     class:'Class B'
-    },
-    {
-      id:'3',
-      class:'Class C'
-    },
-    {
-      id:'4',
-      class:'Class D'
-    },
-  ];
-  
+  const handleChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
+    >
+  ) => {
+    const { name, value } = event.target;
+    if (name) {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const token = Cookies.get("authToken");
+
+    if (!token) {
+      console.error("No token found. Cannot add student.");
+      return;
+    }
+
+    const payload = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "image") {
+        if (fileInput.current?.files?.[0]) {
+          payload.append(key, fileInput.current.files[0]); // Append file for image
+        } else {
+          payload.append(key, ""); // Append an empty string if no file is selected
+        }
+      } else {
+        const value = formData[key as keyof typeof formData];
+        if (value !== null && value !== undefined) {
+          payload.append(
+            key,
+            dayjs.isDayjs(value) ? value.format("YYYY-MM-DD") : String(value)
+          );
+        }
+      }
+    });
+
+    try {
+      const response = await AxiosInstance.post("/api/v1/admin", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Admin added successfully:", response.data);
+
+      if (response.data.message === "Admin created successfully") {
+        window.alert("Admin added successfully!");
+        setFormData({
+          first_name: "",
+          last_name: "",
+          email: "",
+          phone: "",
+          role:"",
+          dob: null,
+          status: "",
+          password:"",
+          image: null,
+        });
+        resetImage();
+      } else {
+        console.log("Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error adding Admin:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full h-full items-center px-8 sm:px-10 md:px-10 mt-2 overflow-x-hidden">
@@ -83,12 +150,15 @@ const AddAdmin = () => {
           Add New Admin
         </Typography>
 
-        <div className="flex flex-col items-center">
+        {/* Image Upload Section */}
+        <div className="col-span-1 md:col-span-2 flex flex-col items-center">
           <label className="relative cursor-pointer">
             <img
-              src={image}
-              alt="Teacher Profile"
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-blue-200 shadow-lg"
+              src={image || defaultImage}
+              alt="User Image"
+              width={24}
+              height={24}
+              className=" md:w-32 md:h-32 rounded-full border-2 border-blue-200 shadow-lg"
             />
             <input
               type="file"
@@ -99,6 +169,7 @@ const AddAdmin = () => {
             />
           </label>
           <button
+            type="button"
             className="mt-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm py-2 px-4 hover:opacity-90 shadow-md transition-all duration-300"
             onClick={resetImage}
           >
@@ -106,48 +177,116 @@ const AddAdmin = () => {
           </button>
         </div>
 
-        <form className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-          <TextField label="First Name" variant="outlined" fullWidth />
-          <TextField label="Last Name" variant="outlined" fullWidth />
-          <TextField label="Email" variant="outlined" fullWidth type="email" />
+        <form
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6"
+          onSubmit={handleSubmit}
+        >
+          <TextField
+            label="First Name"
+            name="first_name"
+            value={formData.first_name}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            label="Last Name"
+            name="last_name"
+            value={formData.last_name}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            label="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+            type="email"
+          />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
+            <DemoContainer components={["DatePicker"]}>
               <DatePicker
                 label="Date of Birth"
+                value={formData.dob}
+                onChange={(date) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    dob: date,
+                  }))
+                }
                 format="YYYY/MM/DD"
-                defaultValue={dayjs('2022-04-17')}
-                sx={{ width: '100%' }}
+                slotProps={{
+                  textField: {
+                    placeholder: "YYYY/MM/DD",
+                  },
+                }}
+                sx={{ width: "100%" }}
               />
             </DemoContainer>
           </LocalizationProvider>
-          <TextField label="Address" variant="outlined" fullWidth />
-          <TextField label="Phone Number" variant="outlined" fullWidth />
-          <TextField label="Parent Name" variant="outlined" fullWidth />
-          <TextField label="Parent Number" variant="outlined" fullWidth />
-        <TextField
+          <TextField
+            label="Phone Number"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            variant="outlined"
             fullWidth
-            id="outlined-select-currency"
-            select
-            label="Select"
-            helperText="Please select class"
-            >
-            {classes.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
-              {option.class}
-            </MenuItem>
-            ))}
-            </TextField>
+          />
+        
+         
+          <TextField
+            label="Status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+            
+            <TextField
+            label="Role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
+
+<TextField
+            label="Password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            variant="outlined"
+            fullWidth
+          />
           
-          <TextField label="Batch ID" variant="outlined" fullWidth />
-          <TextField label="Batch Name" variant="outlined" fullWidth />
-          <TextField label="Password" variant="outlined" fullWidth type="password" />
         </form>
 
         <div className="flex justify-center gap-4 mt-20">
-          <Button variant="contained" color="primary" type="submit">
-            Add Teacher
+          <Button variant="contained" color="primary" type="submit" onClick={handleSubmit}>
+            Add Admin
           </Button>
-          <Button variant="outlined" color="secondary">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() =>
+              setFormData({
+                first_name: "",
+                last_name: "",
+                email: "",
+                phone: "",
+                role:"",
+                dob: null,
+                status: "",
+                password:"",
+                image: null,
+              })
+            }
+          >
             Reset
           </Button>
         </div>
@@ -157,16 +296,3 @@ const AddAdmin = () => {
 };
 
 export default AddAdmin;
-
-
-
-
-
-
-
-
-
-
-
-
-

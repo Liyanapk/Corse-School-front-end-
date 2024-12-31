@@ -11,7 +11,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AxiosInstance from "../../utils/axiosInstance";
 import Cookies from "js-cookie";
-import  { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from 'dayjs';
+
 
 
 
@@ -66,7 +67,7 @@ const AddStudent = () => {
     address: "",
     dob: null as Dayjs | null,
     batch: "",
-    profile_pic:null,
+    image:null,
   });
 
   useEffect(() => {
@@ -112,54 +113,70 @@ const AddStudent = () => {
   
 
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
- 
-  const token = Cookies.get("authToken"); 
-
-  if (!token) {
-    console.error("No token found. Cannot add student.");
-    return; 
-  }
-
-  const imageURL = image !== defaultImage ? image : null;
- 
-  const payload = { ...formData, dob: formData.dob?.format("YYYY-MM-DD"), profile_pic: imageURL };
-
-  try {
-   
-    const response = await AxiosInstance.post("/api/v1/student", payload, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    console.log("Student added successfully:", response.data);
-   
-    if (response.data.message === "student created successfully") {
-      
-      window.alert("Student added successfully!");
-      setFormData({
-        first_name: "",
-        last_name: "",
-        email: "",
-        phone: "",
-        parent_name: "",
-        parent_number: "",
-        gender: "",
-        address: "",
-        dob: null,
-        status: "",
-        batch: "",
-        profile_pic:null,
-      });
-      
-
-    }else{
-      console.log("Something went wrong")
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    const token = Cookies.get("authToken");
+  
+    if (!token) {
+      console.error("No token found. Cannot add student.");
+      return;
     }
-  } catch (error) {
-    console.error("Error adding student:", error);
-  }
+  
+    const payload = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "image") {
+        if (fileInput.current?.files?.[0]) {
+          payload.append(key, fileInput.current.files[0]); // Append file for image
+        } else {
+          payload.append(key, ""); // Append an empty string if no file is selected
+        }
+      } else {
+        const value = formData[key as keyof typeof formData];
+        if (value !== null && value !== undefined) {
+          payload.append(
+            key,
+            dayjs.isDayjs(value) ? value.format("YYYY-MM-DD") : String(value)
+          );
+        }
+      }
+    });
+  
+    try {
+      const response = await AxiosInstance.post("/api/v1/student", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Student added successfully:", response.data);
+  
+      if (response.data.message === "student created successfully") {
+        window.alert("Student added successfully!");
+        setFormData({
+          first_name: "",
+          last_name: "",
+          email: "",
+          phone: "",
+          parent_name: "",
+          parent_number: "",
+          gender: "",
+          status: "",
+          address: "",
+          dob: null,
+          batch: "",
+          image: null,
+        });
+        resetImage();
+      } else {
+        console.log("Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error adding student:", error);
+    }
 };
+
+  
 
 
   if (loading) {
@@ -358,7 +375,7 @@ const AddStudent = () => {
               dob: null as Dayjs | null,
               status:"",
               batch: "",
-              profile_pic:null
+              image:null
             })}
           >
             Reset
