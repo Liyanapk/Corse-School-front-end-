@@ -11,8 +11,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AxiosInstance from "../../utils/axiosInstance";
 import Cookies from "js-cookie";
-import dayjs, { Dayjs } from "dayjs";
-import { MdBatchPrediction } from "react-icons/md";
+import  { Dayjs } from "dayjs";
+
 
 
 interface ClassData {
@@ -66,7 +66,7 @@ const AddStudent = () => {
     address: "",
     dob: null as Dayjs | null,
     batch: "",
-    profile_pic:"",
+    profile_pic:null,
   });
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const AddStudent = () => {
     if (name) {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: value, // Dynamically update the field based on the `name` attribute
+        [name]: value, 
       }));
     }
   };
@@ -115,27 +115,27 @@ const AddStudent = () => {
  const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  // Check for the token in cookies
-  const token = Cookies.get("authToken"); // Adjust "token" to the actual key used in your cookies
+ 
+  const token = Cookies.get("authToken"); 
 
   if (!token) {
     console.error("No token found. Cannot add student.");
-    return; // Exit if no token is found
+    return; 
   }
 
   const imageURL = image !== defaultImage ? image : null;
-  // Convert Dayjs object to string before sending to the server
+ 
   const payload = { ...formData, dob: formData.dob?.format("YYYY-MM-DD"), profile_pic: imageURL };
 
   try {
-    // Add token to the request headers
+   
     const response = await AxiosInstance.post("/api/v1/student", payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log("Student added successfully:", response.data);
    
     if (response.data.message === "student created successfully") {
-      // Display success alert
+      
       window.alert("Student added successfully!");
       setFormData({
         first_name: "",
@@ -149,7 +149,7 @@ const AddStudent = () => {
         dob: null,
         status: "",
         batch: "",
-        profile_pic:"",
+        profile_pic:null,
       });
       
 
@@ -174,6 +174,7 @@ const AddStudent = () => {
     return <div>Student not found</div>;
   }
 
+  
   
 
   return (
@@ -357,6 +358,7 @@ const AddStudent = () => {
               dob: null as Dayjs | null,
               status:"",
               batch: "",
+              profile_pic:null
             })}
           >
             Reset

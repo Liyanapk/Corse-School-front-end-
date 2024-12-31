@@ -1,120 +1,311 @@
-'use client'
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import * as React from "react";
+"use client";
 import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import Modal from "@mui/material/Modal";
+import React, { useEffect, useState } from 'react';
+import AxiosInstance from '../../utils/axiosInstance';
+import { AxiosError } from 'axios';
+import Cookies from 'js-cookie';
 
-const AdminPage = () => {
-  const Data = [
-    { id: '1', name: 'Ramanan', role: 'admin' },
-    { id: '2', name: 'poopi', role: 'admin' },
-    { id: '3', name: 'maya', role: 'Super admin' },
-  ];
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+interface Data {
+  id: string; 
+  status: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+
+const headCells = [
+  { id: "first_name", numeric: true, disablePadding: false, label: "First Name" },
+  { id: "last_name", numeric: true, disablePadding: false, label: "Last Name" },
+  { id: "email", numeric: true, disablePadding: false, label: "Email" },
+  { id: "status", numeric: true, disablePadding: false, label: "Status" },
+];
+
+interface EnhancedTableProps {
+  numSelected: number;
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  rowCount: number;
+}
+
+function EnhancedTableHead(props: EnhancedTableProps) {
+  const { onSelectAllClick, numSelected, rowCount } = props;
+
+  return (
+    <TableHead>
+      <TableRow>
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{
+              "aria-label": "select all Admin",
+            }}
+          />
+        </TableCell>
+        {headCells.map((headCell) => (
+          <TableCell key={headCell.id} align={headCell.numeric ? "right" : "left"} padding={headCell.disablePadding ? "none" : "normal"}>
+            {headCell.label}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+interface EnhancedTableToolbarProps {
+  numSelected: number;
+}
+
+function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
+  const { numSelected } = props;
   const router = useRouter();
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
+  const handleModalClose = () => {
+    setOpen(false);
   };
 
   return (
-    <div className="flex flex-col w-full h-full box-border p-6 sm:p-10">
-      <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-6">
-        <h1 className="text-2xl sm:text-2xl md:text-4xl font-bold text-gray-800 text-center sm:text-left">
+    <Toolbar sx={{ pl: { sm: 2 }, pr: { xs: 1, sm: 1 }, display: "flex", flexDirection: { xs: "column", sm: "column", md: "row" }, alignItems: "flex-start", justifyContent: { md: "space-between" }, gap: { xs: 1, sm: 1, md: 0 } }}>
+      {numSelected > 0 ? (
+        <Typography sx={{ flex: "1 1 auto", fontSize: { xs: "1.25rem", sm: "1.5rem", md: "2rem" } }} color="inherit" variant="subtitle1" component="div">
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography sx={{ flex: "1 1 auto", fontSize: { xs: "1.25rem", sm: "1.5rem", md: "2rem" }, color: "#1976d2", fontWeight: "bold" }} variant="h6" id="tableTitle" component="div">
           Admin Management
-        </h1>
-        <button
-          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base px-4 py-3 hover:opacity-90 shadow-md transition-all duration-300"
-          type="button"
-          onClick={() => router.push("/admin/adminAdd")}
-        >
-          + Add Admin
-        </button>
+        </Typography>
+      )}
+      <div className="flex flex-wrap justify-start md:justify-end w-full md:w-auto">
+        {numSelected > 0 ? (
+          <>
+            <Tooltip title="Delete">
+              <IconButton onClick={handleOpen}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+              <Box sx={{ ...style }}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Do you want to delete?
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <div className="flex justify-between mt-4">
+                    <button className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded" onClick={handleModalClose}>
+                      Cancel
+                    </button>
+                    <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded">
+                      Delete
+                    </button>
+                  </div>
+                </Typography>
+              </Box>
+            </Modal>
+          </>
+        ) : (
+          <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base py-3 px-4 whitespace-nowrap hover:opacity-90 shadow-md transition-all duration-300 mt-2 md:mt-0" type="button" onClick={() => router.push("/admin/adminAdd")}>
+            + Add Admin
+          </button>
+        )}
       </div>
+    </Toolbar>
+  );
+}
 
-      <div className="w-full bg-white rounded-lg shadow-lg box-border p-6 sm:p-10">
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse table-auto">
-            <thead className="bg-blue-600 text-xs sm:text-sm md:text-base font-medium text-white uppercase">
-              <tr>
-                <th className="px-6 py-3 text-left">Name</th>
-                <th className="px-6 py-3 text-left">Role</th>
-                <th className="px-6 py-3 text-center">View</th>
-                <th className="px-6 py-3 text-center">Edit</th>
-                <th className="px-6 py-3 text-center">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Data.map((admin, index) => (
-                <tr
-                  key={index}
-                  className="text-xs sm:text-sm md:text-base text-gray-800 hover:bg-gray-50 transition-colors duration-200"
+const AdminPage = () => {
+  const [admins, setAdmins] = useState<Data[]>([]);
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [error, setError] = useState<string | null>(null); // Track error state
+
+ 
+  useEffect(() => {
+    const fetchAdmins = async () => {
+      const token = Cookies.get('authToken');
+      if (!token) {
+        setError('No authentication token found');
+        setLoading(false);
+        return;
+      }
+  
+      try {
+        const response = await AxiosInstance.get("/api/v1/admin", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+  
+        const adminsArray = Array.isArray(response.data.data)
+          ? response.data.data.map((admin: any) => ({
+              id: admin._id, 
+              first_name: admin.first_name,
+              last_name: admin.last_name,
+              email: admin.email,
+              status: admin.status, 
+            }))
+          : [];
+        setAdmins(adminsArray);
+      } catch (err) {
+        setError(err instanceof AxiosError ? err.message : 'An unknown error occurred');
+        setAdmins([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAdmins();
+  }, []);
+  
+
+
+  
+
+
+  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      const newSelected = admins.map((n) => n.id);
+      setSelected(newSelected);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: readonly string[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - admins.length) : 0;
+
+  const visibleRows = React.useMemo(
+    () => Array.isArray(admins) ? admins.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : [],
+    [page, rowsPerPage, admins]
+  );
+  
+  
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
+  return (
+    <Box sx={{ width: "100%" }} className="p-10">
+      <Paper sx={{ width: "100%", mb: 2 }} className="p-5">
+        <EnhancedTableToolbar numSelected={selected.length} />
+        <TableContainer>
+          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
+            <EnhancedTableHead numSelected={selected.length} onSelectAllClick={handleSelectAllClick} rowCount={admins.length} />
+            <TableBody>
+            {visibleRows.map((row, index) => {
+              const isItemSelected = selected.includes(row.id);
+              const labelId = `enhanced-table-checkbox-${index}`;
+
+              return (
+                <TableRow
+                  hover
+                  onClick={(event) => handleClick(event, row.id)} 
+                  role="checkbox"
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={row.id} 
+                  selected={isItemSelected}
+                  sx={{ cursor: "pointer" }}
                 >
-                  <td className="px-6 py-3 border-b">{admin.name}</td>
-                  <td className="px-6 py-3 border-b">{admin.role}</td>
-                  <td className="px-6 py-3 border-b text-center">
-                    <Link href={`/admin/adminView/${admin.id}`}>
-                      <VisibilityIcon className="text-gray-600 hover:text-indigo-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
-                    </Link>
-                  </td>
-                  <td className="px-6 py-3 border-b text-center">
-                    <Link href={`/admin/adminView/${admin.id}`}>
-                      <ModeEditOutlineIcon className="text-gray-600 hover:text-cyan-600 cursor-pointer transition-transform duration-200 transform hover:scale-110" />
-                    </Link>
-                  </td>
-                  <td className="px-6 py-3 border-b text-center">
-                    <DeleteIcon
-                      className="text-gray-600 hover:text-red-600 cursor-pointer transition-transform duration-200 transform hover:scale-110"
-                      onClick={handleOpen}
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      checked={isItemSelected}
+                      inputProps={{ "aria-labelledby": labelId }}
                     />
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                          Do you want to delete this Admin!
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          <div className="flex flex-row justify-around items-center mt-10">
-                            <button className="px-8 py-2 bg-fuchsia-900 rounded-lg text-white">
-                              YES
-                            </button>
-                            <button className="px-8 py-2 bg-sky-800 rounded-lg text-white">
-                              NO
-                            </button>
-                          </div>
-                        </Typography>
-                      </Box>
-                    </Modal>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+                  </TableCell>
+                  <TableCell align="right">{row.first_name}</TableCell>
+                  <TableCell align="right">{row.last_name}</TableCell>
+                  <TableCell align="right">{row.email}</TableCell>
+                  <TableCell align="right">{row.status}</TableCell> 
+                  <TableCell align="center">
+                    <Link href={`/admin/adminView/${row.id}`} passHref> 
+                      <Tooltip title="View">
+                        <IconButton aria-label="view" size="large">
+                          <VisibilityIcon fontSize="inherit" />
+                        </IconButton>
+                      </Tooltip>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={admins.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </Box>
   );
 };
 

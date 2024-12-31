@@ -169,8 +169,8 @@ const StudentPage = () => {
   
         const studentsArray = Array.isArray(response.data.data)
           ? response.data.data.map((student: any) => ({
-              id: student._id, // MongoDB ObjectId (used internally)
-              student_id: student.student_id, // Custom Student ID (displayed)
+              id: student._id,
+              student_id: student.student_id, 
               first_name: student.first_name,
               last_name: student.last_name,
               email: student.email,

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import ViewAdmin from "@/components/viewAdmin/ViewAdmin";
 
-const StudentView = ({ params }: { params: { id: string } }) => {
+const StudentView = ({ params }: { params: { _id: string } }) => {
     return (
       <ViewAdmin params={params} />
     );

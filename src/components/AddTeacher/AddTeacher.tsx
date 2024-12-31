@@ -3,14 +3,23 @@ import * as React from 'react';
 import { TextField, Button, Typography, MenuItem } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/navigation';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import dayjs from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
 import Select, { MultiValue, StylesConfig } from 'react-select';
+import AxiosInstance from '../../utils/axiosInstance';
+import Cookies from "js-cookie";
+
+interface SubjectOption {
+  value: string, 
+  label: string,
+  name: string;
+
+  
+}
 
 const AddTeacher = () => {
   const router = useRouter();
@@ -22,6 +31,39 @@ const AddTeacher = () => {
   const defaultImage = '/images/avatarImage/avatar_image.webp';
   const [image, setImage] = useState<string>(defaultImage);
   const fileInput = useRef<HTMLInputElement>(null);
+  const [subjects, setSubjects] = useState<SubjectOption[]>([]);
+  const [error, setError]=useState<string | null>(null);
+   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchClass = async () => {
+      const token = Cookies.get("authToken");
+      if (!token) {
+        setError("No authentication token found");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await AxiosInstance.get("/api/v1/subject", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.status === 200) {
+          setSubjects(response.data.data);
+      
+        } else {
+          console.error("Failed to fetch class data");
+        }
+      } catch (error) {
+        console.error("Error fetching class data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClass();
+  }, []);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -43,17 +85,8 @@ const AddTeacher = () => {
     }
   };
 
-  interface SubjectOption {
-    value: string;
-    label: string;
-  }
+ 
   
-  const subjects: SubjectOption[] = [
-    { value: '1', label: 'Maths' },
-    { value: '2', label: 'AI' },
-    { value: '3', label: 'Machine Learning' },
-    { value: '4', label: 'Physics' },
-  ];
 
 
 //style of dropdown
@@ -167,7 +200,7 @@ const customStyles: StylesConfig<SubjectOption, true> = {
           defaultValue={[]}
           isMulti
           name="subjects"
-          options={subjects}
+          options={subjects.map(subject => ({ value: subject.name, label: subject.name }))}
           styles={customStyles}
           className="basic-multi-select"
           classNamePrefix="select"
