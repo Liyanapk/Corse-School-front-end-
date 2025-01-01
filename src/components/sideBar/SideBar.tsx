@@ -1,5 +1,6 @@
 "use client";
-import * as React from "react";
+
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -17,61 +18,86 @@ interface SideBarProps {
 }
 
 const SideBarPage: React.FC<SideBarProps> = ({ onToggle }) => {
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Sidebar dimensions
+  const COLLAPSED_WIDTH = 50;
+  const EXPANDED_WIDTH = 273;
 
   const handleToggle = () => {
-    setIsCollapsed(!isCollapsed);
+    setIsCollapsed((prev) => !prev);
     onToggle(!isCollapsed); // Notify parent about the toggle
   };
 
   const DrawerList = (
     <Box
       sx={{
-        width: isCollapsed ? 50 : 273,
+        width: isCollapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH,
+        height: "100%",
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
         paddingLeft: isCollapsed ? 0 : "16px",
-        height: "100%",
+       
       }}
       role="presentation"
     >
+      {/* Toggle Button */}
       <Box
         sx={{
           display: "flex",
           justifyContent: isCollapsed ? "center" : "flex-end",
-          width: "100%",
+          padding: "8px",
         }}
       >
-        <IconButton onClick={handleToggle}>
+        <IconButton
+          onClick={handleToggle}
+          aria-label="Toggle sidebar"
+          sx={{
+            backgroundColor: "transparent",
+            "&:hover": {
+              backgroundColor: "rgba(0, 0, 0, 0.1)",
+            },
+          }}
+        >
           <MenuIcon />
         </IconButton>
       </Box>
 
+      {/* Sidebar Links */}
       <List>
         {SideBar.map((item) => (
-          <Link href={item.path} key={item.id}>
+          <Link href={item.path} key={item.id} passHref>
             <ListItem disablePadding>
               <ListItemButton
                 sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: isCollapsed ? "center" : "flex-start",
+                  transition: "all 0.3s ease-in-out",
                   "&:hover": {
-                    backgroundColor: isCollapsed
-                      ? "primary.light"
-                      : "primary.main",
+                    backgroundColor: "primary.main",
                     color: "white",
-                    width: isCollapsed ? "40px" : "250px",
                   },
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: isCollapsed ? 24 : 40,
+                    color: "inherit",
                     transition: "min-width 0.3s ease-in-out",
                   }}
                 >
                   {item.icon}
                 </ListItemIcon>
-                {!isCollapsed && <ListItemText primary={item.title} />}
+                {!isCollapsed && (
+                  <ListItemText
+                    primary={item.title}
+                    sx={{
+                      opacity: isCollapsed ? 0 : 1,
+                      transition: "opacity 0.3s ease-in-out",
+                    }}
+                  />
+                )}
               </ListItemButton>
             </ListItem>
           </Link>
@@ -88,11 +114,12 @@ const SideBarPage: React.FC<SideBarProps> = ({ onToggle }) => {
       sx={{
         "& .MuiDrawer-paper": {
           position: "fixed",
-          top: "80px",
-          width: isCollapsed ? "50px" : "273px",
+          top: "81px",
+          width: isCollapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH,
           transition: "width 0.3s ease-in-out",
           overflowX: "hidden",
           height: "calc(100% - 80px)",
+          boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
         },
       }}
     >
