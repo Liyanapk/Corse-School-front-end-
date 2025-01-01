@@ -196,7 +196,7 @@ const AddStudent = () => {
 
   return (
     <div className="flex flex-col w-full h-full items-center px-8 sm:px-10 md:px-10 mt-2 overflow-x-hidden">
-      <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
+      <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-6 ">
         <div
           className="flex items-center mb-4 cursor-pointer"
           onClick={handleBackClick}

@@ -18,11 +18,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Modal from "@mui/material/Modal";
-import React, { useEffect, useState } from 'react';
-import AxiosInstance from '../../utils/axiosInstance';
-import { AxiosError } from 'axios';
-import Cookies from 'js-cookie';
-
+import React, { useEffect, useState } from "react";
+import AxiosInstance from "../../utils/axiosInstance";
+import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 
 const style = {
   position: "absolute",
@@ -37,13 +36,11 @@ const style = {
 };
 
 interface Data {
-  id: string; 
+  id: string;
   status: string;
   name: string;
   email: string;
- 
 }
-
 
 const headCells = [
   { id: "Name", numeric: true, disablePadding: false, label: " Name" },
@@ -75,7 +72,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           />
         </TableCell>
         {headCells.map((headCell) => (
-          <TableCell key={headCell.id} align={headCell.numeric ? "right" : "left"} padding={headCell.disablePadding ? "none" : "normal"}>
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
+          >
             {headCell.label}
           </TableCell>
         ))}
@@ -86,27 +87,90 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  selected: readonly string[];
+  setSelected: React.Dispatch<React.SetStateAction<readonly string[]>>;
+  teachers: { id: string; name: string; email: string; status: string }[];
+  setTeachers: React.Dispatch<
+    React.SetStateAction<
+      { id: string; name: string; email: string; status: string }[]
+    >
+  >;
 }
 
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
-  const router = useRouter();
-  const [open, setOpen] = React.useState(false);
+const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
+  const { numSelected, selected, setSelected, teachers, setTeachers } = props;
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const router = useRouter();
 
-  const handleModalClose = () => {
-    setOpen(false);
+  // Delete selected teacher
+  const handleDelete = async () => {
+    const token = Cookies.get("authToken");
+    if (!token) return;
+
+    try {
+      const response = await AxiosInstance.delete("/api/v1/teacher/delete", {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { ids: selected },
+      });
+
+      const remainingTeachers = teachers.filter(
+        (teacher) => !selected.includes(teacher.id)
+      );
+
+      setTeachers(remainingTeachers);
+      setSelected([]);
+      handleClose();
+      console.log(response.data.message);
+      
+      setTimeout(() => {
+        alert("Teachers deleted successfully!");
+      }, 300);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.error("Error deleting Teacher:", error.message);
+      }
+      handleClose();
+    }
   };
 
   return (
-    <Toolbar sx={{ pl: { sm: 2 }, pr: { xs: 1, sm: 1 }, display: "flex", flexDirection: { xs: "column", sm: "column", md: "row" }, alignItems: "flex-start", justifyContent: { md: "space-between" }, gap: { xs: 1, sm: 1, md: 0 } }}>
+    <Toolbar
+      sx={{
+        pl: { sm: 2 },
+        pr: { xs: 1, sm: 1 },
+        display: "flex",
+        flexDirection: { xs: "column", sm: "column", md: "row" },
+        alignItems: "flex-start",
+        justifyContent: { md: "space-between" },
+        gap: { xs: 1, sm: 1, md: 0 },
+      }}
+    >
       {numSelected > 0 ? (
-        <Typography sx={{ flex: "1 1 auto", fontSize: { xs: "1.25rem", sm: "1.5rem", md: "2rem" } }} color="inherit" variant="subtitle1" component="div">
+        <Typography
+          sx={{
+            flex: "1 1 auto",
+            fontSize: { xs: "1.25rem", sm: "1.5rem", md: "2rem" },
+          }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography sx={{ flex: "1 1 auto", fontSize: { xs: "1.25rem", sm: "1.5rem", md: "2rem" }, color: "#1976d2", fontWeight: "bold" }} variant="h6" id="tableTitle" component="div">
+        <Typography
+          sx={{
+            flex: "1 1 auto",
+            fontSize: { xs: "1.25rem", sm: "1.5rem", md: "2rem" },
+            color: "#1976d2",
+            fontWeight: "bold",
+          }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
           Teacher Management
         </Typography>
       )}
@@ -118,17 +182,28 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
               <Box sx={{ ...style }}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   Do you want to delete?
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                   <div className="flex justify-between mt-4">
-                    <button className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded" onClick={handleModalClose}>
+                    <button
+                      className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded"
+                      onClick={handleClose}
+                    >
                       Cancel
                     </button>
-                    <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded">
+                    <button
+                      className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded"
+                      onClick={handleDelete}
+                    >
                       Delete
                     </button>
                   </div>
@@ -137,46 +212,52 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </Modal>
           </>
         ) : (
-          <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base py-3 px-4 whitespace-nowrap hover:opacity-90 shadow-md transition-all duration-300 mt-2 md:mt-0" type="button" onClick={() => router.push("/admin/teacherAdd")}>
+          <button
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base py-3 px-4 whitespace-nowrap hover:opacity-90 shadow-md transition-all duration-300 mt-2 md:mt-0"
+            type="button"
+            onClick={() => router.push("/admin/teacherAdd")}
+          >
             + Add Teacher
           </button>
         )}
       </div>
     </Toolbar>
   );
-}
+};
 
 const TeacherPage = () => {
   const [teachers, setTeachers] = useState<Data[]>([]);
-  const [loading, setLoading] = useState(true); // Track loading state
-  const [error, setError] = useState<string | null>(null); // Track error state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
- 
+  //get teacher
   useEffect(() => {
     const fetchTeachers = async () => {
-      const token = Cookies.get('authToken');
+      const token = Cookies.get("authToken");
       if (!token) {
-        setError('No authentication token found');
+        setError("No authentication token found");
         setLoading(false);
         return;
       }
-  
+
       try {
         const response = await AxiosInstance.get("/api/v1/teacher", {
           headers: { Authorization: `Bearer ${token}` },
         });
-  
+
         const teachersArray = Array.isArray(response.data.data)
           ? response.data.data.map((teacher: any) => ({
-              id: teacher._id, 
-              name: `${teacher.first_name} ${ teacher.last_name}`,
+              id: teacher._id,
+              name: `${teacher.first_name} ${teacher.last_name}`,
               email: teacher.email,
-              status: teacher.status, 
+              status: teacher.status,
             }))
           : [];
         setTeachers(teachersArray);
       } catch (err) {
-        setError(err instanceof AxiosError ? err.message : 'An unknown error occurred');
+        setError(
+          err instanceof AxiosError ? err.message : "An unknown error occurred"
+        );
         setTeachers([]);
       } finally {
         setLoading(false);
@@ -184,11 +265,6 @@ const TeacherPage = () => {
     };
     fetchTeachers();
   }, []);
-  
-
-
-  
-
 
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
@@ -227,19 +303,23 @@ const TeacherPage = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - teachers.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - teachers.length) : 0;
 
   const visibleRows = React.useMemo(
-    () => Array.isArray(teachers) ? teachers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : [],
+    () =>
+      Array.isArray(teachers)
+        ? teachers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        : [],
     [page, rowsPerPage, teachers]
   );
-  
-  
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -247,48 +327,62 @@ const TeacherPage = () => {
   return (
     <Box sx={{ width: "100%" }} className="p-10">
       <Paper sx={{ width: "100%", mb: 2 }} className="p-5">
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          selected={selected}
+          setSelected={setSelected}
+          teachers={teachers}
+          setTeachers={setTeachers}
+        />
         <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
-            <EnhancedTableHead numSelected={selected.length} onSelectAllClick={handleSelectAllClick} rowCount={teachers.length} />
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? "small" : "medium"}
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              onSelectAllClick={handleSelectAllClick}
+              rowCount={teachers.length}
+            />
             <TableBody>
-            {visibleRows.map((row, index) => {
-              const isItemSelected = selected.includes(row.id);
-              const labelId = `enhanced-table-checkbox-${index}`;
+              {visibleRows.map((row, index) => {
+                const isItemSelected = selected.includes(row.id);
+                const labelId = `enhanced-table-checkbox-${index}`;
 
-              return (
-                <TableRow
-                  hover
-                  onClick={(event) => handleClick(event, row.id)} 
-                  role="checkbox"
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
-                  key={row.id} 
-                  selected={isItemSelected}
-                  sx={{ cursor: "pointer" }}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isItemSelected}
-                      inputProps={{ "aria-labelledby": labelId }}
-                    />
-                  </TableCell>
-                  <TableCell align="right">{row.name}</TableCell>
-                  <TableCell align="right">{row.email}</TableCell>
-                  <TableCell align="right">{row.status}</TableCell> 
-                  <TableCell align="center">
-                    <Link href={`/admin/teacherview/${row.id}`} passHref> 
-                      <Tooltip title="View">
-                        <IconButton aria-label="view" size="large">
-                          <VisibilityIcon fontSize="inherit" />
-                        </IconButton>
-                      </Tooltip>
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.id)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{ "aria-labelledby": labelId }}
+                      />
+                    </TableCell>
+                    <TableCell align="right">{row.name}</TableCell>
+                    <TableCell align="right">{row.email}</TableCell>
+                    <TableCell align="right">{row.status}</TableCell>
+                    <TableCell align="center">
+                      <Link href={`/admin/teacherview/${row.id}`} passHref>
+                        <Tooltip title="View">
+                          <IconButton aria-label="view" size="large">
+                            <VisibilityIcon fontSize="inherit" />
+                          </IconButton>
+                        </Tooltip>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>

@@ -16,12 +16,12 @@ import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import Modal from "@mui/material/Modal";
 import React, { useEffect, useState } from "react";
 import AxiosInstance from "../../utils/axiosInstance";
 import { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import ModalBatch from "../nestedModalBatch/ModalBatch";
 
 const style = {
   position: "absolute",
@@ -37,15 +37,13 @@ const style = {
 
 interface Data {
   id: string;
-  status: string;
   name: string;
-  email: string;
+  incharge:string;
 }
 
 const headCells = [
   { id: "name", numeric: true, disablePadding: false, label: "Name" },
-  { id: "email", numeric: true, disablePadding: false, label: "Email" },
-  { id: "status", numeric: true, disablePadding: false, label: "Status" },
+  { id: "incharge", numeric: true, disablePadding: false, label: "In Charge" },
 ];
 
 interface EnhancedTableProps {
@@ -67,7 +65,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all Admin",
+              "aria-label": "select all desserts",
             }}
           />
         </TableCell>
@@ -89,57 +87,55 @@ interface EnhancedTableToolbarProps {
   numSelected: number;
   selected: readonly string[];
   setSelected: React.Dispatch<React.SetStateAction<readonly string[]>>;
-  admins: {
+  batches: {
     id: string;
     name: string;
-    email: string;
-    status: string;
+    incharge:string;
   }[];
-  setAdmins: React.Dispatch<
+  setBatches: React.Dispatch<
     React.SetStateAction<
       {
         id: string;
         name: string;
-        email: string;
-        status: string;
+        incharge:string;
       }[]
     >
   >;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, selected, setSelected, admins, setAdmins } = props;
+  const { numSelected, selected, setSelected, batches, setBatches } = props;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
 
-  // Delete  admins
+  // Delete  batches
   const handleDelete = async () => {
     const token = Cookies.get("authToken");
     if (!token) return;
 
     try {
-      const response = await AxiosInstance.delete("/api/v1/admin/delete", {
+      const response = await AxiosInstance.delete("/api/v1/batch/delete", {
         headers: { Authorization: `Bearer ${token}` },
         data: { ids: selected },
       });
 
-      const remainingAdmins = admins.filter(
-        (admin) => !selected.includes(admin.id)
+      const remainingBatches = batches.filter(
+        (batch) => !selected.includes(batch.id)
       );
 
-      setAdmins(remainingAdmins);
+      setBatches(remainingBatches);
       setSelected([]);
       handleClose();
       console.log(response.data.message);
 
       setTimeout(() => {
-        alert("Admins deleted successfully!");
+        alert("Batches deleted successfully!");
       }, 300);
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.error("Error deleting admins:", error.message);
+        console.error("Error deleting Batches:", error.message);
       }
       handleClose();
     }
@@ -181,7 +177,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           id="tableTitle"
           component="div"
         >
-          Admin Management
+          Batch Management
         </Typography>
       )}
       <div className="flex flex-wrap justify-start md:justify-end w-full md:w-auto">
@@ -225,9 +221,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           <button
             className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base py-3 px-4 whitespace-nowrap hover:opacity-90 shadow-md transition-all duration-300 mt-2 md:mt-0"
             type="button"
-            onClick={() => router.push("/admin/adminAdd")}
+            onClick={() => router.push("/admin/studentAdd")}
           >
-            + Add Admin
+            + Add Batch
           </button>
         )}
       </div>
@@ -235,13 +231,15 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-const AdminPage = () => {
-  const [admins, setAdmins] = useState<Data[]>([]);
-  const [loading, setLoading] = useState(true); // Track loading state
-  const [error, setError] = useState<string | null>(null); // Track error state
+const Batch = () => {
+  const [batches, setBatches] = useState<Data[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+
+  //get batch
   useEffect(() => {
-    const fetchAdmins = async () => {
+    const fetchBatches = async () => {
       const token = Cookies.get("authToken");
       if (!token) {
         setError("No authentication token found");
@@ -250,29 +248,28 @@ const AdminPage = () => {
       }
 
       try {
-        const response = await AxiosInstance.get("/api/v1/admin", {
+        const response = await AxiosInstance.get("/api/v1/batch", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const adminsArray = Array.isArray(response.data.data)
-          ? response.data.data.map((admin: any) => ({
-              id: admin._id,
-              name: `${admin.first_name} ${admin.last_name}`,
-              email: admin.email,
-              status: admin.status,
+        const batchesArray = Array.isArray(response.data.data)
+          ? response.data.data.map((batch: any) => ({
+              id: batch._id,
+              name: batch.name,
+              incharge: `${batch.in_charge.first_name} ${batch.in_charge.last_name}`
             }))
           : [];
-        setAdmins(adminsArray);
+        setBatches(batchesArray);
       } catch (err) {
         setError(
           err instanceof AxiosError ? err.message : "An unknown error occurred"
         );
-        setAdmins([]);
+        setBatches([]);
       } finally {
         setLoading(false);
       }
     };
-    fetchAdmins();
+    fetchBatches();
   }, []);
 
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -282,7 +279,7 @@ const AdminPage = () => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = admins.map((n) => n.id);
+      const newSelected = batches.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -320,14 +317,14 @@ const AdminPage = () => {
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - admins.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - batches.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
-      Array.isArray(admins)
-        ? admins.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      Array.isArray(batches)
+        ? batches.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         : [],
-    [page, rowsPerPage, admins]
+    [page, rowsPerPage, batches]
   );
 
   if (loading) return <p>Loading...</p>;
@@ -340,8 +337,8 @@ const AdminPage = () => {
           numSelected={selected.length}
           selected={selected}
           setSelected={setSelected}
-          admins={admins}
-          setAdmins={setAdmins}
+          batches={batches}
+          setBatches={setBatches}
         />
         <TableContainer>
           <Table
@@ -352,7 +349,7 @@ const AdminPage = () => {
             <EnhancedTableHead
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
-              rowCount={admins.length}
+              rowCount={batches.length}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
@@ -378,16 +375,9 @@ const AdminPage = () => {
                       />
                     </TableCell>
                     <TableCell align="right">{row.name}</TableCell>
-                    <TableCell align="right">{row.email}</TableCell>
-                    <TableCell align="right">{row.status}</TableCell>
+                    <TableCell align="right">{row.incharge}</TableCell>
                     <TableCell align="center">
-                      <Link href={`/admin/adminView/${row.id}`} passHref>
-                        <Tooltip title="View">
-                          <IconButton aria-label="view" size="large">
-                            <VisibilityIcon fontSize="inherit" />
-                          </IconButton>
-                        </Tooltip>
-                      </Link>
+                        <ModalBatch  />
                     </TableCell>
                   </TableRow>
                 );
@@ -398,7 +388,7 @@ const AdminPage = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={admins.length}
+          count={batches.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -409,4 +399,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default Batch;

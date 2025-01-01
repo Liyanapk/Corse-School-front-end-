@@ -26,6 +26,18 @@ const SideBar = [
     icon: <PersonOutlineIcon />,
     path: "/admin/student",
   },
+  {
+    id: "6",
+    title: "Batch",
+    icon: <PersonOutlineIcon />,
+    path: "/admin/batch",
+  },
+  {
+    id: "7",
+    title: "Subject",
+    icon: <PersonOutlineIcon />,
+    path: "/admin/subject",
+  },
 ];
 
 export default SideBar;
