@@ -22,6 +22,7 @@ import AxiosInstance from "../../utils/axiosInstance";
 import { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import ModalBatch from "../nestedModalBatch/ModalBatch";
+import AddBatch from "../addBatch/AddBatch";
 
 const style = {
   position: "absolute",
@@ -108,7 +109,13 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const router = useRouter();
+  const [isModalOpen, setModalOpen] = useState(false);
+
+
+  const handleOpenAdd = () => setModalOpen(true);
+  const handleCloseAdd = () => setModalOpen(false);
+
+
 
   // Delete  batches
   const handleDelete = async () => {
@@ -221,8 +228,10 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           <button
             className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base py-3 px-4 whitespace-nowrap hover:opacity-90 shadow-md transition-all duration-300 mt-2 md:mt-0"
             type="button"
-            onClick={() => router.push("/admin/studentAdd")}
+            onClick={handleOpenAdd}
+            aria-label="Add a new batch"
           >
+            <AddBatch open={isModalOpen} onClose={handleCloseAdd} />
             + Add Batch
           </button>
         )}
