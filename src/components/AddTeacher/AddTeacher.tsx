@@ -12,11 +12,13 @@ import Select, { MultiValue, StylesConfig } from "react-select";
 import AxiosInstance from "../../utils/axiosInstance";
 import Cookies from "js-cookie";
 import dayjs, { Dayjs } from "dayjs";
+import { log } from "console";
 
 interface SubjectOption {
-  value: string;
+  value: number;
   label: string;
   name: string;
+  _id:number;
 }
 
 const AddTeacher = () => {
@@ -169,7 +171,11 @@ const AddTeacher = () => {
     } catch (error) {
       console.error("Error adding student:", error);
     }
+    
+    
   };
+
+
 
   //style of dropdown
 
@@ -333,18 +339,25 @@ const AddTeacher = () => {
             fullWidth
           />
 
-          <Select
-            defaultValue={[]}
-            name="subject"
-            isMulti
-            options={subjects.map((subject) => ({
-              value: subject.name,
-              label: subject.name,
-            }))}
-            styles={customStyles}
-            className="basic-multi-select"
-            classNamePrefix="select"
-          />
+<Select
+  defaultValue={[]}
+  name="subject"
+  isMulti
+  options={subjects.map((subject) => ({
+    value: subject._id,
+    label: subject.name,
+  }))}
+  onChange={(selectedOptions) =>
+    setFormData((prevData) => ({
+      ...prevData,
+      subject: selectedOptions.map((option) => option.value).join(","), // Store as a comma-separated string
+    }))
+  }
+  styles={customStyles}
+  className="basic-multi-select"
+  classNamePrefix="select"
+/>
+
 
           <TextField
             fullWidth
