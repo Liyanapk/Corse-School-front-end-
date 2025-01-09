@@ -8,12 +8,12 @@ import { BsArrowRight } from "react-icons/bs";
 export default function Footer() {
   return (
     <footer className="bg-white text-white py-16">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="container mx-auto px-20 md:px-10">
         <div className="flex flex-col md:flex-row justify-between gap-16">
           <div className="flex flex-col items-center md:items-start gap-8">
             <Image src="/images/logo/logo.png" alt="logo" width={152} height={49} />
             <p className="text-black text-center md:text-left max-w-sm">
-              We’re always in search of talented and motivated people. Don’t be shy; introduce yourself!
+              We’re always in search of talented and motivated people. Don’t be shy introduce yourself!
             </p>
             <div className="flex gap-4 text-2xl text-black">
               <FaFacebookF />
@@ -21,12 +21,12 @@ export default function Footer() {
               <RiInstagramFill />
               <FaLinkedinIn />
             </div>
-            <button className="mt-6 bg-purple-600 text-white font-bold py-3 px-6 rounded-full flex items-center gap-2 hover:bg-purple-700 transition-all">
+            <button className="mt-6 border-4 border-violet-600 text-black font-bold py-3 px-6 rounded-full flex items-center gap-2 hover:bg-purple-700 transition-all">
               Contact with us <BsArrowRight />
             </button>
           </div>
 
-          <div className="flex flex-wrap gap-16 md:gap-24 justify-center md:justify-start text-black">
+          <div className="flex flex-wrap gap-5 md:gap-10 justify-center md:justify-start text-black">
             <div>
               <h5 className="text-xl font-semibold mb-4">Useful Links</h5>
               <ul>
@@ -55,7 +55,7 @@ export default function Footer() {
                 <li><a href="tel:+4065550120" className="hover:text-purple-400">Phone: (406) 555-0120</a></li>
                 <li><a href="mailto:admin@example.com" className="hover:text-purple-400">E-mail: admin@example.com</a></li>
               </ul>
-              <div className="text-center md:text-left mt-8">
+              <div className=" mt-8">
                 <h5 className="text-black font-semibold mb-2">Newsletter</h5>
                 <p className="text-black w-40">
                     2000+ Our students are subscribed Around the World. Don’t be shy, introduce yourself!
@@ -68,16 +68,25 @@ export default function Footer() {
        
 
         <div className="mt-16 border-t border-gray-700 pt-8">
-          <div className="flex flex-col items-center md:flex-row justify-between text-center text-black">
-            <p>Copyright © 2024 <a href="#" >Rainbow-Themes</a>.All Rights Reserved</p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-purple-400">Terms of service</a>
-              <a href="#" className="hover:text-purple-400">Privacy policy</a>
-              <a href="#" className="hover:text-purple-400">Subscription</a>
-              <a href="#" className="hover:text-purple-400">Login & Register</a>
+            <div className="flex flex-col items-center justify-center md:justify-between md:flex-row text-center text-black">
+              {/* Copyright Section */}
+              <p className="mb-4 md:mb-0">
+                Copyright © 2024 <a href="#" className="font-semibold hover:text-purple-400">Rainbow-Themes</a>. All Rights Reserved
+              </p>
+              
+              {/* Links Section */}
+              <div className="flex flex-wrap gap-4 justify-center md:justify-end">
+                <a href="#" className="hover:text-purple-400">Terms of Service</a>
+                <span className="hidden md:inline">|</span>
+                <a href="#" className="hover:text-purple-400">Privacy Policy</a>
+                <span className="hidden md:inline">|</span>
+                <a href="#" className="hover:text-purple-400">Subscription</a>
+                <span className="hidden md:inline">|</span>
+                <a href="#" className="hover:text-purple-400">Login & Register</a>
+              </div>
             </div>
           </div>
-        </div>
+
       </div>
     </footer>
   );

@@ -182,6 +182,9 @@ export default function ContentSection() {
               className={`popular-item-buttons ${
                 activeCategory === category ? 'active' : ''
               }`}
+              style={{
+                borderRadius: '50px',
+              }}
             />
           ))}
         </Tabs>
