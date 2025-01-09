@@ -17,8 +17,9 @@ const style = {
 
 interface AddBatchProps {
   open: boolean;
-  onClose: () => void;
+  onClose ?: () => void;
 }
+
 
 export default function AddBatch({ open, onClose }: AddBatchProps) {
   return (
@@ -35,7 +36,7 @@ export default function AddBatch({ open, onClose }: AddBatchProps) {
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           Enter the details for the new batch.
         </Typography>
-        <button onClick={onClose}>Close</button>
+        <button onClick={onClose} >Close</button>
       </Box>
     </Modal>
   );

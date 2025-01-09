@@ -12,13 +12,13 @@ import Select, { MultiValue, StylesConfig } from "react-select";
 import AxiosInstance from "../../utils/axiosInstance";
 import Cookies from "js-cookie";
 import dayjs, { Dayjs } from "dayjs";
-import { log } from "console";
+import Image from "next/image";
 
 interface SubjectOption {
   value: number;
   label: string;
   name: string;
-  _id:number;
+  _id: number;
 }
 
 const AddTeacher = () => {
@@ -248,7 +248,7 @@ const AddTeacher = () => {
 
         <div className="col-span-1 md:col-span-2 flex flex-col items-center">
           <label className="relative cursor-pointer">
-            <img
+            <Image
               src={image || defaultImage}
               alt="User Image"
               width={24}
@@ -346,6 +346,9 @@ const AddTeacher = () => {
   options={subjects.map((subject) => ({
     value: subject._id,
     label: subject.name,
+    name: subject.name, 
+    _id: subject._id, 
+    
   }))}
   onChange={(selectedOptions) =>
     setFormData((prevData) => ({

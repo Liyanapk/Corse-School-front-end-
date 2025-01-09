@@ -10,7 +10,7 @@ import { CiCircleMinus } from "react-icons/ci";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Image from 'next/image';
 
-type Category = 'Featured' | 'Popular' | 'Trending' | 'Latest';
+type Category = 'Featured' | 'Popular' | 'Trending' | 'Latest' | 'All Course';
 
 interface CardUpdate {
   id: number;
@@ -99,7 +99,7 @@ const cardData = [
   },
 ];
 
-const customCategoryUpdates = {
+const customCategoryUpdates: Record<Exclude<Category, 'All Course'>, { id: number; heading: string; content: string }[]> = {
   Featured: [
     { id: 2, heading: 'Updated Card 2', content: 'Featured Content 2' },
     { id: 3, heading: 'Updated Card 3', content: 'Featured Content 3' },
@@ -117,10 +117,10 @@ const customCategoryUpdates = {
 };
 
 export default function ContentSection() {
-  const [activeCategory, setActiveCategory] = useState('All Course');
+  const [activeCategory, setActiveCategory] = useState<Category>('All Course');
 
   const handleCategoryChange = (event: React.SyntheticEvent, newValue: string) => {
-    setActiveCategory(newValue as Category); // Ensure type is a valid Category
+    setActiveCategory(newValue as Category); 
   };
 
   const filteredCards = () => {
@@ -130,27 +130,26 @@ export default function ContentSection() {
 
     const updates = customCategoryUpdates[activeCategory] || [];
     const updatedCards = cardData.map((card) => {
-      // Find if there's an update for this card based on its id
+     
       const update = updates.find((update :any ) => update.id === card.id);
-      
-      // If an update is found, merge it with the current card
+     
       if (update) {
         return { ...card, ...update };
       }
       
-      // Otherwise, return the original card
+    
       return card;
     });
 
-    // Limit cards based on category
+   
     if (activeCategory === 'Latest') {
-      return updatedCards.slice(0, 2); // Show only the first two cards
+      return updatedCards.slice(0, 2);
     }
     if (activeCategory === 'Popular' || activeCategory === 'Trending') {
-      return updatedCards.slice(0, 3); // Show only the first three cards
+      return updatedCards.slice(0, 3); 
     }
     if (activeCategory === 'Featured') {
-      return updatedCards.slice(0, 4); // Show only the first four cards
+      return updatedCards.slice(0, 4); 
     }
 
     return updatedCards;
@@ -170,7 +169,7 @@ export default function ContentSection() {
           aria-label="category tabs"
           sx={{
             '& .MuiTabs-indicator': {
-              display: 'none', // Hide the underline indicator
+              display: 'none', 
             },
           }}
         >
@@ -202,7 +201,7 @@ export default function ContentSection() {
               <div className='card-content-item'>
                 <div className='bookmark'>
                     <div className="rating-container">
-                       <img src={card.rating} alt="Rating" className="rating-img" />
+                       <Image src={card.rating} alt="Rating" className="rating-img" width={20} height={20} />
                        <span className="review-count">(15 reviews)</span>
                     </div>
                          <CiBookmark />

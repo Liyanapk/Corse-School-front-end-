@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditIcon from "@mui/icons-material/Edit";
+import Image from "next/image";
 
 const Data = [
   {
@@ -33,7 +33,7 @@ const Profile = () => {
       <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <img
+            <Image
               src={student.image}
               alt="Student Profile"
               className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white shadow-lg"

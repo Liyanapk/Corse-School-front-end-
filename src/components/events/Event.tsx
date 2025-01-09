@@ -14,7 +14,7 @@ const cards=[
 ]
 export default function Event(){
     return(
-        <div className='event-total'>
+        <div className='event-total' id='event'>
             <div className='event-head'>
                 <button>OUR EVENTS</button>
                 <h1>University Upcoming Events</h1>

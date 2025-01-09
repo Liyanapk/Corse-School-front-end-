@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AxiosInstance from '../../utils/axiosInstance';
 import Cookies from 'js-cookie';
+import Image from "next/image";
 
 interface AdminData {
   first_name: string;
@@ -111,7 +112,7 @@ const ViewAdmin = ({ params }: { params: { _id: string } }) => {
         {/* Profile Card */}
         <div className="bg-white shadow-lg rounded-lg w-full lg:w-1/2 xl:w-1/2 h-auto">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 text-center rounded-t-lg">
-            <img
+            <Image
               src={imageURL}
               alt="Profile"
               className="w-32 h-32 mx-auto rounded-full border-4 border-white"
@@ -156,7 +157,7 @@ const ViewAdmin = ({ params }: { params: { _id: string } }) => {
             {/* Image Upload Section */}
             <div className="col-span-1 md:col-span-2 flex flex-col items-center">
               <label className="relative cursor-pointer">
-                <img
+                <Image
                   src={imageURL}
                   width={24}
                   height={24}

@@ -12,6 +12,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AxiosInstance from "../../utils/axiosInstance";
 import Cookies from "js-cookie";
 import dayjs, { Dayjs } from "dayjs";
+import Image from "next/image";
 
 const AddAdmin = () => {
   const router = useRouter();
@@ -153,7 +154,7 @@ const AddAdmin = () => {
         {/* Image Upload Section */}
         <div className="col-span-1 md:col-span-2 flex flex-col items-center">
           <label className="relative cursor-pointer">
-            <img
+            <Image
               src={image || defaultImage}
               alt="User Image"
               width={24}

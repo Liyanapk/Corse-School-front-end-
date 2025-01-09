@@ -81,10 +81,10 @@ export default function FeedBack() {
   return (
     
 
-      <div className="feedback-content">
+      <div className="feedback-content" id='feedback'>
         <div className="feedback-top">
           <button className="feedback-head-button">EDUCATION FOR EVERYONE</button>
-          <h1 className="feedback-heading">Student's Feedback</h1>
+          <h1 className="feedback-heading">Students Feedback</h1>
         </div>
 
         <div className="feedback-row">
@@ -113,9 +113,9 @@ export default function FeedBack() {
             
           <Slider {...settings}>
             {cards.map((card) => (
-              <div className='feedback-card'>
+              <div className='feedback-card' key={card.name}>
 
-              <div className='feedback-card-top' key={card.name}>
+              <div className='feedback-card-top'>
 
                 <div className='image-div' >
                   <Image

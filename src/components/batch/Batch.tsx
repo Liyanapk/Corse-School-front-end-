@@ -114,6 +114,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 
   const handleOpenAdd = () => setModalOpen(true);
   const handleCloseAdd = () => setModalOpen(false);
+  
 
 
 
@@ -231,7 +232,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             onClick={handleOpenAdd}
             aria-label="Add a new batch"
           >
-            <AddBatch open={isModalOpen} onClose={handleCloseAdd} />
+            <AddBatch open={isModalOpen} />
             + Add Batch
           </button>
         )}
