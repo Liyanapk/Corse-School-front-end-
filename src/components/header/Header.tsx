@@ -6,8 +6,8 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
 
 export default function Header() {
-    // State to manage the hover state of "All Course" submenu
     const [isAllCourseOpen, setIsAllCourseOpen] = useState(false);
+    const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null); // Update type
 
     return (
         <div className="flex justify-center items-center bg-[#f3f5f8] h-[80px] gap-[14em] xl:gap-[10em] md:gap-[6em]">
@@ -26,43 +26,51 @@ export default function Header() {
                         <a href="#" className="hover:text-[#3a5bc9]">Home</a>
                     </li>
 
-                    {/* Courses menu */}
                     <li className="relative flex items-center gap-1 text-[16px] group">
-                        <a href="#" className="hover:text-[#3a5bc9]">Courses</a>
-                        <IoIosArrowDown className="transition-transform duration-200 group-hover:rotate-180" />
-                        
-                        {/* Dropdown for Courses */}
-                        <ul className="absolute left-0 top-[calc(100%+8px)] bg-white shadow-lg w-[200px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            {/* "All Course" with its submenu */}
-                            <li 
-                                className="relative flex items-center gap-1 group"
-                                onMouseEnter={() => setIsAllCourseOpen(true)}  // Open on hover
-                                onMouseLeave={() => setIsAllCourseOpen(false)}  // Close on hover leave
-                            >
-                                <a href="#" className="block p-2 hover:text-[#3a5bc9]">All Course</a>
-                                {/* Rotate the arrow based on isAllCourseOpen state */}
+                        <div className="flex items-center gap-1 cursor-pointer group-hover:text-[#3a5bc9]">
+                            <span>Courses</span>
+                            <IoIosArrowDown className="transition-transform duration-200 group-hover:rotate-180" />
+                        </div>
+
+                      
+                        <ul className="absolute left-0 top-[calc(100%+12px)] bg-white shadow-lg w-[200px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <li
+                            className="relative flex items-center gap-1 group"
+                            onMouseEnter={() => {
+                                const timeoutId = setTimeout(() => {
+                                    setIsAllCourseOpen(true);
+                                }, 200);
+                                setHoverTimeout(timeoutId);
+                            }}
+                            onMouseLeave={() => {
+                                if (hoverTimeout) clearTimeout(hoverTimeout);
+                                setIsAllCourseOpen(false);
+                            }}
+                        >
+                            <div className="flex items-center p-2 gap-1 cursor-pointer hover:text-[#3a5bc9]">
+                                <a href="#" className="block">All Course</a>
                                 <IoIosArrowDown
                                     className={`transition-transform duration-200 ${isAllCourseOpen ? 'rotate-180' : ''}`}
                                 />
-                                
-                                {/* Submenu for All Course */}
-                                {isAllCourseOpen && (
-                                    <ul className="absolute left-[180px] top-[calc(100%+8px)] bg-white shadow-lg w-[200px] transition-opacity duration-300">
-                                        <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Featured</a></li>
-                                        <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Popular</a></li>
-                                        <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Trending</a></li>
-                                        <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Latest</a></li>
-                                    </ul>
-                                )}
-                            </li>
+                            </div>
 
-                           
+                            {/* Submenu for All Course */}
+                            {isAllCourseOpen && (
+                                <ul className="absolute left-[205px] top-4 bg-white  w-[200px] z-10">
+                                    <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Featured</a></li>
+                                    <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Popular</a></li>
+                                    <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Trending</a></li>
+                                    <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Latest</a></li>
+                                </ul>
+                            )}
+                        </li>
+
+
                             <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Featured</a></li>
                             <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Popular</a></li>
                         </ul>
                     </li>
 
-                  
                     <li className="relative flex items-center gap-1 text-[16px] group">
                         <a href="#event" className="hover:text-[#3a5bc9]">Events</a>
                     </li>
