@@ -1,5 +1,5 @@
 'use client'
-import './FeedBack.css'
+
 import { useState, useEffect } from "react";
 import { IoIosAdd, IoIosRemove } from "react-icons/io";
 import Image from 'next/image';
@@ -89,7 +89,7 @@ export default function FeedBack() {
                 {expand === index ? <IoIosRemove className="text-2xl font-bold" /> : <IoIosAdd className="text-2xl font-bold" />}
               </button>
               {expand === index && (
-                <p className="w-full max-w-lg p-4 bg-opacity-50 bg-white shadow-md text-gray-600 text-sm">
+                <p className="w-full max-w-full p-4 bg-opacity-50 bg-white shadow-md text-gray-600 text-sm mt-2">
                   {data.description}
                 </p>
               )}

@@ -22,10 +22,10 @@ export default function Event() {
                 </h1>
             </div>
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mx-4 sm:mx-16 my-16'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-10 mx-4 sm:mx-16 my-16'>
                 {cards.map((card, index) => (
-                    <div className='w-full bg-white flex flex-col sm:flex-row p-5 gap-4 items-center rounded-lg shadow-md' key={index}>
-                        <div className='w-full'>
+                    <div className='max-w-xl bg-white flex flex-col sm:flex-row p-5 gap-6 items-center rounded-lg shadow-md' key={index}>
+                        <div className=''>
                             <Image
                                 src={card.image}
                                 alt={card.title}

@@ -39,7 +39,7 @@ export default function Header() {
                             onMouseEnter={() => {
                                 const timeoutId = setTimeout(() => {
                                     setIsAllCourseOpen(true);
-                                }, 200);
+                                }, 1000);
                                 setHoverTimeout(timeoutId);
                             }}
                             onMouseLeave={() => {

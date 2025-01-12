@@ -112,9 +112,3 @@ export default function Banner (){
 
     )
 }
-
-
-
-
-
-

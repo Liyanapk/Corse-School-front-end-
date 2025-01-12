@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="bg-white text-white py-16">
       <div className="container mx-auto px-20 md:px-10">
-        <div className="flex flex-col md:flex-row justify-between gap-16">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-x-80 gap-y-20">
           <div className="flex flex-col items-center md:items-start gap-8">
             <Image src="/images/logo/logo.png" alt="logo" width={152} height={49} />
             <p className="text-black text-center md:text-left max-w-sm">

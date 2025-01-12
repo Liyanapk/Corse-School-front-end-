@@ -15,6 +15,8 @@ export default function HomePage () {
 
     return(   
 
+       
+        
         <>
             <Banner/>
             <ContentSection/>
@@ -26,5 +28,7 @@ export default function HomePage () {
             <SendEmail/>
 
         </>
+      
+       
     )
 }
