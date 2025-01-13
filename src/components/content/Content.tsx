@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import './Content.css';
+
 import { Tabs, Tab } from '@mui/material';
 import { CiBookmark } from "react-icons/ci";
 import { FiBook } from "react-icons/fi";
@@ -156,11 +156,16 @@ export default function ContentSection() {
   };
 
   return (
-    <div className='content-section'>
-      <div className='content-section-items'>
-        <button className='popular-button'>POPULAR COURSE</button>
-        <p className='content-title'>Online Coaching Lessons For Remote Learning</p>
-        
+    <div className="flex flex-col items-center mt-32">
+      <div className="flex flex-col items-center gap-12">
+      <button className="flex-grow sm:w-40 h-10 bg-gray-200 text-blue-500 rounded-full">
+          POPULAR COURSE
+        </button>
+
+
+        <p className="text-4xl font-bold tracking-tight max-w-2xl text-center leading-tight">
+          Online Coaching Lessons For Remote Learning
+        </p>
         <Tabs
           value={activeCategory}
           onChange={handleCategoryChange}
@@ -169,64 +174,73 @@ export default function ContentSection() {
           aria-label="category tabs"
           sx={{
             '& .MuiTabs-indicator': {
-              display: 'none', 
+              display: 'none',
             },
           }}
         >
-          {[        
-          'All Course', 'Featured', 'Popular', 'Trending', 'Latest'].map((category) => (
-            <Tab
-              key={category}
-              label={category}
-              value={category}
-              className={`popular-item-buttons ${
-                activeCategory === category ? 'active' : ''
-              }`}
-              style={{
-                borderRadius: '50px',
-              }}
-            />
-          ))}
+<div className="flex flex-wrap justify-center gap-4 w-full">
+  {['All Course', 'Featured', 'Popular', 'Trending', 'Latest'].map((category) => (
+    <button
+      key={category}
+      className={`w-full sm:w-44 h-16 bg-white text-black text-lg rounded-full transition hover:bg-blue-500 hover:text-white ${
+        activeCategory === category ? 'bg-blue-500 text-black' : ''
+      }`}
+      onClick={(e) => handleCategoryChange(e, category)}
+    >
+      {category}
+    </button>
+  ))}
+</div>
+
+
         </Tabs>
-        
-        <div className='content-cards'>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-[350px] sm:w-[600px] lg:w-[900px] xl:w-[1300px]">
+
           {filteredCards().map((card) => (
-            <div className='card' key={card.id}>
-              <div>
-                <Image
-                 src={card.image} 
-                 alt={card.title} 
-                 width={231}
-                 height={324}
-                 className='card-image' />
-                
-              </div>
-              <div className='card-content-item'>
-                <div className='bookmark'>
-                    <div className="rating-container">
-                       <Image src={card.rating} alt="Rating" className="rating-img" width={20} height={20} />
-                       <span className="review-count">(15 reviews)</span>
-                    </div>
-                         <CiBookmark />
+        <div
+          key={card.id}
+          className="flex flex-col 1311px:flex-row bg-white rounded-lg p-6 gap-6 hover:shadow-xl hover:-translate-y-2 transition-transform"
+          style={{ boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1), 0 -4px 10px rgba(0, 0, 0, 0.1), 4px 0 10px rgba(0, 0, 0, 0.1), -4px 0 10px rgba(0, 0, 0, 0.1)' }}
+        >
+   
+       
+          
+              <Image
+                src={card.image}
+                alt={card.title}
+                width={231}
+                height={324}
+                className="rounded-md"
+              />
+              <div className="flex flex-col justify-between">
+                <div className="flex justify-between items-center mb-4">
+                  <div className="flex items-center gap-2">
+                    <Image src={card.rating} alt="Rating" width={60} height={60} />
+                    <span className="text-sm">(15 reviews)</span>
+                  </div>
+                  <CiBookmark className="text-xl" />
                 </div>
-                
-                
-                <h4 className='title'>{card.title}</h4>
-                <div className='person-book'>
-                    <FiBook /><span>{card.person}</span>
-                    <MdOutlinePerson /><span>{card.lesson}</span>
+                <h4 className="text-xl font-bold">{card.title}</h4>
+                <div className="flex items-center gap-4 my-2">
+                  <FiBook />
+                  <span>{card.person}</span>
+                  <MdOutlinePerson />
+                  <span>{card.lesson}</span>
                 </div>
-                <p className='para-1'>{card.paragraph1}</p>
-                <p className='para-2'><CiCircleMinus className='icon-container' />{card.paragraph2}</p>
-
-                <div className='card-end'>
-                    <p className="pricing">
-                       <span className="new-price">{card.pricing}</span>
-                       <span className="original-price">{card.actualPrice}</span>
-                    </p>
-                       <p className='content-learnmore'>Learn More  <IoIosArrowRoundForward /></p>
+                <p className="text-sm text-gray-700">{card.paragraph1}</p>
+                <p className="text-sm flex items-center text-gray-500">
+                  <CiCircleMinus className="mr-2" />
+                  {card.paragraph2}
+                </p>
+                <div className="flex justify-between items-center mt-4">
+                  <p className="text-lg font-semibold text-blue-500">
+                    <span className="mr-2">{card.pricing}</span>
+                    <span className="line-through text-gray-400">{card.actualPrice}</span>
+                  </p>
+                  <p className="flex items-center text-blue-500 cursor-pointer">
+                    Learn More <IoIosArrowRoundForward className="ml-2" />
+                  </p>
                 </div>
-
               </div>
             </div>
           ))}

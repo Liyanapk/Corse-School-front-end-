@@ -24,12 +24,13 @@ export default function Event() {
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-10 mx-4 sm:mx-16 my-16'>
                 {cards.map((card, index) => (
-                    <div className='max-w-xl bg-white flex flex-col sm:flex-row p-5 gap-6 items-center rounded-lg shadow-md' key={index}>
-                        <div className=''>
+                    <div className='max-w-xl bg-white flex flex-col sm:flex-row p-5 gap-6 items-center rounded-lg hover:shadow-xl hover:-translate-y-2 transition-transform' key={index}
+                    style={{ boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1), 0 -4px 10px rgba(0, 0, 0, 0.1), 4px 0 10px rgba(0, 0, 0, 0.1), -4px 0 10px rgba(0, 0, 0, 0.1)' }}>
+                        <div>
                             <Image
                                 src={card.image}
                                 alt={card.title}
-                                width={400} // Fixing the width here for large screens
+                                width={400} 
                                 height={250}
                                 className='rounded-lg object-cover'
                             />
