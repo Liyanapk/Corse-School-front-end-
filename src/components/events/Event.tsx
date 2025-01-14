@@ -4,10 +4,10 @@ import { CiClock2 } from "react-icons/ci";
 import { PiArrowRightThin } from "react-icons/pi";
 
 const cards = [
-    { image: '/images/event/eventCard.jpeg', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
-    { image: '/images/event/eventCard.jpeg', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
-    { image: '/images/event/eventCard.jpeg', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
-    { image: '/images/event/eventCard.jpeg', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' }
+    { image: '/images/event/Event2.webp', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
+    { image: '/images/event/Event2.webp', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
+    { image: '/images/event/Event2.webp', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
+    { image: '/images/event/Event2.webp', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' }
 ];
 
 export default function Event() {

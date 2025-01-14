@@ -1,20 +1,19 @@
-import Footer from "@/components/footer/Footer"
-import Header from "@/components/header/Header"
-
+import dynamic from "next/dynamic";
+const Footer = dynamic(() => import("@/components/footer/Footer"));
+const Header = dynamic(() => import("@/components/header/Header"));
 
 interface Props {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
-
 
 const Layout = ({ children }: Props) => {
-return (
+  return (
     <>
-    <Header/>
-    {children}
-    <Footer/>
+      <Header />
+      {children}
+      <Footer />
     </>
-)
-}
+  );
+};
 
-export default Layout 
+export default Layout;

@@ -21,7 +21,7 @@ export default function Footer() {
               <RiInstagramFill />
               <FaLinkedinIn />
             </div>
-            <button className="mt-6 border-4 border-violet-600 text-black font-bold py-3 px-6 rounded-full flex items-center gap-2 hover:bg-purple-700 transition-all">
+            <button className="mt-6 border-2 border-violet-700 text-black font-bold py-3 px-6 rounded-full flex items-center gap-2 hover:bg-gradient-to-r from-blue-500 to-purple-500 hover:text-white transition-all">
               Contact with us <BsArrowRight />
             </button>
           </div>

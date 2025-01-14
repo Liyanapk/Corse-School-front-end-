@@ -10,21 +10,21 @@ import Slider from "react-slick";
 
 const cards = [
   {
-    profile: '/images/card/profile.webp',
+    profile: '/images/card/feedback_profile.webp',
     name: "Maldonado",
     position: "Executive Chairman",
     place: "@ Google",
     description: "After the launch, vulputate at sapien sit amet, auctor iaculis lorem. In vel hend rerit nisi. Vestibulum eget risus velit. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the"
   },
   {
-    profile: '/images/card/profile.webp',
+    profile: '/images/card/feedback_profile.webp',
     name: "Maldonado",
     position: "Executive Chairman",
     place: "@ Google",
     description: "After the launch, vulputate at sapien sit amet, auctor iaculis lorem. In vel hend rerit nisi. Vestibulum eget risus velit. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the"
   },
   {
-    profile: '/images/card/profile.webp',
+    profile: '/images/card/feedback_profile.webp',
     name: "Maldonado",
     position: "Executive Chairman",
     place: "@ Google",

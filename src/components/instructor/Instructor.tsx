@@ -9,10 +9,10 @@ export default function InstructorPage(){
 
 
     const cardData = [
-        { name: 'Irma J. Erwin ' , subject:'English Teacher', image:'/images/card/card.webp'},
-        { name: 'John Due' , subject : 'English Teacher', image:'/images/card/card.webp' },
-        { name: 'Joo Bieden', subject : 'English Teacher', image:'/images/card/card.webp' },
-        { name: 'Alejandro', subject : 'English Teacher', image:'/images/card/card.webp'}
+        { name: 'Irma J. Erwin ' , subject:'English Teacher', image:'/images/card/instructure3-1.webp'},
+        { name: 'John Due' , subject : 'English Teacher', image:'/images/card/instructure3-1.webp' },
+        { name: 'Joo Bieden', subject : 'English Teacher', image:'/images/card/instructure3-1.webp' },
+        { name: 'Alejandro', subject : 'English Teacher', image:'/images/card/instructure3-1.webp'}
     ]
     return(
         <div className='instructor-content'>
@@ -27,6 +27,7 @@ export default function InstructorPage(){
                     <Image
                      src={card.image} 
                      alt={card.name} 
+                    
                      width={300}
                      height={500}
                      />

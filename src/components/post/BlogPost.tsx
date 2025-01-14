@@ -3,21 +3,21 @@ import { PiArrowRightThin } from "react-icons/pi";
 
 const blogPosts = [
   {
-    image: "/images/post/post(img1).webp",
+    image: "/images/post/PopularPost.webp",
     alt: "image",
     title: "How to Analyze Your Best Pages for SEO Performance",
     description: "It is a long established fact that a reader.",
     link: "/learn-more"
   },
   {
-    image: "/images/post/post(image).webp",
+    image: "/images/post/Popularpost_sub(1).webp",
     alt: "image",
     title: "Difficult Things About Education.",
     description: "",
     link: "/read-article"
   },
   {
-    image: "/images/post/post(image).webp",
+    image: "/images/post/Popularpost_sub(1).webp",
     alt: "image",
     title: "Education Is So Famous, But Why?",
     description: "",
@@ -33,7 +33,7 @@ export default function BlogPost() {
         <button className="w-[90px] h-[35px] text-[#d87093] bg-[#bb84bb1f] border-none rounded-full text-sm">
           BLOG POST
         </button>
-        <h1 className="text-3xl font-extrabold flex justify-around gap-x-36 items-center w-full">
+        <h1 className="text-3xl font-extrabold flex flex-col justify-center gap-y-10 items-center">
           Post Popular Post.
           <button className="text-sm w-[130px] h-[45px] text-white bg-gradient-to-r from-blue-500 to-violet-500 font-bold rounded-xl flex items-center justify-center gap-1">
             See All Articles <PiArrowRightThin />
@@ -43,7 +43,7 @@ export default function BlogPost() {
 
       <div className="flex flex-col xl:flex-row gap-6 justify-center items-center w-full">
         {/* Main box on the left side */}
-        <div className="w-[60%] sm:w-[70%] md:w-[50%] xl:w-[800px] h-[500px] md:h-[500px] sm:h-[400px] xl:h-[500px] bg-white p-4 rounded-lg shadow-lg">
+        <div className="xl:w-[820px] h-[500px] md:h-[530px] sm:h-[450px] xl:h-[500px] bg-white p-4 rounded-lg shadow-lg">
           <Image
             src={blogPosts[0].image}
             alt={blogPosts[0].alt}
