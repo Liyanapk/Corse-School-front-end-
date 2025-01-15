@@ -20,23 +20,25 @@ export default function Banner (){
         slidesToShow: 3,
         slidesToScroll: 1,
         responsive: [
-            {
-              breakpoint: 1310,
+
+           {
+              breakpoint: 1500,
               settings: {
                 slidesToShow: 2,
-                slidesToScroll: 3,
+                slidesToScroll: 1,
                 infinite: false,
-                dots: false
               }
             },
             
             {
-              breakpoint: 896,
+              breakpoint: 1011,
               settings: {
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 infinite: false,
-                dots: false
+                arrows: false,
+                dots: true,
+                
               }
             }
           ]
@@ -88,7 +90,7 @@ export default function Banner (){
         <div className="banner-card-row">
              <div className="banner-card-head">
                 <h1>{card.title}</h1>
-                <h2>{card.description}</h2>
+                <h2 className="banner-card-head2">{card.description}</h2>
                 <p  className='banner-arrow'>Learn More  <PiArrowRightThin /> </p>
             </div>
             <div className="banner-image-div">
