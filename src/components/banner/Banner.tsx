@@ -29,8 +29,6 @@ export default function Banner (){
                 infinite: false,
               }
             },
-      
-            
             {
               breakpoint: 1011,
               settings: {
