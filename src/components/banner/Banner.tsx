@@ -48,22 +48,27 @@ export default function Banner (){
         {
             title: 'React',
             description: 'Spken english dolor sit, amet consectetur.',
-            image: '/images/card/subjectImage.webp'
+            image: '/images/card/subjectImage.webp',
+            entrolled:"1500+ students"
         },
         {
             title:'English',
             description:'Spken english dolor sit, amet consectetur.',
-            image:'/images/card/subjectImage.webp'
+            image:'/images/card/subjectImage.webp',
+            entrolled:"100+ students"
         },
         {
             title:'Education',
             description:'Eearning edu dolor sit, amet consectetur.',
-            image:'/images/card/subjectImage.webp'
+            image:'/images/card/subjectImage.webp',
+            entrolled:"1300+ students"
         },
         {
             title:'Education',
             description:'Lorem ipsum dolor sit, amet consectetur.',
-            image:'/images/card/subjectImage.webp'
+            image:'/images/card/subjectImage.webp',
+            entrolled:"1000+ students"
+
         }
         
     ];
@@ -90,7 +95,7 @@ export default function Banner (){
              <div className="banner-card-head">
                 <h1>{card.title}</h1>
                 <h2 className="banner-card-head2">{card.description}</h2>
-                <p  className='banner-arrow'>Learn More  <PiArrowRightThin /> </p>
+                <p  className='banner-arrow'>{card.entrolled} </p>
             </div>
             <div className="banner-image-div">
              <Image

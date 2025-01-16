@@ -7,10 +7,10 @@ import { useState } from "react";
 
 export default function Header() {
     const [isAllCourseOpen, setIsAllCourseOpen] = useState(false);
-    const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null); // Update type
+    const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null); 
 
     return (
-        <div className="flex justify-center items-center bg-[#f3f5f8] h-[80px] gap-[14em] xl:gap-[10em] md:gap-[6em]">
+        <div className="flex justify-center items-center p-4 bg-[#f3f5f8] h-[80px] gap-[10em] xl:gap-[10em] xl:justify-center md:justify-between " id="home">
             <div>
                 <Image
                     src="/images/logo/logo.png"
@@ -21,9 +21,9 @@ export default function Header() {
             </div>
 
             <div className="hidden lg:flex">
-                <ul className="flex gap-[2em]">
+                <ul className="flex gap-[1em]">
                     <li className="relative flex items-center gap-1 text-[16px] group">
-                        <a href="#" className="hover:text-[#3a5bc9]">Home</a>
+                        <a href="#home" className="hover:text-[#3a5bc9]">Home</a>
                     </li>
 
                     <li className="relative flex items-center gap-1 text-[16px] group">
@@ -54,7 +54,7 @@ export default function Header() {
                                 />
                             </div>
 
-                            {/* Submenu for All Course */}
+                          
                             {isAllCourseOpen && (
                                 <ul className="absolute left-[205px] top-4 bg-white  w-[200px] z-10">
                                     <li><a href="#" className="block p-2 hover:text-[#3a5bc9]">Featured</a></li>
