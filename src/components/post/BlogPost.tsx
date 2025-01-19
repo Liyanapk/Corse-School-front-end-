@@ -1,7 +1,19 @@
+'use client'
 import Image from "next/image";
 import { PiArrowRightThin } from "react-icons/pi";
+import { useState } from "react";
 
-const blogPosts = [
+
+
+interface BlogPost {
+  image: string;
+  alt: string;
+  title: string;
+  description: string;
+  link: string;
+}
+
+const blogPosts: BlogPost[] = [
   {
     image: "/images/post/PopularPost.webp",
     alt: "image",
@@ -13,7 +25,7 @@ const blogPosts = [
     image: "/images/post/Popularpost_sub(1).webp",
     alt: "image",
     title: "Difficult Things About Education.",
-    description: "",
+    description: "ijijpokp",
     link: "/read-article"
   },
   {
@@ -27,6 +39,25 @@ const blogPosts = [
 ];
 
 export default function BlogPost() {
+
+  
+  const [mainCard, setMainCard] = useState<BlogPost>(blogPosts[0]); // Main card
+  const [sidePosts, setSidePosts] = useState<BlogPost[]>(blogPosts.slice(1)); // Remaining posts for the right side
+
+  const handlePostClick = (clickedPost: BlogPost) => {
+    // Update side posts by removing the clicked post and adding the current main card
+    const updatedSidePosts = sidePosts.filter((post) => post.title !== clickedPost.title);
+    updatedSidePosts.push({ ...mainCard, description: "" }); // Add the current main card with a cleared description
+
+    const clickedPostWithDescription = blogPosts.find((post) => post.title === clickedPost.title) ?? clickedPost;
+
+    setMainCard(clickedPostWithDescription); // Set the clicked post as the main card
+    setSidePosts(updatedSidePosts); // Update the side posts
+  };
+  
+
+
+
   return (
     <div className="flex flex-col items-center gap-6 bg-[#aed5f53a] mt-[-4rem] p-6">
       <div className="flex flex-col items-center text-left gap-6 w-full">
@@ -45,28 +76,29 @@ export default function BlogPost() {
         {/* Main box on the left side */}
         <div className="xl:w-[820px] h-[500px] md:h-[530px] sm:h-[450px] xl:h-[500px] bg-white p-4 rounded-lg shadow-lg">
           <Image
-            src={blogPosts[0].image}
-            alt={blogPosts[0].alt}
+            src={mainCard.image}
+            alt={mainCard.alt}
             width={500}
             height={300}
             className="object-cover w-full h-[300px]"
           />
-          <h1 className="text-xl font-bold pt-4">{blogPosts[0].title}</h1>
-          {blogPosts[0].description && (
-            <h3 className="text-sm text-gray-600">{blogPosts[0].description}</h3>
+          <h1 className="text-xl font-bold pt-4">{mainCard.title}</h1>
+          {mainCard.description && (
+            <h3 className="text-sm text-gray-600">{mainCard.description}</h3>
           )}
           <p className="text-sm font-normal text-black py-3 flex items-center gap-2">
-            {blogPosts[0].link.includes("learn-more") ? "Learn More" : "Read Article"}{" "}
+            {mainCard.link.includes("learn-more") ? "Learn More" : "Read Article"}{" "}
             <PiArrowRightThin />
           </p>
         </div>
 
         {/* Right side container with three posts */}
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 md:grid-cols-1">
-          {blogPosts.slice(1).map((post, index) => (
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 md:grid-cols-1 pt-16">
+          {sidePosts.map((post, index) => (
             <div
               key={index}
-              className="bg-white p-4 rounded-lg shadow-lg w-full sm:w-[250px] md:w-[350px] h-[250px] sm:h-[250px] md:h-[250px] xl:[120px]  "
+              onClick={() => handlePostClick(post)}
+              className="bg-white p-4 rounded-lg shadow-lg w-full sm:w-[250px] md:w-[350px]  xl:[120px]  "
             >
               <Image
                 src={post.image}
@@ -76,9 +108,6 @@ export default function BlogPost() {
                 className="object-cover w-full h-[150px]"
               />
               <h1 className="text-lg font-bold pt-3">{post.title}</h1>
-              {post.description && (
-                <h3 className="text-sm text-gray-600">{post.description}</h3>
-              )}
               <p className="text-sm font-normal text-black py-3 flex items-center gap-2">
                 {post.link.includes("learn-more") ? "Learn More" : "Read Article"}{" "}
                 <PiArrowRightThin />

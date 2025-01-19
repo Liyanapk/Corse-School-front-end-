@@ -8,6 +8,21 @@ import { CiCircleMinus } from "react-icons/ci";
 import Image from "next/image";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
+
+
+interface Card {
+  id: number;
+  title: string;
+  category: string;
+  image: string;
+  paragraph1: string;
+  paragraph2: string;
+  pricing: string;
+  actualPrice: string;
+  rating: string;
+  lesson: string;
+  person: string;
+}
 const cardData = [
   {
     id: 1,
@@ -23,7 +38,7 @@ const cardData = [
     person: "80 Students",
   },
   {
-    id: 23,
+    id: 2,
     title: "Mastering UI/UX Design Principles",
     category: "UI/UX Design",
     image: "/images/content/cards_images.webp",
@@ -143,7 +158,7 @@ const cardData = [
 
 const ROWS_TO_DISPLAY = 2;
 
-const Card = ({ card, onClick }) => (
+const Card =  ({ card, onClick }: { card: Card; onClick: (card: Card) => void })  => (
   <div
     className="flex flex-col bg-white rounded-lg justify-center items-center gap-6 hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer"
     style={{
