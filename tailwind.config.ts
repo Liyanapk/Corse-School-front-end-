@@ -17,6 +17,15 @@ const config: Config = {
         '1311px': '1311px', 
         '1024px' : '1024px'
       },
+      animation: {
+        loopLeft: 'loopLeft 20s linear infinite',
+      },
+      keyframes: {
+        loopLeft: {
+          '0%': { transform: 'translateX(0)' },          // Start from the left
+          '100%': { transform: 'translateX(-100%)' },    // Move to the left edge
+        },
+      },
     },
   },
   plugins: [],

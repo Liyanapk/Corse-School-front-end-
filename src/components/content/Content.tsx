@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Tabs, Tab } from "@mui/material";
-import { CiBookmark } from "react-icons/ci";
+
 import { FiBook } from "react-icons/fi";
 import { MdOutlinePerson } from "react-icons/md";
 import { CiCircleMinus } from "react-icons/ci";
@@ -116,6 +116,7 @@ const customCategoryUpdates: Record<
 
 export default function ContentSection() {
   const [activeCategory, setActiveCategory] = useState<Category>("All Course");
+  const [visibleRows, setVisibleRows] = useState(2);
 
   const handleCategoryChange = (
     event: React.SyntheticEvent,
@@ -153,7 +154,14 @@ export default function ContentSection() {
     return updatedCards;
   };
 
+
+  const handleShowMore = () => {
+    setVisibleRows(prevRows => prevRows + 2);
+  };
+
   const router = useRouter()
+
+  const filteredAndVisibleCards = filteredCards().slice(0, visibleRows);
 
   return (
     <div className="flex flex-col items-center mt-32">
@@ -196,7 +204,7 @@ export default function ContentSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-[350px] sm:w-[600px] lg:w-[900px] xl:w-[1300px]"
         onClick={() => router.push('/sladingpages/contentCard')}
         >
-          {filteredCards().map((card) => (
+          {filteredAndVisibleCards.map((card) => (
             <div
               key={card.id}
               className="flex flex-col 1311px:flex-row bg-white rounded-lg p-6 gap-6 hover:shadow-xl hover:-translate-y-2 transition-transform"
@@ -223,7 +231,7 @@ export default function ContentSection() {
                     />
                     <span className="text-sm">(15 reviews)</span>
                   </div>
-                  <CiBookmark className="text-xl" />
+                 
                 </div>
                 <h4 className="text-xl font-bold">{card.title}</h4>
                 <div className="flex items-center gap-4 my-2">
@@ -252,6 +260,14 @@ export default function ContentSection() {
             </div>
           ))}
         </div>
+        {filteredCards().length > visibleRows && (
+          <button
+            onClick={handleShowMore}
+            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+          >
+            Show More
+          </button>
+        )}
       </div>
     </div>
   );
