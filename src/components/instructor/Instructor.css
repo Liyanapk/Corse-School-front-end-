@@ -1,341 +1,124 @@
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-.instructor-content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: auto;
-    padding-bottom: 4rem;
-    margin: 0 auto;
-    background-color: #e4deff44;
-    margin-top: 4rem;
-    max-width: 100%;
-  
+.instructor-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  padding-bottom: 4rem;
+  margin: 0 auto;
+  background-color: #e4deff44;
+  margin-top: 4rem;
+  max-width: 100%;
 }
 
-.instructor-head{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.3em;
-   
-
+.instructor-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
 }
-.instructor-span{
-    color: rgb(235, 158, 170);
-    font-weight: 500;
-    font-size: 14px;
-    width: 150px;
-    height: 30px;
-    background-color: rgba(236, 163, 186, 0.212);
-    border-radius: 50px;
-    margin-top: 6rem;
+.instructor-span {
+  color: rgb(235, 158, 170);
+  font-weight: 500;
+  font-size: 14px;
+  width: 150px;
+  height: 30px;
+  background-color: rgba(236, 163, 186, 0.212);
+  border-radius: 50px;
+  margin-top: 6rem;
 }
-.instructor-head{
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
+.instructor-head {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
 }
-.instructor-para{
-    font-size: 20px;
-    font-weight: normal;
-    letter-spacing: 1.5px;
-    width: 900px;
-    text-align: center;
-    color: gray;
-    width: 90%; 
-    max-width: 600px;
-    margin: 0 auto;
+.instructor-para {
+  font-size: 20px;
+  font-weight: normal;
+  letter-spacing: 1.5px;
+  width: 900px;
+  text-align: center;
+  color: gray;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
 }
-.card-grid{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 2em; 
-    margin-top: 2rem;
-    
-   
-}
-.instructor-card-icons{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: white;
-    font-size: 18px;
-    gap: 0.4em;
-    opacity: 0; 
-    width: 0;
-    overflow: hidden; 
-    white-space: nowrap; 
-    transition: width 1s ease, opacity 0.5s ease-in-out;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 4em 0;
+  width: 1000px ;
 }
 
-.instructor-card-items{
-    position: absolute;
-    top: 5%;
-    left: 10%;
-    display: flex;
-    flex-direction: column;
-    gap: 16em;
-    
+.instructor-card {
+  position: relative;
+  overflow: hidden;
+  border: none;
 }
-.instructor-card{
-    position: relative;
-    overflow: hidden;
-    border: 1px white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-   
-
+.instructor-card img {
+  display: flex;
+  flex-direction: row;
+  gap: 4em;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
 }
 
-.instructor-card:hover{
-    transform: translateY(-10px); 
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
-    
-    
+.instructor-card img:hover {
+  transform: scale(1.1);
+  filter: brightness(0.7);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 255, 0.925),
+    rgba(255, 255, 255, 0.37)
+  );
 }
 
-.instructor-card-content{
-    display: flex;
-    flex-direction: column;
-    gap: 0.2em;
+.instructor-card-items {
+  position: absolute;
+  bottom: 10%;
+  left: -100%;
+  z-index: 2;
+  text-align: center;
+  opacity: 0;
+  transition:
+    opacity 0.5s ease-in-out,
+    transform 0.5s ease-in-out;
 }
-.instructor-card-content h1{
-    font-size: 35px;
-    color: white;
-    font-weight: bolder;
-    opacity: 0; 
-    width: 0;
-    overflow: hidden; 
-    white-space: nowrap; 
-    transition: width 1s ease, opacity 0.5s ease-in-out;
-    
-}
-.instructor-card-content p{
-    font-size: 12px;
-    color: white;
-    opacity: 0; 
-    width: 0; 
-    overflow: hidden; 
-    white-space: nowrap; 
-    transition: width 1s ease, opacity 0.5s ease-in-out;
+.instructor-card:hover .instructor-card-items {
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
 }
 
-.instructor-card:hover .instructor-card-icons {
-    
-    opacity: 1;
-    width: 100%;
-    
+.instructor-card-icons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+  color: white;
+  font-size: 18px;
 }
 
-
-
-
-
-.instructor-card:hover .instructor-card-content h1 {
-    opacity: 1; 
-    width: 100%;
+.instructor-card-content h1,
+.instructor-card-content p {
+  color: white;
+  margin: 0.3em 0;
 }
 
-.instructor-card:hover .instructor-card-content p {
-    opacity: 1; 
-    width: 100%;
+.instructor-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  animation: slideIn 0.5s ease-in-out;
 }
-
-.instructor-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 255, 0.925), rgba(255, 255, 255, 0.37)); 
-    opacity: 0;
-    z-index: 0; 
-    transition: opacity 0.3s;
-}
-.instructor-card:hover::before {
-    opacity: 1; 
-}
-
 
 /* mediaQuery */
-
-
-@media (max-width: 1392px){
-    .card-grid{
-        gap: 1em; 
-        margin-top: 4rem ;
-        padding: 80px 80px;
-    }
-    .instructor-content{ 
-         padding-bottom: 4rem;
-         width: 100%;
-    }
-    .instructor-card-items{  
-        gap: 13em;    
-    }
-
-}
-
-@media(max-width:1176px){
-    .instructor-card-items{  
-        gap: 12em;    
-    }
-    .instructor-card-content h1{
-        font-size: 28px;  
-    }
-   
-}
-@media (max-width: 1058px){
-    .instructor-card-items{  
-        gap: 10em;    
-    }  
-   
-}
-
-
-@media (max-width: 1024px){
-    .card-grid{
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 4em; 
-    padding: 10px 10px;  
-        
-    }
-    .instructor-card-items{  
-    gap: 16em;    
-    }
-   
-   
-}
-
-@media(max-width:949px){
-    .card-grid{
-    gap: 1em; 
-    }
-    .instructor-card{
-    margin: 0px 30px 0px 30px;
-    }
-    .instructor-card-items{  
-    gap: 16em;    
-    }
-   
-    
-}
-
-@media (max-width: 894px){
-    .card-grid{
-    gap: 2em; 
-    }
-    .instructor-head{
-    font-size: 45px;
-        
-    }
-    .instructor-para{
-     font-size: 16px;
-     width: 750px;
-    
-    }
-    
-}
-
-
-@media(max-width:758px){
-    .instructor-card-content h1{
-    font-size: 20px;
-    }
-    .card-grid{
-    padding: 10px 10px;
-    }
-}
-
-@media (max-width: 734px){
-    .card-grid{
-    gap: 1em; 
-    }
-    .instructor-head{
-     font-size: 40px;
-        
-    }
-    .instructor-para{
-    font-size: 14px;
-    width: 700px;
-    
-    }
-    
-
-}
-
-@media (max-width: 682px){
-    .card-grid{
-    grid-template-columns: repeat(1, 1fr); 
-}
-    .instructor-head {
-    font-size: 35px;
-    width: 100%; 
-    }
-    .instructor-para {
-        width: 90%; 
-    }
-    .instructor-card-items{  
-    gap: 16em;    
-        }  
-       
-}
-    
-
-
-@media (max-width: 574px){
-    
-    .instructor-head{
-    width: 400px;
-    }
-    .instructor-para{
-    width: 400px;
-    text-align: center;
-    } 
-}
-
-@media (max-width: 506px){
-    .instructor-content{
-    width: 100%;
-   }
-}
-@media (max-width: 492px){
-    .instructor-para{
-    width: 300px;
-    font-size: 10px;
-    text-align: center;
-    }
-    .instructor-card-items{  
-    gap: 14em;    
-     }  
-}
-@media (max-width: 472px){
-    .instructor-card-items{  
-     gap: 18em;    
-     }   
-}
-
-@media (max-width: 400px){
-    .card-grid{
-     padding: 10px 10px;
-    } 
-}
-@media (max-width: 368px){
-    .card-grid{
-     padding: 0px 0px;
-    } 
-}
-
-
-
-
-
-
-   

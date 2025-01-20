@@ -1,12 +1,42 @@
+'use client'
 import "./Instructor.css";
 import { FaFacebookF } from "react-icons/fa6";
 import { TiSocialLinkedin } from "react-icons/ti";
 import { TiSocialTwitter } from "react-icons/ti";
 import Image from "next/image";
 import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 export default function InstructorPage() {
+
+    var settings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToScroll: 3,
+        slidesToShow: 3,
+        responsive: [
+            {
+              breakpoint: 1035,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                infinite: false,
+              },
+            },
+            {
+                breakpoint: 777,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                  infinite: false,
+                },
+              }
+        ]
+      };
 
 
     const cardData = [
@@ -32,6 +62,11 @@ export default function InstructorPage() {
             subject: "English Teacher",
             image: "/images/card/instructure3-1.webp",
         },
+        {
+            name: "Alejandro",
+            subject: "English Teacher",
+            image: "/images/card/instructure3-1.webp",
+        },
     ];
 
     return (
@@ -47,7 +82,8 @@ export default function InstructorPage() {
             
             <div className="card-grid">
                
-            
+            <div className="slider-container">
+      <Slider {...settings}>
                         {cardData.map((card) => (
                             <div className="instructor-card" key={card.name}>
                                 <Image
@@ -69,7 +105,8 @@ export default function InstructorPage() {
                                 </div>
                             </div>
                         ))}
-               
+               </Slider>
+               </div>
                 </div>
             </div>
         
