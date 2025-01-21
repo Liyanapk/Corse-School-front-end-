@@ -21,6 +21,8 @@ export default function Banner() {
           slidesToShow: 2,
           slidesToScroll: 1,
           infinite: false,
+          dots: true,
+          arrows:false,
         },
       },
       {

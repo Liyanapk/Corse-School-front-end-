@@ -33,6 +33,7 @@ export default function InstructorPage() {
                   slidesToShow: 1,
                   slidesToScroll: 1,
                   infinite: false,
+                  
                 },
               }
         ]

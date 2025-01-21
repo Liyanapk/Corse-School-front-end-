@@ -63,7 +63,8 @@ body {
 .instructor-card {
   position: relative;
   overflow: hidden;
-  border: none;
+  border: white;
+  
 }
 .instructor-card img {
   display: flex;
@@ -71,6 +72,7 @@ body {
   gap: 4em;
   object-fit: cover;
   transition: transform 0.3s ease-in-out;
+ 
 }
 
 .instructor-card img:hover {
@@ -98,6 +100,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   opacity: 1;
+  
 }
 
 .instructor-card-icons {
@@ -121,4 +124,36 @@ body {
   animation: slideIn 0.5s ease-in-out;
 }
 
-/* mediaQuery */
+
+
+
+
+@media(max-width:1035px){
+  .card-grid {
+    width: 680px ;
+  }
+}
+@media (max-width: 777px) {
+  .card-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    width: 340px;
+  }
+
+  .slider-container {
+    width: 90%; 
+  }
+
+  .instructor-card {
+    width: 100%; 
+    max-width: 300px; 
+    margin: 0 auto; 
+  }
+
+  .instructor-card img {
+    width: 100%;
+    height: auto;
+  }
+}

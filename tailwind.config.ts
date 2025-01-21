@@ -18,12 +18,17 @@ const config: Config = {
         '1024px' : '1024px'
       },
       animation: {
-        loopLeft: 'loopLeft 20s linear infinite',
+        bounceWave: "bounceWave 2s ease-in-out infinite", 
+        float: "float 3s ease-in-out infinite", 
       },
       keyframes: {
-        loopLeft: {
-          '0%': { transform: 'translateX(0)' },          // Start from the left
-          '100%': { transform: 'translateX(-100%)' },    // Move to the left edge
+        bounceWave: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
     },
