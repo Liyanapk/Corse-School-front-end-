@@ -45,28 +45,28 @@ export default function InstructorPage() {
        
         {
             name: "Irma J. Erwin ",
-            subject: "English Teacher",
-            image: "/images/card/instructure3-1.webp",
+            subject: "REACT Teacher",
+            image: "/images/card/instuctor2 (1).webp",
         },
         {
             name: "John Due",
-            subject: "English Teacher",
-            image: "/images/card/instructure3-1.webp",
+            subject: "AI Teacher",
+            image: "/images/card/instructure3.webp",
         },
         {
             name: "Joo Bieden",
-            subject: "English Teacher",
-            image: "/images/card/instructure3-1.webp",
+            subject: "ANGULAR Teacher",
+            image: "/images/card/instructor4 (1).webp",
         },
         {
             name: "Alejandro",
-            subject: "English Teacher",
-            image: "/images/card/instructure3-1.webp",
+            subject: "ML Teacher",
+            image: "/images/card/instructure3.webp",
         },
         {
             name: "Alejandro",
-            subject: "English Teacher",
-            image: "/images/card/instructure3-1.webp",
+            subject: "ANDROID Teacher",
+            image: "/images/card/instructure3.webp",
         },
     ];
 
@@ -91,7 +91,7 @@ export default function InstructorPage() {
                                     src={card.image}
                                     alt={card.name}
                                     width={300}
-                                    height={500}
+                                    height={30}
                                 />
                                 <div className="instructor-card-items">
                                     <div className="instructor-card-icons">

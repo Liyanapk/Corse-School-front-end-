@@ -28,7 +28,7 @@ export default function Category() {
           <div
             key={index}
             className={`bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-400 shadow-lg px-10 py-4 rounded-full text-gray-700 text-center font-semibold cursor-pointer transition-transform duration-300 hover:scale-110 hover:shadow-xl hover:bg-purple-500 hover:text-white
-              animate-fallDown animate-bounceRain`}
+             `}
             style={{
               animationDelay: `${index * 0.5}s`, // staggered animation
               animationDuration: "2s", // timing for each item

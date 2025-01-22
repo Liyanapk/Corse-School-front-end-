@@ -103,7 +103,7 @@ export default function BlogPost() {
         </div>
 
         {/* Right side container */}
-        <div className="xl:w-[400px] h-[500px] overflow-y-auto scroll-smooth border p-4 rounded-lg">
+        <div className="xl:w-[400px] h-[500px] overflow-y-auto scrollbar-thumb-sky-700 scrollbar-thin  scrollbar-track-blue-400 border p-4 rounded-lg">
           {[...sidePosts, ...extraRows].map((post, index) => (
             <div
               key={index}

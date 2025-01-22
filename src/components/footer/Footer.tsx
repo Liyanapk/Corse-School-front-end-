@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import { FaFacebookF } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
@@ -21,7 +22,15 @@ export default function Footer() {
               <RiInstagramFill />
               <FaLinkedinIn />
             </div>
-            <button className="mt-6 border-2 border-violet-700 text-black font-bold py-3 px-6 rounded-full flex items-center gap-2 hover:bg-gradient-to-r from-blue-500 to-purple-500 hover:text-white transition-all">
+            <button className="mt-6 border-2 border-violet-700 text-black font-bold py-3 px-6 rounded-full flex items-center gap-2 hover:bg-gradient-to-r from-blue-500 to-purple-500 hover:text-white transition-all"
+            onClick={() => {
+              window.open(
+                "https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=preview",
+                "_blank",
+                "noopener,noreferrer"
+              );
+            }}
+            >
               Contact with us <BsArrowRight />
             </button>
           </div>
@@ -69,11 +78,6 @@ export default function Footer() {
 
         <div className="mt-16 border-t border-gray-700 pt-8">
             <div className="flex flex-col items-center justify-center md:justify-center gap-64 md:flex-row text-center text-black">
-              {/* Copyright Section */}
-              <p className="mb-4 md:mb-0">
-                Copyright © 2024 <a href="#" className="font-semibold hover:text-purple-400">Rainbow-Themes</a>. All Rights Reserved
-              </p>
-              
               {/* Links Section */}
               <div className="flex flex-wrap gap-4 justify-center md:justify-end">
                 <a href="#" className="hover:text-purple-400">Terms of Service</a>

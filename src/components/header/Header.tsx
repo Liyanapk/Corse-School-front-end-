@@ -4,7 +4,6 @@ import Image from "next/image";
 import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -17,6 +16,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isAllCourseOpen, setIsAllCourseOpen] = useState(false);
@@ -27,6 +27,7 @@ export default function Header() {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
+
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
@@ -56,12 +57,10 @@ export default function Header() {
       </List>
     </Box>
   );
+  const router = useRouter();
 
   return (
-    <div
-      className="flex justify-center items-center p-4 bg-[#f3f5f8] h-[80px] gap-[10em] xl:gap-[10em] xl:justify-center md:justify-between "
-      id="home"
-    >
+    <div className="flex justify-center items-center p-4 bg-[#f3f5f8] h-[80px] gap-[10em] xl:gap-[10em] xl:justify-center md:justify-between ">
       <div>
         <Image src="/images/logo/logo.png" alt="logo" width={152} height={49} />
       </div>
@@ -69,7 +68,7 @@ export default function Header() {
       <div className="hidden lg:flex">
         <ul className="flex gap-[1em]">
           <li className="relative flex items-center gap-1 text-[16px] group">
-            <a href="#home" className="hover:text-[#3a5bc9]">
+            <a href="/" className="hover:text-[#3a5bc9]">
               Home
             </a>
           </li>
@@ -95,7 +94,10 @@ export default function Header() {
                 }}
               >
                 <div className="flex items-center p-2 gap-1 cursor-pointer hover:text-[#3a5bc9]">
-                  <a href="#" className="block">
+                  <a
+                    onClick={() => router.push("/sladingpages/allCourse")}
+                    className="block"
+                  >
                     All Course
                   </a>
                   <IoIosArrowDown
@@ -143,17 +145,17 @@ export default function Header() {
           </li>
 
           <li className="relative flex items-center gap-1 text-[16px] group">
-            <a href="#event" className="hover:text-[#3a5bc9]">
-              Events
-            </a>
-          </li>
-          <li className="relative flex items-center gap-1 text-[16px] group">
-            <a href="#feedback" className="hover:text-[#3a5bc9]">
+            <a href="#FeedBack" className="hover:text-[#3a5bc9]">
               FeedBack
             </a>
           </li>
           <li className="relative flex items-center gap-1 text-[16px] group">
-            <a href="#contact us" className="hover:text-[#3a5bc9]">
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=preview"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#3a5bc9]"
+            >
               Contact Us
             </a>
           </li>
@@ -162,7 +164,7 @@ export default function Header() {
 
       <div className="flex items-center gap-20 md:gap-[10px]">
         <button className="lg:block hidden w-[120px] h-[45px] bg-gradient-to-r from-[#3a5bc9] to-[#ca60ce] text-white text-[14px] font-bold rounded-[5px]">
-          Login
+          Register
         </button>
         <div className="lg:hidden">
           <div>
