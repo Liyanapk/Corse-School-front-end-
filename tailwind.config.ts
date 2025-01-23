@@ -18,22 +18,23 @@ const config: Config = {
         '1024px' : '1024px'
       },
       animation: {
-        fallDown: 'fallDown 2s ease-out infinite',
-        bounceRain: 'bounceRain 1s ease-out infinite',
+        bounceIn: "bounceIn 2s ease-out infinite", // Loop the animation infinitely
+        hoverScale: "scale(1.1) ease-in-out 0.3s",
       },
       keyframes: {
-        fallDown: {
-          '0%': { transform: 'translateY(-100%)', opacity: '0' },
-          '50%': { transform: 'translateY(50%)', opacity: '1' },
-          '100%': { transform: 'translateY(100%)', opacity: '0' },
-        },
-        bounceRain: {
-          '0%': { transform: 'translateY(0)', opacity: '1' },
-          '20%': { transform: 'translateY(-10px)', opacity: '0.9' },
-          '40%': { transform: 'translateY(0)', opacity: '1' },
-          '60%': { transform: 'translateY(-10px)', opacity: '0.9' },
-          '80%': { transform: 'translateY(0)', opacity: '1' },
-          '100%': { transform: 'translateY(-10px)', opacity: '0.9' },
+        bounceIn: {
+          "0%": {
+            transform: "scale(0.3)",
+            opacity: "0",
+          },
+          "50%": {
+            transform: "scale(1.05)",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
         },
       },
     },

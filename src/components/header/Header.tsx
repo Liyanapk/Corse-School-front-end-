@@ -19,8 +19,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import { useRouter } from "next/navigation";
 
 export default function Header() {
-  const [isAllCourseOpen, setIsAllCourseOpen] = useState(false);
-  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const [open, setOpen] = React.useState(false);
 
@@ -80,19 +78,7 @@ export default function Header() {
             </div>
 
             <ul className="absolute left-0 top-[calc(100%+12px)] bg-white shadow-lg w-[200px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <li
-                className="relative flex items-center gap-1 group"
-                onMouseEnter={() => {
-                  const timeoutId = setTimeout(() => {
-                    setIsAllCourseOpen(true);
-                  }, 1000);
-                  setHoverTimeout(timeoutId);
-                }}
-                onMouseLeave={() => {
-                  if (hoverTimeout) clearTimeout(hoverTimeout);
-                  setIsAllCourseOpen(false);
-                }}
-              >
+              <li>
                 <div className="flex items-center p-2 gap-1 cursor-pointer hover:text-[#3a5bc9]">
                   <a
                     onClick={() => router.push("/sladingpages/allCourse")}
@@ -100,35 +86,7 @@ export default function Header() {
                   >
                     All Course
                   </a>
-                  <IoIosArrowDown
-                    className={`transition-transform duration-200 ${isAllCourseOpen ? "rotate-180" : ""}`}
-                  />
                 </div>
-
-                {isAllCourseOpen && (
-                  <ul className="absolute left-[205px] top-4 bg-white  w-[200px] z-10">
-                    <li>
-                      <a href="#" className="block p-2 hover:text-[#3a5bc9]">
-                        Featured
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="block p-2 hover:text-[#3a5bc9]">
-                        Popular
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="block p-2 hover:text-[#3a5bc9]">
-                        Trending
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="block p-2 hover:text-[#3a5bc9]">
-                        Latest
-                      </a>
-                    </li>
-                  </ul>
-                )}
               </li>
 
               <li>
@@ -151,7 +109,7 @@ export default function Header() {
           </li>
           <li className="relative flex items-center gap-1 text-[16px] group">
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=preview"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=header"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[#3a5bc9]"
@@ -180,3 +138,6 @@ export default function Header() {
     </div>
   );
 }
+
+
+// https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=pp_url&entry.159793954=Liyana+kp&entry.731597513=liyana.kp8590@gmail.com&entry.437826207=ML&entry.740480200=good

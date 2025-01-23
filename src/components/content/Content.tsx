@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { Tabs } from "@mui/material";
 import { FiBook } from "react-icons/fi";
@@ -9,7 +8,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const categories = ["Featured", "Popular", "Trending", "Latest"];
+const categories: Category[] = ["Featured", "Popular", "Trending", "Latest"];
 
 const cardData = [
   {
@@ -118,19 +117,19 @@ const cardData = [
   },
 ];
 
+type Category = "Featured" | "Popular" | "Trending" | "Latest";
+
 export default function ContentSection() {
-  const [activeCategory, setActiveCategory] = useState("Featured");
+  const [activeCategory, setActiveCategory] = useState<Category>("Featured");
   const [visibleRows, setVisibleRows] = useState(2);
 
   const router = useRouter();
 
-  type Category = "Featured" | "Popular" | "Trending" | "Latest";
+  const handleCategoryChange = (category: Category) => {
+    setActiveCategory(category);
+    setVisibleRows(2); // Reset visible rows when the category changes
+  };
 
- 
-const handleCategoryChange = (category: Category) => {
-  setActiveCategory(category);
-  setVisibleRows(2); // Reset visible rows when the category changes
-};
   const filteredCards = cardData.filter(
     (card) => activeCategory === "Featured" || card.category === activeCategory
   );
