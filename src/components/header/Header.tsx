@@ -109,9 +109,7 @@ export default function Header() {
           </li>
           <li className="relative flex items-center gap-1 text-[16px] group">
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=header"
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick ={() => router.push("/sladingpages/contactUsPage")}
               className="hover:text-[#3a5bc9]"
             >
               Contact Us
@@ -140,4 +138,8 @@ export default function Header() {
 }
 
 
-// https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=pp_url&entry.159793954=Liyana+kp&entry.731597513=liyana.kp8590@gmail.com&entry.437826207=ML&entry.740480200=good
+
+
+// href="https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=header"
+//               target="_blank"
+//               rel="noopener noreferrer"
