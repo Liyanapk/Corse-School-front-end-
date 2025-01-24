@@ -127,7 +127,7 @@ export default function ContentSection() {
 
   const handleCategoryChange = (category: Category) => {
     setActiveCategory(category);
-    setVisibleRows(2); // Reset visible rows when the category changes
+    setVisibleRows(2);
   };
 
   const filteredCards = cardData.filter(
@@ -141,7 +141,7 @@ export default function ContentSection() {
   const visibleCards = filteredCards.slice(0, visibleRows);
 
   return (
-    <div className="flex flex-col items-center mt-32">
+    <div className="flex flex-col items-center p-20">
       <div className="flex flex-col items-center gap-12">
         <button className="sm:w-40 h-10 bg-gray-200 text-blue-500 rounded-full">
           POPULAR COURSE

@@ -17,10 +17,10 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
-
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -55,10 +55,9 @@ export default function Header() {
       </List>
     </Box>
   );
-  const router = useRouter();
 
   return (
-    <div className="flex justify-center items-center p-4 bg-[#f3f5f8] h-[80px] gap-[10em] xl:gap-[10em] xl:justify-center md:justify-between ">
+    <div className="flex justify-center items-center p-4 gap-40 bg-[#f3f5f8] h-[80px] md:gap-[32em] xl:gap-[40em] xl:justify-center md:justify-center ">
       <div>
         <Image src="/images/logo/logo.png" alt="logo" width={152} height={49} />
       </div>
@@ -66,62 +65,58 @@ export default function Header() {
       <div className="hidden lg:flex">
         <ul className="flex gap-[1em]">
           <li className="relative flex items-center gap-1 text-[16px] group">
-            <a href="/" className="hover:text-[#3a5bc9]">
+            <Link href="/" className="hover:text-[#3a5bc9]">
               Home
-            </a>
+            </Link>
           </li>
 
           <li className="relative flex items-center gap-1 text-[16px] group">
+            {/* Dropdown toggle */}
             <div className="flex items-center gap-1 cursor-pointer group-hover:text-[#3a5bc9]">
               <span>Courses</span>
               <IoIosArrowDown className="transition-transform duration-200 group-hover:rotate-180" />
             </div>
 
-            <ul className="absolute left-0 top-[calc(100%+12px)] bg-white shadow-lg w-[200px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <ul className="absolute left-0 top-[calc(100%+12px)] bg-white shadow-lg w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10">
               <li>
-                <div className="flex items-center p-2 gap-1 cursor-pointer hover:text-[#3a5bc9]">
-                  <a
-                    onClick={() => router.push("/sladingpages/allCourse")}
-                    className="block"
-                  >
-                    All Course
-                  </a>
-                </div>
+                <Link href="/sladingpages/allCourse" className="flex items-center p-2 gap-1 cursor-pointer hover:text-[#3a5bc9]">
+                  <span className="block">All Course</span>
+                </Link>
               </li>
-
               <li>
-                <a href="#" className="block p-2 hover:text-[#3a5bc9]">
+                <Link href="/otherCoursePage" className="block p-2 cursor-pointer hover:text-[#3a5bc9]" >
                   Featured
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="block p-2 hover:text-[#3a5bc9]">
+                <Link href="/otherCoursePage" className="block p-2 cursor-pointer hover:text-[#3a5bc9]"
+                 >
                   Popular
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/otherCoursePage" className="block p-2 cursor-pointer hover:text-[#3a5bc9]"
+                 >
+                  Treanding
+                </Link>
+              </li>
+              <li>
+                <Link href="/otherCoursePage" className="block p-2 cursor-pointer hover:text-[#3a5bc9]"
+                 >
+                  Latest
+                </Link>
               </li>
             </ul>
           </li>
 
           <li className="relative flex items-center gap-1 text-[16px] group">
-            <a href="#FeedBack" className="hover:text-[#3a5bc9]">
-              FeedBack
-            </a>
-          </li>
-          <li className="relative flex items-center gap-1 text-[16px] group">
-            <a
-              onClick ={() => router.push("/sladingpages/contactUsPage")}
-              className="hover:text-[#3a5bc9]"
-            >
+            <Link href="/sladingpages/contactUsPage" className="hover:text-[#3a5bc9]">
               Contact Us
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
-
-      <div className="flex items-center gap-20 md:gap-[10px]">
-        <button className="lg:block hidden w-[120px] h-[45px] bg-gradient-to-r from-[#3a5bc9] to-[#ca60ce] text-white text-[14px] font-bold rounded-[5px]">
-          Register
-        </button>
+       
         <div className="lg:hidden">
           <div>
             <Button onClick={toggleDrawer(true)}>
@@ -133,13 +128,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </div>
+ 
   );
 }
-
-
-
-
-// href="https://docs.google.com/forms/d/e/1FAIpQLSf-37-gTZnFX9f-aCJ_KBZv6k7lLEDpk1MtcIMizaLEjYHqOg/viewform?usp=header"
-//               target="_blank"
-//               rel="noopener noreferrer"
