@@ -96,7 +96,7 @@ export default function ContactUs() {
             Get a Free Course You Can Contact With Me
           </h2>
           {isSubmit ? (
-            <div className="text-center text-green-600">
+            <div className="text-center text-green-600 ">
               <h2 className="text-2xl font-semibold">Thank you!</h2>
               <p>Your message has been submitted successfully.</p>
               <button

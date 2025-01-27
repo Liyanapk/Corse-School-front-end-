@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tabs } from "@mui/material";
 import { FiBook } from "react-icons/fi";
 import { MdOutlinePerson } from "react-icons/md";
@@ -117,16 +117,28 @@ const cardData = [
   },
 ];
 
+type ContentSectionProps = {
+  category: string; 
+};
+
+
 type Category = "Featured" | "Popular" | "Trending" | "Latest";
 
-export default function ContentSection() {
+export default function ContentSection({ category }: ContentSectionProps) {
   const [activeCategory, setActiveCategory] = useState<Category>("Featured");
   const [visibleRows, setVisibleRows] = useState(2);
 
   const router = useRouter();
 
-  const handleCategoryChange = (category: Category) => {
-    setActiveCategory(category);
+
+  useEffect(() => {
+    if (categories.includes(category as Category)) {
+      setActiveCategory(category as Category);
+    }
+  }, [category]);
+
+  const handleCategoryChange = (newCategory: Category) => {
+    setActiveCategory(newCategory);
     setVisibleRows(2);
   };
 
@@ -146,32 +158,29 @@ export default function ContentSection() {
         <button className="sm:w-40 h-10 bg-gray-200 text-blue-500 rounded-full">
           POPULAR COURSE
         </button>
-
         <p className="text-4xl font-bold tracking-tight max-w-2xl text-center leading-tight">
           Online Coaching Lessons For Remote Learning
         </p>
 
         <Tabs value={activeCategory} aria-label="category tabs">
           <div className="flex flex-wrap justify-center gap-4 w-full">
-            {categories.map((category) => (
+            {categories.map((cat) => (
               <button
-                key={category}
+                key={cat}
                 className={`w-full sm:w-44 h-16 bg-white text-lg rounded-full transition ${
-                  activeCategory === category
+                  activeCategory === cat
                     ? "bg-blue-500 text-blue-400"
                     : "hover:bg-blue-500 hover:text-white"
                 }`}
-                onClick={() => handleCategoryChange(category)}
+                onClick={() => handleCategoryChange(cat)}
               >
-                {category}
+                {cat}
               </button>
             ))}
           </div>
         </Tabs>
 
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full sm:w-[600px] lg:w-[900px] xl:w-[1300px]"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full sm:w-[600px] lg:w-[900px] xl:w-[1300px]">
           {visibleCards.map((card) => (
             <div
               key={card.id}
@@ -208,8 +217,9 @@ export default function ContentSection() {
                       {card.actualPrice}
                     </span>
                   </p>
-                  <p className="flex items-center text-blue-500 cursor-pointer"
-                  onClick={() => router.push("/sladingpages/contentCard")}
+                  <p
+                    className="flex items-center text-blue-500 cursor-pointer"
+                    onClick={() => router.push("/sladingpages/contentCard")}
                   >
                     Learn More <IoIosArrowRoundForward className="ml-2" />
                   </p>

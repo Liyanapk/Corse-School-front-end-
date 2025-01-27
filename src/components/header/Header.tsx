@@ -19,6 +19,11 @@ import MailIcon from "@mui/icons-material/Mail";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+
+type Category = "Featured" | "Popular" | "Trending" | "Latest";
+
+const categories: Category[] = ["Featured", "Popular", "Trending", "Latest"];
+
 export default function Header() {
   const [open, setOpen] = useState(false);
 
@@ -55,6 +60,10 @@ export default function Header() {
       </List>
     </Box>
   );
+  const router = useRouter();
+  const handleNavigation = (category: Category) => {
+    router.push(`/otherCoursePage?category=${category}`);
+  };
 
   return (
     <div className="flex justify-center items-center p-4 gap-40 bg-[#f3f5f8] h-[80px] md:gap-[32em] xl:gap-[40em] xl:justify-center md:justify-center ">
@@ -83,30 +92,19 @@ export default function Header() {
                   <span className="block">All Course</span>
                 </Link>
               </li>
-              <li>
-                <Link href="/otherCoursePage" className="block p-2 cursor-pointer hover:text-[#3a5bc9]" >
-                  Featured
-                </Link>
-              </li>
-              <li>
-                <Link href="/otherCoursePage" className="block p-2 cursor-pointer hover:text-[#3a5bc9]"
-                 >
-                  Popular
-                </Link>
-              </li>
-              <li>
-                <Link href="/otherCoursePage" className="block p-2 cursor-pointer hover:text-[#3a5bc9]"
-                 >
-                  Treanding
-                </Link>
-              </li>
-              <li>
-                <Link href="/otherCoursePage" className="block p-2 cursor-pointer hover:text-[#3a5bc9]"
-                 >
-                  Latest
-                </Link>
-              </li>
-            </ul>
+              
+                {categories.map((category) => (
+                  <li key={category}>
+                    <button
+                      onClick={() => handleNavigation(category)}
+                      className="block w-full text-left p-2 hover:text-[#3a5bc9]"
+                    >
+                      {category}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            
           </li>
 
           <li className="relative flex items-center gap-1 text-[16px] group">

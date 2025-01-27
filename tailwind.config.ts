@@ -18,25 +18,21 @@ const config: Config = {
         '1024px' : '1024px'
       },
       animation: {
-        bounceIn: "bounceIn 2s ease-out infinite", // Loop the animation infinitely
-        hoverScale: "scale(1.1) ease-in-out 0.3s",
+        fall: "fall 3s ease-in-out infinite", // Loop the falling animation
+        sparkle: "sparkle 3s ease-in-out infinite", // Continuous sparkle effect
       },
       keyframes: {
-        bounceIn: {
-          "0%": {
-            transform: "scale(0.3)",
-            opacity: "0",
-          },
-          "50%": {
-            transform: "scale(1.05)",
-            opacity: "1",
-          },
-          "100%": {
-            transform: "scale(1)",
-            opacity: "1",
-          },
+        fall: {
+          "0%": { transform: "translateY(-150px) rotate(-10deg)", opacity: String(0) },
+          "50%": { transform: "translateY(10px) rotate(2deg)", opacity: String(0.7) },
+          "100%": { transform: "translateY(0) rotate(0)", opacity: String(1) },
         },
-      },
+        sparkle: {
+          "0%": { backgroundPosition: "0% 0%" },
+          "50%": { backgroundPosition: "100% 100%" },
+          "100%": { backgroundPosition: "0% 0%" },
+        },
+      },      
     },
   },
   plugins: [

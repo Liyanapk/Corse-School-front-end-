@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <>
       <Banner />
-      <ContentSection />
+      <ContentSection  />
       <Catagory />
       <InstructorPage />
       <FeedBack />
