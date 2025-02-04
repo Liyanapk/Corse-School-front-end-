@@ -109,14 +109,6 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [isModalOpen, setModalOpen] = useState(false);
-
-
-  const handleOpenAdd = () => setModalOpen(true);
-  const handleCloseAdd = () => setModalOpen(false);
-  
-
-
 
   // Delete  batches
   const handleDelete = async () => {
@@ -225,16 +217,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
               </Box>
             </Modal>
           </>
-        ) : (
-          <button
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md text-sm sm:text-base py-3 px-4 whitespace-nowrap hover:opacity-90 shadow-md transition-all duration-300 mt-2 md:mt-0"
-            type="button"
-            onClick={handleOpenAdd}
-            aria-label="Add a new batch"
-          >
-            <AddBatch open={isModalOpen} />
-            + Add Batch
-          </button>
+        ) : (  
+            <AddBatch/>
         )}
       </div>
     </Toolbar>

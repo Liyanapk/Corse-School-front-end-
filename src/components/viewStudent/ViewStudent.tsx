@@ -128,6 +128,8 @@ const ViewStudent = ({ params }: { params: { _id: string } }) => {
             <Image
               src={imageURL}
               alt="Profile"
+              width={200}
+              height={200}
               className="w-32 h-32 mx-auto rounded-full border-4 border-white"
             />
             <h1 className="text-2xl font-bold mt-4">
@@ -199,8 +201,8 @@ const ViewStudent = ({ params }: { params: { _id: string } }) => {
     <label className="relative cursor-pointer">
       <Image
         src={imageURL}
-        width={24}
-        height={24}
+        width={200}
+        height={200}
         alt="Student Profile"
         className=" md:w-32 md:h-32 rounded-full border-2 border-blue-200 shadow-lg"
       />

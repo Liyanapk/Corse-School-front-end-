@@ -122,6 +122,8 @@ const ViewTeacher = ({ params }: { params: { _id: string } }) => {
             <Image
               src={imageURL}
               alt="Profile"
+              width={200}
+              height={500}
               className="w-32 h-32 mx-auto rounded-full border-4 border-white"
             />
             <h1 className="text-2xl font-bold mt-4">

@@ -116,6 +116,8 @@ const ViewAdmin = ({ params }: { params: { _id: string } }) => {
               src={imageURL}
               alt="Profile"
               className="w-32 h-32 mx-auto rounded-full border-4 border-white"
+              width={200}
+              height={100}
             />
             <h1 className="text-2xl font-bold mt-4">
               {admin.first_name} {admin.last_name}
