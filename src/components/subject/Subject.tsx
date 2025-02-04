@@ -14,19 +14,14 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Modal from "@mui/material/Modal";
 import React, { useEffect, useState } from "react";
 import AxiosInstance from "../../utils/axiosInstance";
 import { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import SubjectAdd from "../subjectAdd/SubjectAdd";
 
-type SubjectProps = {
-  subject: string;
-  open: boolean;
-  handleClose: () => void;
-};
+
 
 const style = {
   position: "absolute",
@@ -44,7 +39,7 @@ interface Data {
   _id: string;
   id: string;
   name: string;
-  incharge: string;
+ 
 }
 
 const headCells = [
@@ -77,7 +72,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.numeric ? "left" : "right"}
             padding={headCell.disablePadding ? "none" : "normal"}
           >
             {headCell.label}
@@ -209,11 +204,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             </Modal>
           </>
         ) : (
-          <Link href="/add-subject">
-            <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">
-              Add Subject
-            </button>
-          </Link>
+        <SubjectAdd/>
+            
+          
         )}
       </div>
     </Toolbar>
@@ -243,7 +236,7 @@ const Subject = () => {
           ? response.data.data.map((subject: any) => ({
               id: subject._id,
               name: subject.name,
-              incharge: `${subject.in_charge.first_name} ${subject.in_charge.last_name}`,
+              
             }))
           : [];
         setSubjects(subjectsArray);
@@ -302,8 +295,8 @@ const Subject = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
+    <Box sx={{ width: "100%" }} className="p-10">
+      <Paper sx={{ width: "100%", mb: 2 }} className="p-5">
         <EnhancedTableToolbar
           numSelected={selected.length}
           selected={selected}
@@ -347,7 +340,7 @@ const Subject = () => {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {subject.name}
                       </TableCell>
-                      <TableCell align="right">{subject.incharge}</TableCell>
+                      
                     </TableRow>
                   );
                 })}
