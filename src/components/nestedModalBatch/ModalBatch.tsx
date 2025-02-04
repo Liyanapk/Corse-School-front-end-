@@ -6,6 +6,8 @@ import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import AxiosInstance from "../../utils/axiosInstance";
+import Cookies from "js-cookie";
 
 const style = {
   position: "absolute",
@@ -47,19 +49,37 @@ const buttonStyle = {
   },
 };
 
-export default function ModalBatch() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  
+interface ModalBatchProps {
+  batchId: string;
+}
 
-  const batchDetails = {
-    name: "Batch A",
-    in_charge: "John Doe",
-    type: "Full-time",
-    status: "Active",
-    duration: "6 months",
+export default function ModalBatch({ batchId }: ModalBatchProps) {
+  const [open, setOpen] = React.useState(false);
+  const [batchDetails, setBatchDetails] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const token = Cookies.get("authToken");
+
+  const handleOpen = async () => {
+    console.log("Batch ID:", batchId);
+    setOpen(true);
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await AxiosInstance.get(`/api/v1/batch/${batchId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setBatchDetails(response.data.data);  // Make sure we are accessing 'data' from the response
+    } catch (error) {
+      console.log(error);
+      setError("Failed to fetch batch details");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleClose = () => setOpen(false);
 
   return (
     <div>
@@ -78,16 +98,57 @@ export default function ModalBatch() {
           <Typography id="modal-modal-title" variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
             Batch Details
           </Typography>
-          {Object.entries(batchDetails).map(([key, value]) => (
-            <Box key={key} sx={fieldStyle}>
-              <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                {key.replace("_", " ").toUpperCase()}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "#555" }}>
-                {value}
-              </Typography>
-            </Box>
-          ))}
+          {loading ? (
+            <Typography>Loading...</Typography>
+          ) : error ? (
+            <Typography color="error">{error}</Typography>
+          ) : (
+            batchDetails && (
+              <>
+                <Box sx={fieldStyle}>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    Name:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#555" }}>
+                    {batchDetails.name || "N/A"}
+                  </Typography>
+                </Box>
+                <Box sx={fieldStyle}>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    In-charge Teacher:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#555" }}>
+                    {batchDetails.in_charge ? `${batchDetails.in_charge.first_name} ${batchDetails.in_charge.last_name}` : "N/A"}
+                  </Typography>
+                </Box>
+                <Box sx={fieldStyle}>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    Type:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#555" }}>
+                    {batchDetails.type || "N/A"}
+                  </Typography>
+                </Box>
+                <Box sx={fieldStyle}>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    Status:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#555" }}>
+                    {batchDetails.status || "N/A"}
+                  </Typography>
+                </Box>
+                {/* Optionally, if you want to display the duration */}
+                <Box sx={fieldStyle}>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    Duration:
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#555" }}>
+                    {batchDetails.duration ? `${new Date(batchDetails.duration.from).toLocaleDateString()} - ${new Date(batchDetails.duration.to).toLocaleDateString()}` : "N/A"}
+                  </Typography>
+                </Box>
+              </>
+            )
+          )}
           <Button variant="contained" onClick={handleClose} sx={buttonStyle}>
             Close
           </Button>

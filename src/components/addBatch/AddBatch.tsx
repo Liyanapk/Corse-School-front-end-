@@ -1,5 +1,5 @@
 import * as React from "react";
-import axios from "axios";
+import { SelectChangeEvent } from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -44,11 +44,9 @@ export default function AddBatch() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
+  
     if (name === "from" || name === "to") {
       setBatchData((prev) => ({
         ...prev,
@@ -57,6 +55,10 @@ export default function AddBatch() {
     } else {
       setBatchData((prev) => ({ ...prev, [name]: value }));
     }
+  };
+  const handleSelectChange = (e: SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+    setBatchData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Get teacher data
@@ -96,20 +98,20 @@ export default function AddBatch() {
   const handleSubmit = async () => {
     setLoading(true);
     const token = Cookies.get("authToken");
-
+  
     if (!token) {
       setError("No authentication token found");
       setLoading(false);
       return;
     }
-
+  
     try {
       const response = await AxiosInstance.post("/api/v1/batch", batchData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
+  
       if (response.status === 200) {
-        setOpen(false);
+      
         setBatchData({
           name: "",
           in_charge: "",
@@ -117,7 +119,11 @@ export default function AddBatch() {
           status: "",
           duration: { from: "", to: "" },
         });
-        // Optionally show success notification or message
+  
+        setTimeout(() => {
+          alert("Successfully added batch!");
+          setOpen(false); 
+        }, 1000);
       }
     } catch (err) {
       setError(
@@ -127,6 +133,7 @@ export default function AddBatch() {
       setLoading(false);
     }
   };
+  
 
   return (
     <div>
@@ -153,7 +160,7 @@ export default function AddBatch() {
             label="Batch Name"
             name="name"
             value={batchData.name}
-            onChange={handleChange}
+            onChange={handleInputChange}
             sx={{ mt: 2 }}
           />
           <FormControl fullWidth sx={{ mt: 2 }}>
@@ -161,7 +168,7 @@ export default function AddBatch() {
             <Select
               name="in_charge"
               value={batchData.in_charge}
-              onChange={handleChange}
+              onChange={handleSelectChange}
             >
               {teachers.map((teacher) => (
                 <MenuItem key={teacher.id} value={teacher.id}>
@@ -172,7 +179,7 @@ export default function AddBatch() {
           </FormControl>
           <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel>Type</InputLabel>
-            <Select name="type" value={batchData.type} onChange={handleChange}>
+            <Select name="type" value={batchData.type} onChange={handleSelectChange}>
               <MenuItem value="free">Free</MenuItem>
               <MenuItem value="paid">Paid</MenuItem>
               <MenuItem value="crash course">Crash Course</MenuItem>
@@ -180,7 +187,7 @@ export default function AddBatch() {
           </FormControl>
           <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel>Status</InputLabel>
-            <Select name="status" value={batchData.status} onChange={handleChange}>
+            <Select name="status" value={batchData.status} onChange={handleSelectChange}>
               <MenuItem value="draft">Draft</MenuItem>
               <MenuItem value="inprogress">In Progress</MenuItem>
               <MenuItem value="completed">Completed</MenuItem>
@@ -195,7 +202,7 @@ export default function AddBatch() {
                 type="date"
                 name="from"
                 value={batchData.duration.from}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Box>
             <Box sx={{ flex: 1 }}>
@@ -205,7 +212,7 @@ export default function AddBatch() {
                 type="date"
                 name="to"
                 value={batchData.duration.to}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </Box>
           </Box>
