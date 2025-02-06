@@ -102,7 +102,7 @@ export default function AllCourse(){
     const visibleCourses = visibleRows * coursesPerRow;
   
     const handleShowMore = () => {
-      setVisibleRows((prevRows) => prevRows + 2); // Increase the rows by 2 on each click
+      setVisibleRows((prevRows) => prevRows + 2); 
     };
     const router = useRouter()
   

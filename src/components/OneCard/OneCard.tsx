@@ -5,17 +5,15 @@ export default function OneCard() {
       title: "The Complete Histudy 2024: From Zero to Expert!",
       description:
         "Master Python by building 100 projects in 100 days. Learn data science, automation, build websites, games, and apps!",
-      badge: "Bestseller",
-      rating: 4.8,
-      reviews: 2153,
       students: 6169,
       startDate: "12/2024",
       endDate: "2/2025",
-      language: "AI",
-      certified: true,
-      price: 70,
+      subject: "AI",
+      teacher:"maya s",
+      disccountprice: 70,
       originalPrice: 200,
       videoUrl: "https://www.youtube.com/watch?v=4jmsHaJ7xEA",
+      
     },
   ];
 
@@ -43,17 +41,17 @@ export default function OneCard() {
                 {/* Course Meta Info */}
                 <div className="flex flex-wrap gap-4 items-center text-gray-700 mb-6">
                   <span className="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full text-sm">
-                    {course.badge}
+                  Bestseller
                   </span>
                   <span className="flex items-center gap-1">
-                    ⭐ {course.rating} <span>({course.reviews} ratings)</span>
+                    ⭐  <span>High ratings</span>
                   </span>
                   <span>{course.students} students</span>
                 </div>
 
                 <div className="text-sm text-gray-500">
                   Starting From: {course.startDate} |{" "}
-                  {course.certified && "Certified Course"}
+                  {"Certified Course"}
                 </div>
               </div>
 
@@ -61,7 +59,7 @@ export default function OneCard() {
               <div className="md:w-1/3 bg-white shadow-lg rounded-lg p-6">
                 {/* Price Information */}
                 <div className="text-2xl font-bold text-gray-800 mb-2">
-                  ${course.price}{" "}
+                  ${course.disccountprice}{" "}
                   <span className="text-gray-500 line-through">
                     ${course.originalPrice}
                   </span>
@@ -86,7 +84,8 @@ export default function OneCard() {
                 <div className="text-sm text-gray-500 flex flex-col gap-3">
                   <p>Starting Date : {course.startDate} </p>
                   <p>Ending Date : {course.endDate} </p>
-                  <p>Language : {course.language} </p>
+                  <p>Subject : {course.subject} </p>
+                  <p>Teacher : {course.teacher} </p>
                   <button className=" w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition">
                   Buy Now
                 </button>
