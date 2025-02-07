@@ -356,18 +356,17 @@ const Batch = () => {
               rowCount={batches.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = selected.includes(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-
+            {batches.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((batch, index) => {
+    const isItemSelected = selected.indexOf(batch.id) !== -1;
+    
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={(event) => handleClick(event, batch.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={batch.id}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
@@ -375,13 +374,13 @@ const Batch = () => {
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
+                        // inputProps={{ "aria-labelledby": labelId }}
                       />
                     </TableCell>
-                    <TableCell align="right">{row.name}</TableCell>
-                    <TableCell align="right">{row.incharge}</TableCell>
+                    <TableCell align="right">{batch.name}</TableCell>
+                    <TableCell align="right">{batch.incharge}</TableCell>
                     <TableCell align="center">
-                    <ModalBatch batchId={row.id} />
+                    <ModalBatch batchId={batch.id} />
 
 
 
@@ -393,14 +392,15 @@ const Batch = () => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={batches.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+  rowsPerPageOptions={[5, 10, 25]}
+  component="div"
+  count={batches.length}
+  rowsPerPage={rowsPerPage}
+  page={page}
+  onPageChange={handleChangePage}
+  onRowsPerPageChange={handleChangeRowsPerPage}
+/>
+
       </Paper>
     </Box>
   );

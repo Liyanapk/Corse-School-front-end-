@@ -5,10 +5,8 @@ export default function OneCard() {
       title: "The Complete Histudy 2024: From Zero to Expert!",
       description:
         "Master Python by building 100 projects in 100 days. Learn data science, automation, build websites, games, and apps!",
-      students: 6169,
       startDate: "12/2024",
       endDate: "2/2025",
-      subject: "AI",
       teacher:"maya s",
       disccountprice: 70,
       originalPrice: 200,
@@ -46,7 +44,6 @@ export default function OneCard() {
                   <span className="flex items-center gap-1">
                     ⭐  <span>High ratings</span>
                   </span>
-                  <span>{course.students} students</span>
                 </div>
 
                 <div className="text-sm text-gray-500">
@@ -84,7 +81,7 @@ export default function OneCard() {
                 <div className="text-sm text-gray-500 flex flex-col gap-3">
                   <p>Starting Date : {course.startDate} </p>
                   <p>Ending Date : {course.endDate} </p>
-                  <p>Subject : {course.subject} </p>
+                  <p>Language : English </p>
                   <p>Teacher : {course.teacher} </p>
                   <button className=" w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition">
                   Buy Now
