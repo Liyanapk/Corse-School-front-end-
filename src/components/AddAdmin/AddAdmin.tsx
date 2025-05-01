@@ -87,9 +87,7 @@ const AddAdmin = () => {
     Object.keys(formData).forEach((key) => {
       if (key === "image") {
         if (fileInput.current?.files?.[0]) {
-          payload.append(key, fileInput.current.files[0]); // Append file for image
-        } else {
-          payload.append(key, ""); // Append an empty string if no file is selected
+          payload.append(key, fileInput.current.files[0]); // Append only if there's a file
         }
       } else {
         const value = formData[key as keyof typeof formData];

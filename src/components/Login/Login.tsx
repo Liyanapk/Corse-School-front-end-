@@ -42,7 +42,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [data, setData] = useState(null);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter(); // For redirecting after login
+  const router = useRouter();
 
   
 
@@ -55,13 +55,13 @@ const Login = () => {
         password: password,
       });
   
-      setData(response.data); // Save the response data
+      setData(response.data); 
   
       if (response.data.token) {
         Cookies.set('authToken', response.data.token, {
-          expires: 1, // 1 day
-          secure: process.env.NODE_ENV === 'production', // Only set secure flag in production
-          sameSite: 'Strict', // Prevent CSRF
+          expires: 1, 
+          secure: process.env.NODE_ENV === 'production', 
+          sameSite: 'Strict', 
         });
       
         console.log('Token saved:', Cookies.get('authToken'));
@@ -70,7 +70,7 @@ const Login = () => {
 
       
     } catch (err) {
-      // Handle the error, assert it as AxiosError
+  
       const errorResponse = err as AxiosError<{ message: string }>;
       const errorMessage = errorResponse.response?.data.message || 'Something went wrong,  Please try Again!';
   
@@ -109,7 +109,6 @@ const Login = () => {
 
           <h1 className="text-3xl font-semibold text-gray-800 text-center mb-8">Admin Login</h1>
 
-          {/* Error Message */}
           {error && (
             <p className="text-red-600 text-center mb-4">{error}</p>
           )}
@@ -140,7 +139,7 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Footer */}
+          
           <p className="text-sm text-center text-gray-600 mt-6">
             Don’t have an account?{' '}
             <a href="#" className="text-indigo-600 hover:underline">

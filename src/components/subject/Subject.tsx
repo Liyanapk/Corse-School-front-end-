@@ -14,22 +14,14 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Modal from "@mui/material/Modal";
 import React, { useEffect, useState } from "react";
 import AxiosInstance from "../../utils/axiosInstance";
 import { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import ModalBatch from "../nestedModalBatch/ModalBatch";
-import AddBatch from "../addBatch/AddBatch";
+import SubjectAdd from "../subjectAdd/SubjectAdd";
 
 
-type BatchProps = {
-  batch: string;
-  open: boolean;
-  handleClose: () => void;
-};
 
 const style = {
   position: "absolute",
@@ -47,12 +39,11 @@ interface Data {
   _id: string;
   id: string;
   name: string;
-  incharge:string;
+ 
 }
 
 const headCells = [
-  { id: "name", numeric: true, disablePadding: false, label: "Name" },
-  { id: "incharge", numeric: true, disablePadding: false, label: "In Charge" },
+  { id: "name", numeric: true, disablePadding: false, label: "Subject Name" },
 ];
 
 interface EnhancedTableProps {
@@ -74,14 +65,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all desserts",
+              "aria-label": "select all subjects",
             }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.numeric ? "left" : "right"}
             padding={headCell.disablePadding ? "none" : "normal"}
           >
             {headCell.label}
@@ -96,56 +87,41 @@ interface EnhancedTableToolbarProps {
   numSelected: number;
   selected: readonly string[];
   setSelected: React.Dispatch<React.SetStateAction<readonly string[]>>;
-  batches: {
-    _id: string;
-    id: string;
-    name: string;
-    incharge:string;
-  }[];
-  setBatches: React.Dispatch<
-    React.SetStateAction<
-      {
-        _id: string;
-        id: string;
-        name: string;
-        incharge:string;
-      }[]
-    >
-  >;
+  subjectses: Data[];
+  setSubjectses: React.Dispatch<React.SetStateAction<Data[]>>;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, selected, setSelected, batches, setBatches } = props;
+  const { numSelected, selected, setSelected, subjectses, setSubjectses } = props;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // Delete  batches
   const handleDelete = async () => {
     const token = Cookies.get("authToken");
     if (!token) return;
 
     try {
-      const response = await AxiosInstance.delete("/api/v1/batch/delete", {
+      const response = await AxiosInstance.delete("/api/v1/subject/delete", {
         headers: { Authorization: `Bearer ${token}` },
         data: { ids: selected },
       });
 
-      const remainingBatches = batches.filter(
-        (batch) => !selected.includes(batch.id)
+      const remainingSubjects = subjectses.filter(
+        (subject) => !selected.includes(subject.id)
       );
 
-      setBatches(remainingBatches);
+      setSubjectses(remainingSubjects);
       setSelected([]);
       handleClose();
       console.log(response.data.message);
 
       setTimeout(() => {
-        alert("Batches deleted successfully!");
+        alert("Subjects deleted successfully!");
       }, 300);
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.error("Error deleting Batches:", error.message);
+        console.error("Error deleting subjects:", error.message);
       }
       handleClose();
     }
@@ -187,7 +163,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           id="tableTitle"
           component="div"
         >
-          Batch Management
+          Subject Management
         </Typography>
       )}
       <div className="flex flex-wrap justify-start md:justify-end w-full md:w-auto">
@@ -227,23 +203,23 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
               </Box>
             </Modal>
           </>
-        ) : (  
-            <AddBatch/>
+        ) : (
+        <SubjectAdd/>
+            
+          
         )}
       </div>
     </Toolbar>
   );
 };
 
-const Batch = () => {
-  const [batches, setBatches] = useState<Data[]>([]);
+const Subject = () => {
+  const [subjects, setSubjects] = useState<Data[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-
-  //get batch
   useEffect(() => {
-    const fetchBatches = async () => {
+    const fetchSubjects = async () => {
       const token = Cookies.get("authToken");
       if (!token) {
         setError("No authentication token found");
@@ -252,28 +228,28 @@ const Batch = () => {
       }
 
       try {
-        const response = await AxiosInstance.get("/api/v1/batch", {
+        const response = await AxiosInstance.get("/api/v1/subject", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const batchesArray = Array.isArray(response.data.data)
-          ? response.data.data.map((batch: any) => ({
-              id: batch._id,
-              name: batch.name,
-              incharge: `${batch.in_charge.first_name} ${batch.in_charge.last_name}`
+        const subjectsArray = Array.isArray(response.data.data)
+          ? response.data.data.map((subject: any) => ({
+              id: subject._id,
+              name: subject.name,
+              
             }))
           : [];
-        setBatches(batchesArray);
+        setSubjects(subjectsArray);
       } catch (err) {
         setError(
           err instanceof AxiosError ? err.message : "An unknown error occurred"
         );
-        setBatches([]);
+        setSubjects([]);
       } finally {
         setLoading(false);
       }
     };
-    fetchBatches();
+    fetchSubjects();
   }, []);
 
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -283,7 +259,7 @@ const Batch = () => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = batches.map((n) => n.id);
+      const newSelected = subjects.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -313,26 +289,10 @@ const Batch = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - batches.length) : 0;
-
-  const visibleRows = React.useMemo(
-    () =>
-      Array.isArray(batches)
-        ? batches.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        : [],
-    [page, rowsPerPage, batches]
-  );
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <Box sx={{ width: "100%" }} className="p-10">
@@ -341,69 +301,64 @@ const Batch = () => {
           numSelected={selected.length}
           selected={selected}
           setSelected={setSelected}
-          batches={batches}
-          setBatches={setBatches}
+          subjectses={subjects}
+          setSubjectses={setSubjects}
         />
         <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-          >
+          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="medium">
             <EnhancedTableHead
               numSelected={selected.length}
+              rowCount={subjects.length}
               onSelectAllClick={handleSelectAllClick}
-              rowCount={batches.length}
             />
             <TableBody>
-            {batches.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((batch, index) => {
-    const isItemSelected = selected.indexOf(batch.id) !== -1;
-    
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, batch.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={batch.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        // inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    </TableCell>
-                    <TableCell align="right">{batch.name}</TableCell>
-                    <TableCell align="right">{batch.incharge}</TableCell>
-                    <TableCell align="center">
-                    <ModalBatch batchId={batch.id} />
+              {subjects
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((subject) => {
+                  const isItemSelected = selected.indexOf(subject.id) !== -1;
+                  const labelId = `enhanced-table-checkbox-${subject.id}`;
 
-
-
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, subject.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={subject.id}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            "aria-labelledby": labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                        {subject.name}
+                      </TableCell>
+                      
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-  rowsPerPageOptions={[5, 10, 25]}
-  component="div"
-  count={batches.length}
-  rowsPerPage={rowsPerPage}
-  page={page}
-  onPageChange={handleChangePage}
-  onRowsPerPageChange={handleChangeRowsPerPage}
-/>
-
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={subjects.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Paper>
     </Box>
   );
 };
 
-export default Batch;
+export default Subject;

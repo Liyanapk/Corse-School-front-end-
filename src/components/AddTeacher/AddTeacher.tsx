@@ -117,7 +117,7 @@ const AddTeacher = () => {
     const token = Cookies.get("authToken");
 
     if (!token) {
-      console.error("No token found. Cannot add student.");
+      console.error("No token found. Cannot add Teacher.");
       return;
     }
 
@@ -125,9 +125,7 @@ const AddTeacher = () => {
     Object.keys(formData).forEach((key) => {
       if (key === "image") {
         if (fileInput.current?.files?.[0]) {
-          payload.append(key, fileInput.current.files[0]); // Append file for image
-        } else {
-          payload.append(key, ""); // Append an empty string if no file is selected
+          payload.append(key, fileInput.current.files[0]); // Append only if there's a file
         }
       } else {
         const value = formData[key as keyof typeof formData];
@@ -147,10 +145,10 @@ const AddTeacher = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Student added successfully:", response.data);
+      console.log("Teacher added successfully:", response.data);
 
-      if (response.data.message === "student created successfully") {
-        window.alert("Student added successfully!");
+      if (response.data.message === "Teacher created successfully") {
+        window.alert("Teacher added successfully!");
         setFormData({
           first_name: "",
           last_name: "",
@@ -169,7 +167,7 @@ const AddTeacher = () => {
         console.log("Something went wrong");
       }
     } catch (error) {
-      console.error("Error adding student:", error);
+      console.error("Error adding Teacher:", error);
     }
     
     
@@ -186,7 +184,7 @@ const AddTeacher = () => {
       borderRadius: "4px",
       borderColor: "#c4c4c4",
       "&:hover": {
-        borderColor: "#3f51b5", // Border color on hover
+        borderColor: "#3f51b5", 
       },
       boxShadow: "none",
     }),

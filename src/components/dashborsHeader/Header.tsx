@@ -61,7 +61,7 @@ const DashboardHeader = () => {
   return (
     <>
       {/* Header */}
-      <div className="w-full shadow-md bg-white ">
+      <div className="w-full shadow-md bg-white">
         <div className="flex h-20 px-12 md:px-8  items-center justify-between max-w-screen mx-auto">
           <div>
             <Image

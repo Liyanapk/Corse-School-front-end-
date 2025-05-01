@@ -19,16 +19,22 @@ const Layout: React.FC<Props> = ({ children }) => {
   return (
     <div className="bg-slate-100 min-h-screen w-screen overflow-x-hidden overflow-y-hidden">
       <DashboardHeader />
-      <SideBarPage onToggle={handleSidebarToggle} />
-      <main
-        className="overflow-x-hidden"
-        style={{
-          marginLeft: isSidebarCollapsed ? "50px" : "273px", 
-          transition: "margin-left 0.3s ease-in-out",
-        }}
-      >
-        {children}
-      </main>
+      
+      
+  <SideBarPage onToggle={handleSidebarToggle}/>
+  <main
+    className="overflow-auto"
+    style={{
+      marginLeft: isSidebarCollapsed ? "50px" : "273px",
+      transition: "margin-left 0.3s ease-in-out",
+    }}
+  >
+    {children}
+  </main>
+
+
+     
+  
     </div>
   );
 };

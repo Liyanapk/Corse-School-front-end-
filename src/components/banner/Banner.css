@@ -75,7 +75,7 @@
 
   .banner-slider-all {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); /* Responsive columns */
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); 
     gap: 1em;
     justify-content: center;
     align-items: center; 
