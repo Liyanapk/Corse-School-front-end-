@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <body>
+      <body className="m-0 min-h-screen bg-white text-slate-800">
         {children}
-        </body>
+      </body>
     </html>
   );
 }
