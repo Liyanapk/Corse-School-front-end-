@@ -8,7 +8,6 @@ import { FiBook } from "react-icons/fi";
 import { MdOutlinePerson } from "react-icons/md";
 import { CiCircleMinus } from "react-icons/ci";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import Image from 'next/image';
 
 type Category = 'Featured' | 'Popular' | 'Trending' | 'Latest' | 'All Course';
 
@@ -22,8 +21,8 @@ const cardData = [
     id: 1, 
     title: 'The Complete Histudy 2024: From Zero to Expert!', 
     category: 'All Course', 
-    image: '/images/content/cards_images.webp', 
-    paragraph1: 'Master Python by building 100 projects in 100 days...', 
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80', 
+    paragraph1: 'Master comprehensive study techniques and advanced learning strategies for academic excellence...', 
     paragraph2: 'ByClaudia PruittIn Designing', 
     pricing: '$70',
     actualPrice:'$40',
@@ -35,8 +34,8 @@ const cardData = [
     id: 2, 
     title: 'Difficult Things About Education.', 
     category: 'All Course', 
-    image: '/images/content/cards_images.webp', 
-    paragraph1: 'Master Python by building 100 projects in 100 days...', 
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80', 
+    paragraph1: 'Explore challenging educational concepts and develop critical thinking skills for complex subjects...', 
     paragraph2: 'ByFred GuerIn Math Teacher', 
     pricing: '$75',
     actualPrice:'$10',
@@ -48,8 +47,8 @@ const cardData = [
     id: 3, 
     title: 'Five Things You Should Do In Education.', 
     category: 'All Course', 
-    image: '/images/content/cards_images.webp',  
-    paragraph1: 'Master Python by building 100 projects in 100 days...', 
+    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80',  
+    paragraph1: 'Discover essential educational practices and effective learning methodologies for success...', 
     paragraph2: 'ByLevi ArmIn Advanced Educator', 
     pricing: '$90',
     actualPrice:'$40',
@@ -61,8 +60,8 @@ const cardData = [
     id: 4, 
     title: 'The Complete Histudy 2024: From Zero to Expert!', 
     category: 'All Course', 
-    image: '/images/content/cards_images.webp', 
-    paragraph1: 'Master Python by building 100 projects in 100 days...', 
+    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80', 
+    paragraph1: 'Master comprehensive study techniques and advanced learning strategies for academic excellence...', 
     paragraph2: 'ByClaudia PruittIn Designing', 
     pricing: '$70',
     actualPrice:'$20',
@@ -75,8 +74,8 @@ const cardData = [
     id: 5, 
     title: 'Difficult Things About Education.', 
     category: 'All Course', 
-    image: '/images/content/cards_images.webp', 
-    paragraph1: 'Master Python by building 100 projects in 100 days...', 
+    image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&q=80', 
+    paragraph1: 'Explore challenging educational concepts and develop critical thinking skills for complex subjects...', 
     paragraph2: 'ByFred GuerIn Math Teacher', 
     pricing: '$75',
     actualPrice:'$10',
@@ -88,8 +87,8 @@ const cardData = [
     id: 6, 
     title: 'Five Things You Should Do In Education.', 
     category: 'All Course',  
-    image: '/images/content/cards_images.webp', 
-    paragraph1: 'Master Python by building 100 projects in 100 days...', 
+    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80', 
+    paragraph1: 'Discover essential educational practices and effective learning methodologies for success...', 
     paragraph2: 'ByLevi ArmIn Advanced Educator', 
     pricing: '$90',
     actualPrice:'$40',
@@ -205,7 +204,7 @@ export default function ContentSection() {
    
        
           
-              <Image
+              <img
                 src={card.image}
                 alt={card.title}
                 width={231}
@@ -215,7 +214,7 @@ export default function ContentSection() {
               <div className="flex flex-col justify-between">
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center gap-2">
-                    <Image src={card.rating} alt="Rating" width={60} height={60} />
+                    <img src={card.rating} alt="Rating" width={60} height={60} />
                     <span className="text-sm">(15 reviews)</span>
                   </div>
                   <CiBookmark className="text-xl" />

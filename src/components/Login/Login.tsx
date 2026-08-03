@@ -109,7 +109,7 @@ const Login = () => {
 
 
 
-          <h1 className="text-3xl font-semibold text-gray-800 text-center mb-8">Admin Login</h1>
+          <h1 className="text-3xl font-semibold text-gray-800 text-center mb-8"> Login</h1>
 
           {/* Error Message */}
           {error && (

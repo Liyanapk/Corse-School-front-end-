@@ -3,21 +3,21 @@ import { PiArrowRightThin } from "react-icons/pi";
 
 const blogPosts = [
   {
-    image: "/images/post/PopularPost.webp",
+    image: "/images/post/popu.png",
     alt: "image",
     title: "How to Analyze Your Best Pages for SEO Performance",
     description: "It is a long established fact that a reader.",
     link: "/learn-more"
   },
   {
-    image: "/images/post/Popularpost_sub(1).webp",
+    image: "/images/post/Popularpost_sub(1).png",
     alt: "image",
     title: "Difficult Things About Education.",
     description: "",
     link: "/read-article"
   },
   {
-    image: "/images/post/Popularpost_sub(1).webp",
+    image: "/images/post/popular_sub2.png",
     alt: "image",
     title: "Education Is So Famous, But Why?",
     description: "",

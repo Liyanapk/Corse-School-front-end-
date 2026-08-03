@@ -4,10 +4,10 @@ import { CiClock2 } from "react-icons/ci";
 import { PiArrowRightThin } from "react-icons/pi";
 
 const cards = [
-    { image: '/images/event/Event2.webp', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
-    { image: '/images/event/Event2.webp', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
-    { image: '/images/event/Event2.webp', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
-    { image: '/images/event/Event2.webp', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' }
+    { image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
+    { image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
+    { image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&q=80', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
+    { image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80', place: 'IAC', time: '8:00 am - 5:00 pm', title: 'International Education Fair 2024', button: 'Get Ticket' },
 ];
 
 export default function Event() {
